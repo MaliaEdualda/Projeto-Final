@@ -1,0 +1,144 @@
+.full-page {
+    width: 100vw;
+    height: 100vh;
+}
+
+.top-bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 10%;
+    padding-top: 0.5rem;
+    padding-left: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.main-page {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 90%;
+}
+
+.logo-image-main {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+}
+
+.logo-component {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 15%;
+    height: 100%;
+}
+
+.logo-text-component {
+    display: flex;
+    width: 75%;
+    flex-direction: column;
+    justify-content: center;    
+    flex-shrink: 0;
+    padding-left: 4%;
+}
+
+.logo-text-component h1 {
+    display: flex;
+    color: #1D3557;
+    text-align: left;
+    text-shadow: 3px 2px 4px rgba(0, 0, 0, 0.25);
+    font-family: 'Roboto Slab';
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.left-menu-component {
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    height: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    border-radius: 0px 5px 0px 0px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: #E63946;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    gap:20px;
+}
+
+.link-to-component{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    color:white;
+    /* background-color: hotpink; */
+}
+
+.link-to-component:hover {
+    border-radius: 5px;
+    background-color: #e75c68;
+}
+
+.link-to-component h1 {
+    font-size: 20px;
+    text-align: left;
+    margin-bottom: 0;
+    padding-left: 0.8rem;
+}
+
+.navigation-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.logout-component{
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    bottom: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    color:white; 
+    /* background-color: hotpink; */
+}
+
+.logout-component:hover {
+    border-radius: 5px;
+    background-color: #e75c68;
+}
+
+.logout-component h1 {
+    font-size: 20px;
+    text-align: left;
+    margin-bottom: 0;
+    padding-left: 0.8rem;
+}
+
+.logout-icon{
+    width: 30px;
+    height: 30px;
+}
+
+.dashboard-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 85%;
+    height: auto;
+}
