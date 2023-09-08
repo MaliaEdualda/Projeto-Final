@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize');
 const database = require('../database');
 
 const Usuario = database.define('Usuario', {
-    id: { type: DataTypes.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true },
     nome_completo: DataTypes.STRING,
     email: DataTypes.STRING,
     data_nascimento: DataTypes.DATEONLY,
@@ -12,5 +11,10 @@ const Usuario = database.define('Usuario', {
 }, {
     freezeTableName: true
 });
+
+Usuario.associate = function (models) {
+    Usuario.belongsToMany(models.EquipamentoDidatico, { through: 'EmprestimoEquipamento', foreignKey: 'idUsuario', as: 'usuario' })
+    Usuario.belongsToMany(models.EquipamentoDidatico, { through: 'ReservaEquipamento', foreignKey: 'idUsuario', as: 'usuario' })
+};
 
 module.exports = Usuario;

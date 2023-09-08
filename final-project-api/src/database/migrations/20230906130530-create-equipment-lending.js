@@ -11,14 +11,14 @@ module.exports = {
         primaryKey: true,
       },
       idEquipamento: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: {
           model: 'EquipamentoDidatico',
           key: 'id'
         }
       },
       idUsuario: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Usuario',
           key: 'id'
