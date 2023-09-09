@@ -1,4 +1,5 @@
 const EquipamentoDidatico = require('../database/models/EquipamentoDidatico');
+const { Op } = require('sequelize');
 
 class EquipamentoDidaticoController {
     async buscarEquipamentoID(idEquipamento) {
@@ -8,45 +9,32 @@ class EquipamentoDidaticoController {
     }
 
     async buscarEquipamentoNome(nome_equipamento) {
-        const equipamentodidatico = await EquipamentoDidatico.findOne({ where: { nome_equipamento: nome_equipamento } });
+        const equipamentodidatico = await EquipamentoDidatico.findOne({ where: { nome_equipamento: { [Op.like]: nome_equipamento } } });
 
         return equipamentodidatico;
     }
 
     async buscarEquipamentos() {
-        const equipamentosdidaticos = await EquipamentoDidatico.findAll();
+        const equipamentosdidaticos = await EquipamentoDidatico.findAll({ order: [["id", "ASC"]]});
 
         return equipamentosdidaticos;
     }
 
-    async adicionarEquipamento(nome_equipamento, marca_equipamento, tipo_equipamento, modelo_equipamento, data_aquisicao) {
-        await EquipamentoDidatico.create({
-            nome_equipamento: nome_equipamento,
-            marca_equipamento: marca_equipamento,
-            tipo_equipamento: tipo_equipamento,
-            modelo_equipamento: modelo_equipamento,
-            data_aquisicao: data_aquisicao
-        });
+    async adicionarEquipamento(attributes) {
+        await EquipamentoDidatico.create(attributes);
     }
 
-    async atualizarEquipamento(idEquipamentoDidatico, nome_equipamento, marca_equipamento, tipo_equipamento, modelo_equipamento, data_aquisicao) {
-        const equipamentodidatico = await EquipamentoDidatico.findByPk(idEquipamentoDidatico);
+    async atualizarEquipamento(idEquipamento, attributes) {
+        const equipamentodidatico = await EquipamentoDidatico.findByPk(idEquipamento);
         if (!equipamentodidatico) return "Este ID não corresponde a nenhum equipamento didático. Verifique o ID.";
 
-        if (!nome_equipamento) nome_equipamento = equipamentodidatico.nome_equipamento;
-        if (!marca_equipamento) marca_equipamento = equipamentodidatico.marca_equipamento;
-        if (!tipo_equipamento) tipo_equipamento = equipamentodidatico.tipo_equipamento;
-        if (!modelo_equipamento) modelo_equipamento = equipamentodidatico.modelo_equipamento;
-        if (!data_aquisicao) data_aquisicao = equipamentodidatico.data_aquisicao;
+        if (!attributes.nome_equipamento) attributes.nome_equipamento = equipamentodidatico.nome_equipamento;
+        if (!attributes.marca_equipamento) attributes.marca_equipamento = equipamentodidatico.marca_equipamento;
+        if (!attributes.tipo_equipamento) attributes.tipo_equipamento = equipamentodidatico.tipo_equipamento;
+        if (!attributes.modelo_equipamento) attributes.modelo_equipamento = equipamentodidatico.modelo_equipamento;
+        if (!attributes.data_aquisicao) attributes.data_aquisicao = equipamentodidatico.data_aquisicao;
 
-        await EquipamentoDidatico.update({
-            nome_equipamento: nome_equipamento,
-            marca_equipamento: marca_equipamento,
-            tipo_equipamento: tipo_equipamento,
-            modelo_equipamento: modelo_equipamento,
-            data_aquisicao: data_aquisicao
-        },
-            { where: { id: idEquipamentoDidatico } });
+        await EquipamentoDidatico.update(attributes, { where: { id: idEquipamento } });
     }
 
     async deletarEquipamento(idEquipamentoDidatico) {

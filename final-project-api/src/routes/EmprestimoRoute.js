@@ -18,18 +18,18 @@ routes.get('/', authentication, async (req, res) => {
 });
 
 routes.post('/', authentication, (req, res) => {
-    const { idEquipamento, idUsuario, data_emprestimo, razao_emprestimo, previsao_devolucao, data_devolucao, status_emprestimo } = req.body;
+    const attributes = req.body;
 
-    if (!idEquipamento) return res.status(400).json({ message: "O ID do equipamento é obrigatório." });
-    if (!idUsuario) return res.status(400).json({ message: "O ID do usuário é obrigatório." });
-    if (!data_emprestimo) return res.status(400).json({ message: "A data do empréstimo é obrigatória." });
-    if (!razao_emprestimo) return res.status(400).json({ message: "A razão do empréstimo é obrigatória." });
-    if (!previsao_devolucao) return res.status(400).json({ message: "A data de previsão da devolução é obrigatória." });
-    if (!data_devolucao) return res.status(400).json({ message: "A data de devolução é obrigatória." });
-    if (!status_emprestimo) return res.status(400).json({ message: "O status do empréstimo é obrigatório." });
+    if (!attributes.idEquipamento) return res.status(400).json({ message: "O ID do equipamento é obrigatório." });
+    if (!attributes.idUsuario) return res.status(400).json({ message: "O ID do usuário é obrigatório." });
+    if (!attributes.data_emprestimo) return res.status(400).json({ message: "A data do empréstimo é obrigatória." });
+    if (!attributes.razao_emprestimo) return res.status(400).json({ message: "A razão do empréstimo é obrigatória." });
+    if (!attributes.previsao_devolucao) return res.status(400).json({ message: "A data de previsão da devolução é obrigatória." });
+    if (!attributes.status_emprestimo) return res.status(400).json({ message: "O status do empréstimo é obrigatório." });
 
-    emprestimoController.adicionarEmprestimo(idEquipamento, idUsuario, data_emprestimo, razao_emprestimo, previsao_devolucao, data_devolucao, status_emprestimo)
+    emprestimoController.adicionarEmprestimo(attributes)
         .then((result) => {
+            if(result) return res.status(400).json({message: result})
             return res.status(201).json({ message: "Empréstimo criado com sucesso." });
         })
         .catch((error) => {
@@ -40,9 +40,9 @@ routes.post('/', authentication, (req, res) => {
 
 routes.put('/:id', authentication, (req, res) => {
     const { id } = req.params;
-    const { idEquipamento, idUsuario, data_emprestimo, razao_emprestimo, previsao_devolucao, data_devolucao, status_emprestimo } = req.body;
+    const attributes = req.body;
 
-    emprestimoController.atualizarEmprestimo(id, idEquipamento, idUsuario, data_emprestimo, razao_emprestimo, previsao_devolucao, data_devolucao, status_emprestimo)
+    emprestimoController.atualizarEmprestimo(id, attributes)
         .then((result) => {
             if (result) return res.status(400).json({ message: result });
             return res.status(200).json({ message: "Empréstimo atualizado com sucesso." });
@@ -55,10 +55,9 @@ routes.put('/:id', authentication, (req, res) => {
 
 routes.delete('/:id', authentication, (req, res) => {
     const { id } = req.params;
-
     emprestimoController.deletarEmprestimo(id)
         .then((result) => {
-            if (result.length === 0) return res.status(404).json({ message: "Empréstimo não encontrado." });
+            if (result === 0) return res.status(404).json({ message: "Empréstimo não encontrado." });
             return res.status(200).json({ message: "Empréstimo deletado com sucesso" });
         })
         .catch((error) => {
@@ -67,4 +66,4 @@ routes.delete('/:id', authentication, (req, res) => {
         })
 });
 
-module.exports = { routes }
+module.exports = routes

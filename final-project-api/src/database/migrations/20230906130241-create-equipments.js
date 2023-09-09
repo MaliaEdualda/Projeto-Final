@@ -19,7 +19,7 @@ module.exports = {
         allowNull: false
       },
       tipo_equipamento: {
-        type: Sequelize.DATEONLY,
+        type: Sequelize.STRING,
         allowNull: false
       },
       modelo_equipamento: {

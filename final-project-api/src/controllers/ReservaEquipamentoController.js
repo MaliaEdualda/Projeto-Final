@@ -4,57 +4,40 @@ const Usuario = require('../database/models/Usuario');
 
 class ReservaEquipamentoController {
     async buscarReservas() {
-        const reservas = await ReservaEquipamento.findAll();
+        const reservas = await ReservaEquipamento.findAll({ order: [["id", "ASC"]]});
 
         return reservas;
     }
 
-    async adicionarReserva(idEquipamento, idUsuario, data_reserva, razao_reserva, previsao_devolucao, data_devolucao, status_reserva) {
-        const equipamento = await EquipamentoDidatico.findByPk(idEquipamento);
+    async adicionarReserva(attributes) {
+        const equipamento = await EquipamentoDidatico.findByPk(attributes.idEquipamento);
         if (!equipamento) return "Este ID não corresponde a nenhum equipamento didático. Verifique o ID.";
 
-        const usuario = await Usuario.findByPk(idUsuario);
+        const usuario = await Usuario.findByPk(attributes.idUsuario);
         if (!usuario) return "Este ID não corresponde a nenhum usuário. Verifique o ID.";
-        
-        await ReservaEquipamento.create({
-            idEquipamento: idEquipamento,
-            idUsuario: idUsuario,
-            data_reserva: data_reserva,
-            razao_reserva: razao_reserva,
-            previsao_devolucao: previsao_devolucao,
-            data_devolucao: data_devolucao,
-            status_reserva: status_reserva
-        });
+
+        await ReservaEquipamento.create(attributes);
     }
 
-    async atualizarReserva(idReserva, idEquipamento, idUsuario, data_reserva, razao_reserva, previsao_devolucao, data_devolucao, status_reserva) {
+    async atualizarReserva(idReserva, attributes) {
         const reserva = await ReservaEquipamento.findByPk(idReserva);
-        if(!reserva) return "Este ID não corresponde a nenhuma reserva. Verifique o ID."
-        
-        if (!idEquipamento) idEquipamento = reserva.idEquipamento;
-        const equipamento = await EquipamentoDidatico.findByPk(idEquipamento);
+        if (!reserva) return "Este ID não corresponde a nenhuma reserva. Verifique o ID."
+
+        if (!attributes.idEquipamento) attributes.idEquipamento = reserva.idEquipamento;
+        const equipamento = await EquipamentoDidatico.findByPk(attributes.idEquipamento);
         if (!equipamento) return "Este ID não corresponde a nenhum equipamento didático. Verifique o ID.";
 
-        if (!idUsuario) idUsuario = reserva.idUsuario;
-        const usuario = await Usuario.findByPk(idUsuario);
+        if (!attributes.idUsuario) attributes.idUsuario = reserva.idUsuario;
+        const usuario = await Usuario.findByPk(attributes.idUsuario);
         if (!usuario) return "Este ID não corresponde a nenhum usuário. Verifique o ID.";
 
-        if (!data_reserva) data_reserva = reserva.data_reserva;
-        if (!razao_reserva) razao_reserva = reserva.razao_reserva;
-        if (!previsao_devolucao) previsao_devolucao = reserva.previsao_devolucao;
-        if (!data_devolucao) data_devolucao = reserva.data_devolucao;
-        if (!status_reserva) status_reserva = reserva.status_reserva;
+        if (!attributes.data_reserva) attributes.data_reserva = reserva.data_reserva;
+        if (!attributes.razao_reserva) attributes.razao_reserva = reserva.razao_reserva;
+        if (!attributes.previsao_devolucao) attributes.previsao_devolucao = reserva.previsao_devolucao;
+        if (!attributes.data_devolucao) attributes.data_devolucao = reserva.data_devolucao;
+        if (!attributes.status_reserva) attributes.status_reserva = reserva.status_reserva;
 
-        await ReservaEquipamento.update({
-            idEquipamento: idEquipamento,
-            idUsuario: idUsuario,
-            data_reserva: data_reserva,
-            razao_reserva: razao_reserva,
-            previsao_devolucao: previsao_devolucao,
-            data_devolucao: data_devolucao,
-            status_reserva: status_reserva
-        },
-            { where: { id: idReserva } });
+        await ReservaEquipamento.update(attributes, { where: { id: idReserva } });
     }
 
     async deletarReserva(idReserva) {

@@ -9,6 +9,6 @@ const ReservaRoute = require('./ReservaRoute');
 routes.use('/usuario', UsuarioRoute);
 routes.use('/equipamento', EquipamentoRoute);
 routes.use('/emprestimo', EmprestimoRoute);
-routes.use('./reserva', ReservaRoute);
+routes.use('/reserva', ReservaRoute);
 
 module.exports = routes

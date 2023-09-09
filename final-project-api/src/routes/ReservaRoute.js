@@ -18,18 +18,18 @@ routes.get('/', authentication, async (req, res) => {
 });
 
 routes.post('/', authentication, (req, res) => {
-    const { idEquipamento, idUsuario, data_reserva, razao_reserva, previsao_devolucao, data_devolucao, status_reserva } = req.body;
+    const attributes = req.body;
 
-    if (!idEquipamento) return res.status(400).json({ message: "O ID do equipamento é obrigatório." });
-    if (!idUsuario) return res.status(400).json({ message: "O ID do usuário é obrigatório." });
-    if (!data_reserva) return res.status(400).json({ message: "A data da reserva é obrigatória." });
-    if (!razao_reserva) return res.status(400).json({ message: "A razão da reserva é obrigatória." });
-    if (!previsao_devolucao) return res.status(400).json({ message: "A data de previsão da devolução é obrigatória." });
-    if (!data_devolucao) return res.status(400).json({ message: "A data de devolução é obrigatória." });
-    if (!status_reserva) return res.status(400).json({ message: "O status da reserva é obrigatório." });
+    if (!attributes.idEquipamento) return res.status(400).json({ message: "O ID do equipamento é obrigatório." });
+    if (!attributes.idUsuario) return res.status(400).json({ message: "O ID do usuário é obrigatório." });
+    if (!attributes.data_reserva) return res.status(400).json({ message: "A data da reserva é obrigatória." });
+    if (!attributes.razao_reserva) return res.status(400).json({ message: "A razão da reserva é obrigatória." });
+    if (!attributes.previsao_devolucao) return res.status(400).json({ message: "A data de previsão da devolução é obrigatória." });
+    if (!attributes.status_reserva) return res.status(400).json({ message: "O status da reserva é obrigatório." });
 
-    reservaController.adicionarEmprestimo(idEquipamento, idUsuario, data_reserva, razao_reserva, previsao_devolucao, data_devolucao, status_reserva)
+    reservaController.adicionarReserva(attributes)
         .then((result) => {
+            if(result) return res.status(400).json({message: result})
             return res.status(201).json({ message: "Reserva criada com sucesso." });
         })
         .catch((error) => {
@@ -40,9 +40,9 @@ routes.post('/', authentication, (req, res) => {
 
 routes.put('/:id', authentication, (req, res) => {
     const { id } = req.params;
-    const { idEquipamento, idUsuario, data_reserva, razao_reserva, previsao_devolucao, data_devolucao, status_reserva } = req.body;
+    const attributes = req.body;
 
-    reservaController.atualizarEmprestimo(id, idEquipamento, idUsuario, data_reserva, razao_reserva, previsao_devolucao, data_devolucao, status_reserva)
+    reservaController.atualizarReserva(id, attributes)
         .then((result) => {
             if (result) return res.status(400).json({ message: result });
             return res.status(200).json({ message: "Reserva atualizada com sucesso." });
@@ -56,9 +56,9 @@ routes.put('/:id', authentication, (req, res) => {
 routes.delete('/:id', authentication, (req, res) => {
     const { id } = req.params;
 
-    reservaController.deletarEmprestimo(id)
+    reservaController.deletarReserva(id)
         .then((result) => {
-            if (result.length === 0) return res.status(404).json({ message: "Reserva não encontrada." });
+            if (result === 0) return res.status(404).json({ message: "Reserva não encontrada." });
             return res.status(200).json({ message: "Reserva deletada com sucesso" });
         })
         .catch((error) => {
@@ -67,4 +67,4 @@ routes.delete('/:id', authentication, (req, res) => {
         })
 });
 
-module.exports = { routes }
+module.exports = routes

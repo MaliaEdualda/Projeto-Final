@@ -22,11 +22,11 @@ class UsuarioController {
     }
 
     // SignUp
-    async signUp(email, senha) {
+    async signUp(attributes, senha) {
         // Criptografa a senha inserida
         const hashedSenha = await bcrypt.hash(senha, SALT);
-        await Usuario.create({ email: email, senha: hashedSenha });
-        const usuario = await Usuario.findOne({ where: { email: email } });
+        await Usuario.create({ ...attributes, senha: hashedSenha });
+        const usuario = await Usuario.findOne({ where: { email: attributes.email } });
 
         // Gera token de acesso 
         const tokenAcesso = jwt.sign({ id: usuario.id }, TOKEN_SECRET, { expiresIn: '2h' });
@@ -34,7 +34,7 @@ class UsuarioController {
     }
 
     async buscarUsuarios() {
-        const usuarios = await Usuario.findAll({ attributes: { exclude: ["senha"] } });
+        const usuarios = await Usuario.findAll({ order: [["nome_completo", "ASC"]], attributes: { exclude: ["senha"] } });
         return usuarios
     }
 }
