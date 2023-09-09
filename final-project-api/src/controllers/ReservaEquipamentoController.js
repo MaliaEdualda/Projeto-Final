@@ -58,10 +58,9 @@ class ReservaEquipamentoController {
     }
 
     async deletarReserva(idReserva) {
-        const reserva = await ReservaEquipamento.findByPk(idReserva);
-        if (!reserva) return "Este ID não corresponde a nenhuma reserva. Verifique o ID.";
+        const reservadeletada = await ReservaEquipamento.destroy({ where: { id: idReserva } });
 
-        await ReservaEquipamento.destroy({ where: { id: idReserva } })
+        return reservadeletada;
     }
 }
 

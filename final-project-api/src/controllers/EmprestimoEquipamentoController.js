@@ -57,11 +57,10 @@ class EmprestimoEquipamentoController {
             { where: { id: idEmprestimo } });
     }
 
-    async deletarReserva(idEmprestimo) {
-        const emprestimo = await EmprestimoEquipamento.findByPk(idEmprestimo);
-        if (!emprestimo) return "Este ID não corresponde a nenhum empréstimo. Verifique o ID.";
+    async deletarEmprestimo(idEmprestimo) {
+        const emprestimodeletado = await EmprestimoEquipamento.destroy({ where: { id: idEmprestimo } });
 
-        await EmprestimoEquipamento.destroy({ where: { id: idEmprestimo } })
+        return emprestimodeletado;
     }
 }
 

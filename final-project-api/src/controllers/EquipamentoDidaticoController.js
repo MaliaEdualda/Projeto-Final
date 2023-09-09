@@ -1,17 +1,25 @@
 const EquipamentoDidatico = require('../database/models/EquipamentoDidatico');
 
 class EquipamentoDidaticoController {
-    async buscarEquipamentoDidaticoNome() {
-        const equipamentodidatico = await EquipamentoDidatico.findOne()
+    async buscarEquipamentoID(idEquipamento) {
+        const equipamentodidatico = await EquipamentoDidatico.findByPk(idEquipamento);
+
+        return equipamentodidatico;
     }
 
-    async buscarEquipamentoDidaticos() {
+    async buscarEquipamentoNome(nome_equipamento) {
+        const equipamentodidatico = await EquipamentoDidatico.findOne({ where: { nome_equipamento: nome_equipamento } });
+
+        return equipamentodidatico;
+    }
+
+    async buscarEquipamentos() {
         const equipamentosdidaticos = await EquipamentoDidatico.findAll();
 
         return equipamentosdidaticos;
     }
 
-    async adicionarEquipamentoDidatico(nome_equipamento, marca_equipamento, tipo_equipamento, modelo_equipamento, data_aquisicao) {
+    async adicionarEquipamento(nome_equipamento, marca_equipamento, tipo_equipamento, modelo_equipamento, data_aquisicao) {
         await EquipamentoDidatico.create({
             nome_equipamento: nome_equipamento,
             marca_equipamento: marca_equipamento,
@@ -21,7 +29,7 @@ class EquipamentoDidaticoController {
         });
     }
 
-    async atualizarEquipamentoDidatico(idEquipamentoDidatico, nome_equipamento, marca_equipamento, tipo_equipamento, modelo_equipamento, data_aquisicao) {
+    async atualizarEquipamento(idEquipamentoDidatico, nome_equipamento, marca_equipamento, tipo_equipamento, modelo_equipamento, data_aquisicao) {
         const equipamentodidatico = await EquipamentoDidatico.findByPk(idEquipamentoDidatico);
         if (!equipamentodidatico) return "Este ID não corresponde a nenhum equipamento didático. Verifique o ID.";
 
@@ -41,12 +49,11 @@ class EquipamentoDidaticoController {
             { where: { id: idEquipamentoDidatico } });
     }
 
-    async deletarEquipamentoDidatico(idEquipamentoDidatico) {
-        const equipamentodidatico = await EquipamentoDidatico.findByPk(idEquipamentoDidatico);
-        if (!equipamentodidatico) return "Este ID não corresponde a nenhum equipamento didático. Verifique o ID.";
+    async deletarEquipamento(idEquipamentoDidatico) {
+        const equipamentodeletado = await EquipamentoDidatico.destroy({ where: { id: idEquipamentoDidatico } });
 
-        await EquipamentoDidatico.destroy({ where: { id: idEquipamentoDidatico } })
+        return equipamentodeletado;
     }
 }
 
-module.exports = new EquipamentoDidatico();
+module.exports = new EquipamentoDidaticoController();
