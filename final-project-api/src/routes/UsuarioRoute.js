@@ -51,4 +51,17 @@ routes.get('/', authentication, (req, res) => {
         })
 });
 
+routes.get('/:id', authentication, (req, res) => {
+    const { id } = req.params
+    usuarioController.buscarUsuarioID(id)
+        .then((result) => {
+            if (!result) return res.status(404).json({ message: "Nenhum usuário foi encontrado." })
+            return res.status(200).json(result);
+        })
+        .catch((error) => {
+            console.log(error);
+            return res.status(500).json({ message: 'Erro ao buscar o usuário' })
+        })
+});
+
 module.exports = routes 

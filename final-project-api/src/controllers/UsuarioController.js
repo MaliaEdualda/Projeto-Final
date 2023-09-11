@@ -35,7 +35,12 @@ class UsuarioController {
 
     async buscarUsuarios() {
         const usuarios = await Usuario.findAll({ order: [["nome_completo", "ASC"]], attributes: { exclude: ["senha"] } });
-        return usuarios
+        return usuarios;
+    }
+
+    async buscarUsuarioID(idUsuario) {
+        const usuario = await Usuario.findByPk(idUsuario);
+        return usuario;
     }
 }
 

@@ -34,21 +34,21 @@
 }
 
 .logo-image-login {
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     flex-shrink: 0;
 }
 
 .logo-image-register {
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     flex-shrink: 0;
 }
 
 .logo-text {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 70%;
 }
 
 .logo-title {
@@ -62,21 +62,21 @@
     color: #1D3557;
     text-align: left;
     font-family: 'Roboto Slab';
-    font-size: 3.1rem;
+    font-size: 4rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
 }
 
 .logo-subtitle {
-    width: 85%;
+    width: 70%;
     height: 48px;
     flex-shrink: 0;
     padding-left: 0%;
     color: #1D3557;
     text-align: center;
     font-family: 'Roboto Slab';
-    font-size: 14px;
+    font-size: 1.5rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -91,7 +91,7 @@
     color: #1D3557;
     text-align: left;
     font-family: 'Roboto Slab', serif;
-    font-size: 34px;
+    font-size: 3.5rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -100,7 +100,7 @@
 .login-page-text-subtitle {
     color: #1D3557;
     font-family: 'Roboto Slab', serif;
-    font-size: 24px;
+    font-size: 2rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -121,7 +121,7 @@
     display: flex;
     flex-direction: column;
     width: 70%;
-    height: 60px;
+    height: 70px;
     margin-bottom: 2%;
 }
 
@@ -161,7 +161,7 @@
 .input-container p{
     margin-top: 0.2%;
     margin-bottom: 0.5%;
-    font-size: 14px;
+    font-size: 16px;
     color: #E63946;
 }
 
@@ -169,7 +169,7 @@
     display: flex;
     flex-direction: column;
     width: 70%;
-    gap: 10px;
+    gap: 15px;
 }
 
 .login-button {
@@ -177,12 +177,12 @@
     border-radius: 10px;
     border: 0px;
     background: #1D3557;
-    height: 40px;
+    height: 50px;
     flex-shrink: 0;
     color: #FFF;
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    font-size: 20px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -198,12 +198,12 @@
     border-radius: 10px;
     border-color: #457B9D;
     background: #457B9D;
-    height: 40px;
+    height: 50px;
     flex-shrink: 0;
     color: #FFF;
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    font-size: 18px;
+    font-size: 22px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
