@@ -13,11 +13,12 @@ routes.post('/signin', (req, res) => {
 
     usuarioController.signIn(email, senha)
         .then((result) => {
-            return res.status(201).json({ message: "Login realizado com sucesso.", result })
+            if (typeof result == "string") return res.status(400).json({ message: result });
+            return res.status(201).json({ message: "Login realizado com sucesso.", result });
         })
         .catch((error) => {
-            console.log(error)
-            res.json(500).json({ erro: "Erro ao logar." })
+            console.log(error);
+            res.status(500).json();
         })
 });
 
