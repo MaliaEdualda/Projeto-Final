@@ -17,7 +17,7 @@ routes.post('/signin', (req, res) => {
         })
         .catch((error) => {
             console.log(error)
-            res.json(500).json({ erro: "Erro ao logar." })
+            res.status(500).json({ erro: "Erro ao logar." })
         })
 });
 

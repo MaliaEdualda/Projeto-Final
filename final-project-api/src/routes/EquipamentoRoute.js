@@ -49,6 +49,19 @@ routes.get('/nome/:nome', authentication, async (req, res) => {
         });
 });
 
+routes.post('/filtro', authentication, (req, res) => {
+    const attributes = req.body;
+
+    equipamentoController.buscarComFiltro(attributes)
+        .then((result => {
+            return res.status(200).json(result);
+        }))
+        .catch((error) => {
+            console.log(error);
+            return res.status(500).json({message: "Erro ao buscar os equipamentos filtrados."})
+        })
+});
+
 routes.post('/', authentication, (req, res) => {
     const attributes = req.body;
 
@@ -59,7 +72,7 @@ routes.post('/', authentication, (req, res) => {
     if (!attributes.data_aquisicao) return res.status(400).json({ message: "A data de aquisição é obrigatória." });
 
     equipamentoController.adicionarEquipamento(attributes)
-        .then((result) => {
+        .then(() => {
             return res.status(201).json({ message: "Equipamento criado com sucesso." });
         })
         .catch((error) => {

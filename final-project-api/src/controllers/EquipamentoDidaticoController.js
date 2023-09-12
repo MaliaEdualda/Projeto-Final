@@ -15,9 +15,39 @@ class EquipamentoDidaticoController {
     }
 
     async buscarEquipamentos() {
-        const equipamentosdidaticos = await EquipamentoDidatico.findAll({ order: [["id", "ASC"]]});
+        const equipamentosdidaticos = await EquipamentoDidatico.findAll({ order: [["id", "ASC"]] });
 
         return equipamentosdidaticos;
+    }
+
+    async buscarComFiltro(attributes) {
+        let query = {};
+
+        if (attributes.id) query.id = attributes.id
+
+        if (attributes.nome_equipamento) query.nome_equipamento = {
+            [Op.like]: `%${attributes.nome_equipamento}%`
+        }
+
+        if (attributes.marca_equipamento) query.marca_equipamento = {
+            [Op.like]: `%${attributes.marca_equipamento}%`
+        }
+
+        if (attributes.tipo_equipamento) query.tipo_equipamento = {
+            [Op.like]: `%${attributes.tipo_equipamento}%` 
+        }
+
+        if (attributes.modelo_equipamento) query.modelo_equipamento = {
+            [Op.like]: `%${attributes.modelo_equipamento}%`
+        }
+
+        if (attributes.data_aquisicao) query.data_aquisicao = attributes.data_aquisicao
+
+        const equipamentos = await EquipamentoDidatico.findAll({
+            where: query,
+        });
+
+        return equipamentos;
     }
 
     async adicionarEquipamento(attributes) {
