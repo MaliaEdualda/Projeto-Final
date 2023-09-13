@@ -72,7 +72,7 @@ routes.post('/', authentication, (req, res) => {
     if (!attributes.data_aquisicao) return res.status(400).json({ message: "A data de aquisição é obrigatória." });
 
     equipamentoController.adicionarEquipamento(attributes)
-        .then((result) => {
+        .then(() => {
             return res.status(201).json({ message: "Equipamento criado com sucesso." });
         })
         .catch((error) => {

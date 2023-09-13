@@ -15,7 +15,7 @@ class EquipamentoDidaticoController {
     }
 
     async buscarEquipamentos() {
-        const equipamentosdidaticos = await EquipamentoDidatico.findAll({ order: [["id", "ASC"]]});
+        const equipamentosdidaticos = await EquipamentoDidatico.findAll({ order: [["id", "ASC"]] });
 
         return equipamentosdidaticos;
     }
