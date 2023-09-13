@@ -1,7 +1,6 @@
 import { api } from './API';
 
 export async function loginUser(data) {
-    console.log(data)
     const result = await api.post('/usuario/signin', data);
     sessionStorage.setItem('token', JSON.stringify(result.data.accessToken));
 }

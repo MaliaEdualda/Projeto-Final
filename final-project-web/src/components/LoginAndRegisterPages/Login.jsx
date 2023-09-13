@@ -17,10 +17,8 @@ export default function Login() {
             const user = await loginUser(data);
             navigate('/pagina-principal');
         } catch (error) {
-            console.log(error.response.data.error);
             setError({message: error.response.data.error})
         }
-        
     }
 
     return (
