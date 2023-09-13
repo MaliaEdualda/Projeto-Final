@@ -13,12 +13,11 @@ routes.post('/signin', (req, res) => {
 
     usuarioController.signIn(email, senha)
         .then((result) => {
-            if (typeof result == "string") return res.status(400).json({ message: result });
             return res.status(201).json({ message: "Login realizado com sucesso.", result });
         })
         .catch((error) => {
-            console.log(error);
-            res.status(500).json();
+            console.log(error.message);
+            return res.status(400).json({error:  error.message} );
         })
 });
 
@@ -32,11 +31,11 @@ routes.post('/signup', (req, res) => {
 
     usuarioController.signUp(attributes, senha)
         .then((result) => {
-            return res.status(200).json({ message: "Cadastro realizado com sucesso.", result })
+            return res.status(200).json({ message: "Cadastro realizado com sucesso.", result });
         })
         .catch((error) => {
-            console.log(error)
-            return res.status(500).json({ message: "Erro ao cadastrar o usuário." })
+            console.log(error.message);
+            return res.status(400).json({ error: error.message });
         })
 });
 

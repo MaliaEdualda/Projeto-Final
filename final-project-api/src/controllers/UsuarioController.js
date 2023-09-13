@@ -10,11 +10,11 @@ class UsuarioController {
     async signIn(email, senha) {
         // Verifica a existência do usuário
         const usuario = await Usuario.findOne({ where: { email: email } });
-        if (!usuario) return "Este usuário não existe";
+        if (!usuario) throw new Error ("Este email não corresponde a nenhum usuário.");
 
         // Verifica a senha
         const senhaValida = await bcrypt.compare(senha, usuario.senha);
-        if (!senhaValida) return "Senha inválida!";
+        if (!senhaValida) throw new Error ("Senha inválida!");
 
         // Gera token de acesso 
         const tokenAcesso = jwt.sign({ id: usuario.id }, TOKEN_SECRET, { expiresIn: '2h' });
@@ -25,7 +25,7 @@ class UsuarioController {
     async signUp(attributes, senha) {
         //Verifica se já existe o email registrado
         const usuarioExistente = await Usuario.findOne({ where: { email: attributes.email } });
-        if (usuarioExistente) return "Este email já corresponde à um usuário. Registre outro email."
+        if (usuarioExistente) throw new Error ("Este email já corresponde à um usuário. Utilize outro email.")
 
         // Criptografa a senha inserida
         const hashedSenha = await bcrypt.hash(senha, SALT);
