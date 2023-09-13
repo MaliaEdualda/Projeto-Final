@@ -49,6 +49,19 @@ routes.get('/nome/:nome', authentication, async (req, res) => {
         });
 });
 
+routes.post('/filtro', authentication, (req, res) => {
+    const attributes = req.body;
+
+    equipamentoController.buscarComFiltro(attributes)
+        .then((result => {
+            return res.status(200).json(result);
+        }))
+        .catch((error) => {
+            console.log(error);
+            return res.status(500).json({message: "Erro ao buscar os equipamentos filtrados."})
+        })
+});
+
 routes.post('/', authentication, (req, res) => {
     const attributes = req.body;
 
