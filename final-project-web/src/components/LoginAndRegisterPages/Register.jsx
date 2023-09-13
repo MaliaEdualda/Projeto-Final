@@ -1,16 +1,23 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { TextInput } from './TextInput'
-import Logo from '../../images/logo.png'
-import "./styles.css"
+import { TextInput } from './TextInput';
+import { registerUser } from '../../services/userService';
+import Logo from '../../images/logo.png';
+import "./styles.css";
 
 export default function Login() {
+    const [error, setError] = useState();
     const { handleSubmit, register, formState: { errors, isValid } } = useForm({ mode: 'onChange' });
-
     const navigate = useNavigate();
 
-    const onSubmit = () => {
-        navigate('/pagina-principal');
+    const onSubmit = async (data) => {
+        try {
+            await registerUser(data);
+            navigate('/pagina-principal');
+        } catch (error) {
+            setError({ message: error.responde.data.error })
+        }
     }
 
     return (
@@ -33,15 +40,16 @@ export default function Login() {
 
             </div>
             <form className='form' noValidate validated={!errors} onSubmit={handleSubmit(onSubmit)}>
+                {error && <p className='form-error-message'>{error.message}</p>}
                 <TextInput
-                    name={'nomeCompleto'}
+                    name={'nome_completo'}
                     register={register}
                     errors={errors}
                     constraints={{
                         required: { value: true, message: 'O nome completo é obrigatório.' },
                     }}
                     label="Nome completo:" />
-                
+
                 <TextInput
                     name={'email'}
                     register={register}
@@ -51,9 +59,9 @@ export default function Login() {
                         pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.+[A-Z]{2,}$/i, message: 'Email inválido.', }
                     }}
                     label="Email:" />
-                
+
                 <TextInput
-                    name={'dataNascimento'}
+                    name={'data_nascimento'}
                     register={register}
                     errors={errors}
                     constraints={{
@@ -61,26 +69,24 @@ export default function Login() {
                     }}
                     label="Data de nascimento:"
                     type={"date"} />
-                
+
                 <TextInput
                     name={'cep'}
                     register={register}
                     errors={errors}
                     constraints={{
                         required: { value: true, message: 'O CEP é obrigatório.' },
-                        pattern: { value: /^[0-9]+$/i, message: 'Apenas números são válidos.'}
+                        pattern: { value: /^[0-9]+$/i, message: 'Apenas números são válidos.' }
                     }}
                     label="CEP:" />
-                
+
                 <TextInput
-                    name={'numeroTelefone'}
+                    name={'telefone'}
                     register={register}
                     errors={errors}
-                    constraints={{
-                        pattern: { value: /^[0-9]+$/i, message: 'Insira apenas números.'}
-                    }}
+                    constraints={{}}
                     label="Telefone (opcional):" />
-                
+
                 <TextInput
                     name={'senha'}
                     register={register}
@@ -91,9 +97,9 @@ export default function Login() {
                     errors={errors}
                     label="Senha:"
                     type={"password"} />
-                
+
                 <div className='button-component'>
-                    <button className='login-button' disabled={!isValid}>Cadastrar</button>
+                    <button type='submit' className='login-button' disabled={!isValid}>Cadastrar</button>
                     <Link to='/login'>
                         <button className='link-to-register-button'>Já possui conta? Faça login.</button                  >
                     </Link>

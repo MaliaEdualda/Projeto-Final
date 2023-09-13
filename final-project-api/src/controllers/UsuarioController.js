@@ -14,7 +14,7 @@ class UsuarioController {
 
         // Verifica a senha
         const senhaValida = await bcrypt.compare(senha, usuario.senha);
-        if (!senhaValida) throw new Error ("Senha inválida!");
+        if (!senhaValida) throw new Error ("Senha incorreta.");
 
         // Gera token de acesso 
         const tokenAcesso = jwt.sign({ id: usuario.id }, TOKEN_SECRET, { expiresIn: '2h' });

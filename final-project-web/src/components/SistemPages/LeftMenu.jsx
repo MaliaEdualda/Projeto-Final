@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DashboardIcon from '../../images/icons/DashboardIcon.png';
 import MicroscopeIcon from '../../images/icons/MicroscopeIcon.png';
 import AgendaIcon from '../../images/icons/AgendaIcon.png';
@@ -8,6 +8,9 @@ import LogoutIcon from '../../images/icons/LogoutIcon.png';
 import './styles.css';
 
 export function LeftMenu() {
+    
+    const navigate = useNavigate();
+
     return (
         <div className='left-menu-component'>
             <Link to='/pagina-principal' style={{ 'text-decoration': 'none' }}>
@@ -46,7 +49,10 @@ export function LeftMenu() {
             </Link>
 
 
-            <button className='logout-component'>
+            <button className='logout-component' onClick={() => {
+                sessionStorage.removeItem('token');
+                navigate('/');
+            }}>
                 <img className='logout-icon' src={LogoutIcon} alt='Ícone de logout' />
                 <h1>Logout</h1>
             </button>

@@ -61,7 +61,7 @@
     padding-left: 2%;
     color: #1D3557;
     text-align: left;
-    font-family: 'Roboto Slab';
+    font-family: 'Roboto Slab', serif;
     font-size: 4rem;
     font-style: normal;
     font-weight: 700;
@@ -75,7 +75,7 @@
     padding-left: 0%;
     color: #1D3557;
     text-align: center;
-    font-family: 'Roboto Slab';
+    font-family: 'Roboto Slab', serif;
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 500;

@@ -7,14 +7,13 @@ import Logo from '../../images/logo.png'
 import './styles.css';
 
 export default function Login() {
-    const { handleSubmit, register, formState: { errors, isValid } } = useForm({ mode: 'onChange' });
     const [error, setError] = useState();
-
+    const { handleSubmit, register, formState: { errors, isValid } } = useForm({ mode: 'onChange' });
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
         try {
-            const user = await loginUser(data);
+            await loginUser(data);
             navigate('/pagina-principal');
         } catch (error) {
             setError({message: error.response.data.error})
