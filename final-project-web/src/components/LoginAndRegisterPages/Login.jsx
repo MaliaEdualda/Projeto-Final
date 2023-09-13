@@ -1,16 +1,26 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { TextInput } from './TextInput'
+import { loginUser } from '../../services/userService'
 import Logo from '../../images/logo.png'
 import './styles.css';
 
 export default function Login() {
     const { handleSubmit, register, formState: { errors, isValid } } = useForm({ mode: 'onChange' });
+    const [error, setError] = useState();
 
     const navigate = useNavigate();
 
-    const onSubmit = () => {
-        navigate('/pagina-principal');
+    const onSubmit = async (data) => {
+        try {
+            const user = await loginUser(data);
+            navigate('/pagina-principal');
+        } catch (error) {
+            console.log(error.response.data.error);
+            setError({message: error.response.data.error})
+        }
+        
     }
 
     return (
@@ -33,6 +43,7 @@ export default function Login() {
 
             </div>
             <form className='form' noValidate validated={!errors} onSubmit={handleSubmit(onSubmit)}>
+                {error && <p className='form-error-message'>{error.message}</p>}
                 <TextInput
                     name={'email'}
                     register={register}
@@ -53,7 +64,7 @@ export default function Login() {
                     label="Senha:"
                     type={"password"} />
                 <div className='button-component'>
-                    <button className='login-button' disabled={!isValid}>Entrar</button>
+                    <button type='submit' className='login-button' disabled={!isValid}>Entrar</button>
                     <Link to='/cadastro'>
                         <button className='link-to-register-button'>Não possui conta? Cadastre-se.</button                  >
                     </Link>

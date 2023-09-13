@@ -8,6 +8,7 @@ const authentication = require('../middlewares/authMiddleware');
 // Cadastro de usuário
 routes.post('/signin', (req, res) => {
     const { email, senha } = req.body;
+    console.log("API", email, senha);
 
     if (!email || !senha) return res.status(400).json({ message: "Email e senha são obrigatórios!" });
 
@@ -17,7 +18,7 @@ routes.post('/signin', (req, res) => {
         })
         .catch((error) => {
             console.log(error.message);
-            return res.status(400).json({error:  error.message} );
+            return res.status(400).json({error: error.message} );
         })
 });
 
@@ -64,4 +65,4 @@ routes.get('/:id', authentication, (req, res) => {
         })
 });
 
-module.exports = routes 
+module.exports = routes

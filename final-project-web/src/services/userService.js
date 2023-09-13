@@ -1,13 +1,14 @@
-import api from './API';
+import { api } from './API';
 
 export async function loginUser(data) {
-    const result = await api.post('/signin', data);
-    sessionStorage.setItem('token', JSON.stringify(result.data.accesToken));
+    console.log(data)
+    const result = await api.post('/usuario/signin', data);
+    sessionStorage.setItem('token', JSON.stringify(result.data.accessToken));
 }
 
 export async function registerUser(data) {
-    const result = await api.post('/signup', data);
-    sessionStorage.setItem('token', JSON.stringify(result.data.accesToken));
+    const result = await api.post('/usuario/signup', data);
+    sessionStorage.setItem('token', JSON.stringify(result.data.accessToken));
 }
 
 export async function getUsers() {
