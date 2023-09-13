@@ -122,9 +122,14 @@
     width: 70%;
     margin-top: 0.2%;
     margin-bottom: 0.5%;
-    font-size: 22px;
-    padding-left: 0.5rem;
-    color: #E63946;
+    font-size: 16px;
+    padding-left: 0.9rem;
+    padding-right: 0.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 5px;
+    background-color: #f19ea5;
+    color: #e82434;
 }
 
 .input-container {

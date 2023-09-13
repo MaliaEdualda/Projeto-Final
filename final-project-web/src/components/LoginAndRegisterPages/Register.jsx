@@ -100,7 +100,7 @@ export default function Login() {
 
                 <div className='button-component'>
                     <button type='submit' className='login-button' disabled={!isValid}>Cadastrar</button>
-                    <Link to='/login'>
+                    <Link to='/'>
                         <button className='link-to-register-button'>Já possui conta? Faça login.</button                  >
                     </Link>
                 </div>
