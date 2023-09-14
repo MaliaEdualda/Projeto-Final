@@ -15,7 +15,7 @@ export default function MainPage() {
             </div>
             <div className='main-page'>
                 <LeftMenu className='left-menu' />
-                <div className='dashboard-area'>
+                <div className='dashboard-page-area'>
                     <h1>Página Principal</h1>
                 </div>
             </div>

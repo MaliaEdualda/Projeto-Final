@@ -7,14 +7,14 @@ import LoaningAndDevolutionPage from './components/SistemPages/LoaningAndDevolut
 import EditProfilePage from './components/SistemPages/EditProfilePage';
 import HelpAndSupportPage from './components/SistemPages/HelpAndSupportPage';
 import NotFound from './components/NotFound/NotFound';
+import NotFoundAuthenticated from './components/NotFound/NotFoundAuthenticated'
 
 import { isAuthenticated } from './services/is-authenticated';
 
 
 export function PrivateRoute({ children }) {
   if (!isAuthenticated()) {
-    // Pode trocar para renderizar uma página customizada de não autorizada,
-    // nesse caso ele vai voltar para a tela de login
+    
     return <Navigate to="/" replace />
   }
   return children;
@@ -40,6 +40,9 @@ export function Navigations() {
         </PrivateRoute>} />
         <Route path='/ajuda-e-suporte' element={<PrivateRoute>
           <HelpAndSupportPage />
+        </PrivateRoute>} />
+        <Route path='/*' element={<PrivateRoute>
+          <NotFoundAuthenticated />
         </PrivateRoute>} />
         <Route path='*' element={<NotFound />}/>
       </Routes>
