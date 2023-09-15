@@ -1,4 +1,4 @@
-import { LeftMenu } from './LeftMenu';
+import { LeftMenu } from './LeftMenu/LeftMenu';
 import Logo from '../../images/logo.png';
 import './styles.css';
 

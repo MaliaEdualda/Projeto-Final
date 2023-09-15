@@ -159,3 +159,8 @@
     width: 1.6rem;
     height: 1.6rem;
 }
+
+table th{
+    font-size: 14px;
+    color: #1D3557;
+}

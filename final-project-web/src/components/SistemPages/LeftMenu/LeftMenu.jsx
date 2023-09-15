@@ -1,11 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
-import DashboardIcon from '../../images/icons/DashboardIcon.png';
-import MicroscopeIcon from '../../images/icons/MicroscopeIcon.png';
-import AgendaIcon from '../../images/icons/AgendaIcon.png';
-import EditProfileIcon from '../../images/icons/EditProfileIcon.png';
-import UserSupportIcon from '../../images/icons/UserSupportIcon.png';
-import LogoutIcon from '../../images/icons/LogoutIcon.png';
-import './styles.css';
+import DashboardIcon from '../../../images/icons/DashboardIcon.png';
+import MicroscopeIcon from '../../../images/icons/MicroscopeIcon.png';
+import AgendaIcon from '../../../images/icons/AgendaIcon.png';
+import EditProfileIcon from '../../../images/icons/EditProfileIcon.png';
+import UserSupportIcon from '../../../images/icons/UserSupportIcon.png';
+import LogoutIcon from '../../../images/icons/LogoutIcon.png';
 
 export function LeftMenu() {
     

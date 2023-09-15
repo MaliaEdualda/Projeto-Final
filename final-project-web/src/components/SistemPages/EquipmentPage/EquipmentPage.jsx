@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { getEquipments } from '../../services/equipmentService';
-import { LeftMenu } from './LeftMenu';
-import Logo from '../../images/logo.png';
-import EditIcon from '../../images/icons/EditIcon.png';
-import DeleteIcon from '../../images/icons/DeleteIcon.png';
+import { getEquipments } from '../../../services/equipmentService';
+import { LeftMenu } from '../LeftMenu/LeftMenu';
+import Logo from '../../../images/logo.png';
+import EditIcon from '../../../images/icons/EditIcon.png';
+import DeleteIcon from '../../../images/icons/DeleteIcon.png';
 import './styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -22,7 +22,6 @@ export default function EquipmentPage() {
     const getEquipamentos = async () => {
         try {
             const result = await getEquipments();
-            console.log(result);
             setEquipamentos(result.data);
         } catch (error) {
             console.log(error)
