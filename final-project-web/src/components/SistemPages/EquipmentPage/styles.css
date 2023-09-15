@@ -155,9 +155,14 @@
     width: 90%;
 }
 
-.equipment-area img {
+.equipment-area button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 1.6rem;
     height: 1.6rem;
+    background-color: transparent;
+    border: transparent;
 }
 
 table th{
