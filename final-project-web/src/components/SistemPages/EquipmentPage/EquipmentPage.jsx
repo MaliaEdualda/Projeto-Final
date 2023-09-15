@@ -8,14 +8,14 @@ import './styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function EquipmentPage() {
-    const months = ["", "jan.", "fev.", "mar.", "abr.", "mai.", "jun.", "jul.", "ago.", "set.", "out.", "nov.", "dez."];
+    // const months = ["", "jan.", "fev.", "mar.", "abr.", "mai.", "jun.", "jul.", "ago.", "set.", "out.", "nov.", "dez."];
 
-    const parseDate = (date) => {
-        const day = String(date).getDate();
-        const month = months[String(date).getMonth()];
-        const year = String(date).getYear();
-        return `${day} de ${month} de ${year}`
-    }
+    // const parseDate = (date) => {
+    //     const day = String(date).getDate();
+    //     const month = months[String(date).getMonth()];
+    //     const year = String(date).getYear();
+    //     return `${day} de ${month} de ${year}`
+    // }
 
     const [equipamentos, setEquipamentos] = useState();
 
@@ -62,9 +62,9 @@ export default function EquipmentPage() {
                                 </thead>
                                 <tbody>
                                     {equipamentos.map((equipamento, index) => (
-                                        <tr key={equipamento.id} scope='row'>
-                                            <td className='text-center'><img className='equipment-row-icon' src={EditIcon} alt='Ícone Editar Equipamento'/></td>
-                                            <td className='text-center'><img className='equipment-row-icon' src={DeleteIcon} alt='Ícone Deletar Equipamento'/></td>
+                                        <tr key={equipamento.id}>
+                                            <td className='text-center'><button><img className='equipment-row-icon' src={EditIcon} alt='Ícone Editar Equipamento'/></button></td>
+                                            <td className='text-center'><button><img className='equipment-row-icon' src={DeleteIcon} alt='Ícone Deletar Equipamento'/></button></td>
                                             <td className="text-center"> {equipamento.id} </td>
                                             <td className="text-center"> {equipamento.nome_equipamento}</td>
                                             <td className="text-center"> {equipamento.marca_equipamento}</td>
