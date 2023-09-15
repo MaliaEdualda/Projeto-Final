@@ -1,6 +1,6 @@
-import { LeftMenu } from './LeftMenu/LeftMenu';
-import Logo from '../../images/logo.png';
-import './styles.css';
+import { LeftMenu } from '../LeftMenu/LeftMenu';
+import Logo from '../../../images/logo.png';
+import './mainpagestyles.css';
 
 export default function MainPage() {
     return (

@@ -46,35 +46,37 @@ export default function EquipmentPage() {
                 <LeftMenu className='left-menu' />
                 <div className='equipment-page-area'>
                     <div className='equipment-area'>
-                        {equipamentos && equipamentos.length > 0 ?
-                            <table className="table table-striped">
-                                <thead className="thead-light">
-                                    <tr>
-                                        <th className='text-center' scope="col">        </th>
-                                        <th className='text-center' scope="col">        </th>
-                                        <th className='text-center' scope="col">CÓDIGO</th>
-                                        <th className='text-center' scope="col">NOME EQUIPAMENTO</th>
-                                        <th className='text-center' scope="col">MARCA EQUIPAMENTO</th>
-                                        <th className='text-center' scope="col">TIPO EQUIPAMENTO</th>
-                                        <th className='text-center' scope="col">MODELO EQUIPAMENTO</th>
-                                        <th className='text-center' scope="col">DATA AQUISIÇÃO</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {equipamentos.map((equipamento, index) => (
-                                        <tr key={equipamento.id}>
-                                            <td className='text-center'><button><img className='equipment-row-icon' src={EditIcon} alt='Ícone Editar Equipamento'/></button></td>
-                                            <td className='text-center'><button><img className='equipment-row-icon' src={DeleteIcon} alt='Ícone Deletar Equipamento'/></button></td>
-                                            <td className="text-center"> {equipamento.id} </td>
-                                            <td className="text-center"> {equipamento.nome_equipamento}</td>
-                                            <td className="text-center"> {equipamento.marca_equipamento}</td>
-                                            <td className="text-center"> {equipamento.tipo_equipamento}</td>
-                                            <td className="text-center"> {equipamento.modelo_equipamento}</td>
-                                            <td className="text-center"> {equipamento.data_aquisicao}</td>
+                        <div className='table-responsive'>
+                            {equipamentos && equipamentos.length > 0 ?
+                                <table className="table">
+                                    <thead className="thead-light">
+                                        <tr>
+                                            <th className='text-center' scope="col">        </th>
+                                            <th className='text-center' scope="col">        </th>
+                                            <th className='text-center' scope="col">CÓDIGO</th>
+                                            <th className='text-center' scope="col">NOME EQUIPAMENTO</th>
+                                            <th className='text-center' scope="col">MARCA EQUIPAMENTO</th>
+                                            <th className='text-center' scope="col">TIPO EQUIPAMENTO</th>
+                                            <th className='text-center' scope="col">MODELO EQUIPAMENTO</th>
+                                            <th className='text-center' scope="col">DATA AQUISIÇÃO</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table> : <p className='text-center'>Não existe nenhum equipamento cadastrado</p>}
+                                    </thead>
+                                    <tbody>
+                                        {equipamentos.map((equipamento, index) => (
+                                            <tr key={equipamento.id}>
+                                                <td className='text-center'><button className='equipment-row-button'><img className='equipment-row-icon' src={EditIcon} alt='Ícone Editar Equipamento' /></button></td>
+                                                <td className='text-center'><button className='equipment-row-button'><img className='equipment-row-icon' src={DeleteIcon} alt='Ícone Deletar Equipamento' /></button></td>
+                                                <td className="text-center"> {equipamento.id} </td>
+                                                <td className="text-center"> {equipamento.nome_equipamento}</td>
+                                                <td className="text-center"> {equipamento.marca_equipamento}</td>
+                                                <td className="text-center"> {equipamento.tipo_equipamento}</td>
+                                                <td className="text-center"> {equipamento.modelo_equipamento}</td>
+                                                <td className="text-center"> {equipamento.data_aquisicao}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table> : <p className='text-center'>Não existe nenhum equipamento cadastrado</p>}
+                        </div>
                     </div>
                 </div>
             </div>
