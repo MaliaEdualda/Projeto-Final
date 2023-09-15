@@ -13,10 +13,11 @@ export default function Login() {
 
     const onSubmit = async (data) => {
         try {
+            console.log(data)
             await registerUser(data);
             navigate('/pagina-principal');
         } catch (error) {
-            setError({ message: error.responde.data.error })
+            setError({ message: error.response.data.error });
         }
     }
 
@@ -60,43 +61,47 @@ export default function Login() {
                     }}
                     label="Email:" />
 
-                <TextInput
-                    name={'data_nascimento'}
-                    register={register}
-                    errors={errors}
-                    constraints={{
-                        required: { value: true, message: 'A data de nascimento é obrigatória.' }
-                    }}
-                    label="Data de nascimento:"
-                    type={"date"} />
+                <div className='register-form-camp'>
+                    <TextInput
+                        name={'data_nascimento'}
+                        register={register}
+                        errors={errors}
+                        constraints={{
+                            required: { value: true, message: 'A data de nascimento é obrigatória.' }
+                        }}
+                        label="Data de nascimento:"
+                        type={"date"} />
 
-                <TextInput
-                    name={'cep'}
-                    register={register}
-                    errors={errors}
-                    constraints={{
-                        required: { value: true, message: 'O CEP é obrigatório.' },
-                        pattern: { value: /^[0-9]+$/i, message: 'Apenas números são válidos.' }
-                    }}
-                    label="CEP:" />
+                    <TextInput
+                        name={'cep'}
+                        register={register}
+                        errors={errors}
+                        constraints={{
+                            required: { value: true, message: 'O CEP é obrigatório.' },
+                            pattern: { value: /^[0-9]+$/i, message: 'Apenas números são válidos.' }
+                        }}
+                        label="CEP:" />
+                </div>
 
-                <TextInput
-                    name={'telefone'}
-                    register={register}
-                    errors={errors}
-                    constraints={{}}
-                    label="Telefone (opcional):" />
+                <div className='register-form-camp'>
+                    <TextInput
+                        name={'telefone'}
+                        register={register}
+                        errors={errors}
+                        constraints={{}}
+                        label="Telefone (opcional):" />
 
-                <TextInput
-                    name={'senha'}
-                    register={register}
-                    constraints={{
-                        required: { value: true, message: 'A senha é obrigatória.' },
-                        minLength: { value: 8, message: 'A senha deve conter no mínimo 8 caracteres.' }
-                    }}
-                    errors={errors}
-                    label="Senha:"
-                    type={"password"} />
+                    <TextInput
+                        name={'senha'}
+                        register={register}
+                        constraints={{
+                            required: { value: true, message: 'A senha é obrigatória.' },
+                            minLength: { value: 8, message: 'A senha deve conter no mínimo 8 caracteres.' }
+                        }}
+                        errors={errors}
+                        label="Senha:"
+                        type={"password"} />
+                </div>
 
                 <div className='button-component'>
                     <button type='submit' className='login-button' disabled={!isValid}>Cadastrar</button>
