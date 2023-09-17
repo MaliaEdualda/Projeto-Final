@@ -3,9 +3,9 @@ import Register from './components/LoginAndRegisterPages/Register';
 import Login from './components/LoginAndRegisterPages/Login';
 import MainPage from './components/SistemPages/MainPage/MainPage';
 import EquipmentPage from './components/SistemPages/EquipmentPage/EquipmentPage';
-import LoaningAndDevolutionPage from './components/SistemPages/LoaningAndDevolutionPage';
-import EditProfilePage from './components/SistemPages/EditProfilePage';
-import HelpAndSupportPage from './components/SistemPages/HelpAndSupportPage';
+import LoaningAndDevolutionPage from './components/SistemPages/LoaningAndDevolutionPage/LoaningAndDevolutionPage';
+import EditProfilePage from './components/SistemPages/EditProfilePage/EditProfilePage';
+import HelpAndSupportPage from './components/SistemPages/HelpAndSupportPage/HelpAndSupportPage';
 import NotFound from './components/NotFound/NotFound';
 import NotFoundAuthenticated from './components/NotFound/NotFoundAuthenticated'
 
@@ -14,7 +14,7 @@ import { isAuthenticated } from './services/is-authenticated';
 
 export function PrivateRoute({ children }) {
   if (!isAuthenticated()) {
-    
+
     return <Navigate to="/" replace />
   }
   return children;
@@ -44,7 +44,7 @@ export function Navigations() {
         <Route path='/*' element={<PrivateRoute>
           <NotFoundAuthenticated />
         </PrivateRoute>} />
-        <Route path='*' element={<NotFound />}/>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter >
   );

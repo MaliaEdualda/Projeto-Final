@@ -1,8 +1,8 @@
-import { LeftMenu } from './LeftMenu/LeftMenu';
-import Logo from '../../images/logo.png';
+import { LeftMenu } from '../LeftMenu/LeftMenu';
+import Logo from '../../../images/logo.png';
 import './styles.css';
 
-export default function EditProfilePage() {
+export default function HelpAndSupportPage() {
     return (
         <div className='full-page'>
             <div className='top-bar'>
@@ -15,8 +15,8 @@ export default function EditProfilePage() {
             </div>
             <div className='main-page'>
                 <LeftMenu className='left-menu' />
-                <div className='dashboard-area'>
-                    <h1>Editar Perfil</h1>
+                <div className='help-and-support-page'>
+                    <h1>Ajuda e Suporte</h1>
                 </div>
             </div>
 

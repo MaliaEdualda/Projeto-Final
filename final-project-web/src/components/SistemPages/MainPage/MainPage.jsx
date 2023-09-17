@@ -1,6 +1,6 @@
 import { LeftMenu } from '../LeftMenu/LeftMenu';
 import Logo from '../../../images/logo.png';
-import './mainpagestyles.css';
+import './styles.css';
 
 export default function MainPage() {
     return (
@@ -15,11 +15,10 @@ export default function MainPage() {
             </div>
             <div className='main-page'>
                 <LeftMenu className='left-menu' />
-                <div className='dashboard-page-area'>
-                    <h1>Página Principal</h1>
+                <div className='dashboard-page'>
+                    <h1>Dashboard</h1>
                 </div>
             </div>
-
         </div>
     )
 }
