@@ -60,8 +60,36 @@ routes.get('/:id', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
-            return res.status(500).json({ message: 'Erro ao buscar o usuário' })
+            return res.status(500).json({ message: 'Erro ao buscar o usuário.' })
         })
 });
+
+routes.put('/:id', authentication, (req, res) => {
+    const {id} = req.params;
+    const attributes = req.body;
+    usuarioController.updateUsuario(id, attributes)
+        .then((result) => {
+            if (result) return res.status(404).json({ message: result });
+            return res.status(200).json({ message: "Usuário atualizado com sucesso." });
+        })
+        .catch ((error) => {
+            console.log(error);
+            return res.status(500).json({message: "Erro ao atualizar o usuário."})
+        })
+})
+
+routes.delete('/:id', authentication, (req, res) => {
+    const { id } = req.params;
+    usuarioController.deleteUsuario(id)
+        .then((result) => {
+            if (!result === 0) return res.status(404).json({ message: "Usuário não encontrado. Verifique o ID." });
+            return res.status(200).json({ message: "Usuario deletado com sucesso." });
+        })
+        .catch ((error) => {
+            console.log(error);
+            return res.status(500).json({ message: 'Erro ao deletar o usuário.' })
+        });
+            
+})
 
 module.exports = routes

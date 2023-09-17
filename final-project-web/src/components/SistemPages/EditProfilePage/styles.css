@@ -142,3 +142,15 @@
     width: 85%;
     height: auto;
 }
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+}
