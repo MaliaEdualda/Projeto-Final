@@ -34,7 +34,7 @@ export function EquipmentModal({
         <Modal.Title>{!!editData ? 'Editar' : 'Criar' } equipamento: </Modal.Title>
       </Modal.Header>
       <form
-        className="formulario"
+        className="modal-content-formulario"
         noValidate
         validated={!errors}
         onSubmit={(e) => {

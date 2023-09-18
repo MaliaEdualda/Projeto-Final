@@ -162,7 +162,7 @@
     font-size: 20px;
 }
 
-.formulario {
+.modal-content-formulario {
     display: flex;
     flex-direction: column;
     width: 100%;

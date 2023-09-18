@@ -65,7 +65,7 @@ export default function EditProfilePage() {
     };
 
     getUser();
-  }, []);
+  }, [setValue]);
 
   return (
     <>
