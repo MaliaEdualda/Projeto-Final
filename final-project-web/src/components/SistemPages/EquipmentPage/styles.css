@@ -40,7 +40,7 @@
     flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
-    padding-left: 4%;
+    padding-left: 2%;
 }
 
 .logo-text-component h1 {
@@ -138,13 +138,47 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 85%;
-    height: auto;
+    width: 100%;
+    height: 100%;
 }
 
 .equipment-area {
-    width: 90%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     height: 100%;
+    overflow-y: scroll;
+}
+
+.action-area {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 4rem;
+    gap: 10px;
+}
+
+.filter-form {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-form h1 {
+    font-size: 1.2rem;
+}
+
+.filter-form input {
+    width: 13%;
+    height: 50%;
+}
+
+.filter-form button {
+    width: 8%;
+    height: 50%;
 }
 
 .create-equipment-button {
@@ -306,6 +340,19 @@
 .cancel-modal-button:active {
     color: white;
     background-color: #1D3557;
+}
+
+.table-container {
+    display: flex;
+    width: 100%;
+    height: auto;
+    background-color: #457B9D;
+}
+
+.table-content {
+    overflow-y: scroll;
+    width: 100%;
+
 }
 
 table button {

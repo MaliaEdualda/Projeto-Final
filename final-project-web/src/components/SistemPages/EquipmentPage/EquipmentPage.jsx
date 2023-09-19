@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import {
   getEquipments,
+  getEquipmentsFiltered,
   createEquipment,
   updateEquipment,
   deleteEquipment,
@@ -13,9 +15,10 @@ import EditIcon from "../../../images/icons/EditIcon.png";
 import DeleteIcon from "../../../images/icons/DeleteIcon.png";
 import WarningIcon from "../../../images/icons/WarningIcon.png";
 import "./styles.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function EquipmentPage() {
+  const { handleSubmit, register, reset } = useForm();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [currentUpdating, setCurrentUpdating] = useState(null);
   const [isDeleting, setIsDeleting] = useState(null);
@@ -26,20 +29,30 @@ export default function EquipmentPage() {
     setModalOpen(true);
   };
 
-  const getEquipamentos = async () => {
+  const setEquipments = async () => {
     try {
-      const result = await getEquipments();
+      const result = await getEquipmentsFiltered();
       setEquipamentos(result.data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const addFilter = async (data) => {
+    try {
+      const result = await getEquipmentsFiltered(data);
+      setEquipamentos(result.data);
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const addEquipment = async (data) => {
     try {
       await createEquipment(data);
       setModalOpen(false);
-      await getEquipamentos();
+      await setEquipments();
     } catch (error) {
       console.log(error);
     }
@@ -50,24 +63,24 @@ export default function EquipmentPage() {
       await updateEquipment(data);
       setModalOpen(false);
       setCurrentUpdating(null);
-      await getEquipamentos();
+      await setEquipments();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const deleteEquipamento = async (id) => {
+  const removeEquipment = async (id) => {
     try {
       await deleteEquipment(id);
       setIsDeleting(null);
-      await getEquipamentos();
+      await setEquipments();
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getEquipamentos();
+    setEquipments();
   }, []);
 
   return (
@@ -84,13 +97,39 @@ export default function EquipmentPage() {
         <LeftMenu className="left-menu" />
         <div className="equipment-page">
           <div className="equipment-area">
-            <button
-              className="create-equipment-button"
-              onClick={() => setModalOpen(true)}
-            >
-              Criar Equipamento
-            </button>
+            <div className="action-area">
+              <form className="filter-form" noValidate validate reset onSubmit={handleSubmit(addFilter)}>
+                <h1>Filtrar por: </h1>
+                <input className="filter-form-input" placeholder="Nome do Equipamento:"
+                  type="text"
+                  {...register("nome_equipamento")} />
+                
+                <input className="filter-form-input" placeholder="Marca do Equipamento:"
+                  type="text"
+                  {...register("marca_equipamento")} />
+                
+                <input className="filter-form-input" placeholder="Tipo de Equipamento:"
+                  type="text"
+                  {...register("tipo_equipamento")} />
+                
+                <input className="filter-form-input" placeholder="Modelo do Equipamento:"
+                  type="text"
+                  {...register("modelo_equipamento")} />
+                
+                <input className="filter-form-input" placeholder="Data de aquisição:"
+                  type="text"
+                  {...register("data_aquisicao")} />
+                <button type='submit' className="filter-form-button">Filtrar</button>
+              </form>
+              <button
+                className="create-equipment-button"
+                onClick={() => setModalOpen(true)}
+              >
+                Criar Equipamento
+              </button>
+            </div>
 
+            {/* MODAL DE ADIÇÃO E EDIÇÃO */}
             {modalOpen && (
               <EquipmentModal
                 data={currentUpdating}
@@ -132,7 +171,7 @@ export default function EquipmentPage() {
               <Modal.Footer>
                 <button
                   className="delete-modal-button"
-                  onClick={() => deleteEquipamento(isDeleting.id)}
+                  onClick={() => removeEquipment(isDeleting.id)}
                 >
                   Excluir
                 </button>
@@ -145,41 +184,47 @@ export default function EquipmentPage() {
               </Modal.Footer>
             </Modal>
 
-            <div className="table-responsive">
+            <div className="table-container">
               {equipamentos && equipamentos.length > 0 ? (
-                <table className="table">
-                  <thead className="thead-light">
+                <table className="table-content">
+                  <thead className="table-head">
                     <tr>
-                      <th className="text-center" scope="col">
-                        {" "}
-                      </th>
-                      <th className="text-center" scope="col">
-                        {" "}
-                      </th>
-                      <th className="text-center" scope="col">
-                        CÓDIGO
-                      </th>
-                      <th className="text-center" scope="col">
+                      <th className="table-head-content" scope="col">
                         NOME EQUIPAMENTO
                       </th>
-                      <th className="text-center" scope="col">
+                      <th className="table-head-content" scope="col">
                         MARCA EQUIPAMENTO
                       </th>
-                      <th className="text-center" scope="col">
+                      <th className="table-head-content" scope="col">
                         TIPO EQUIPAMENTO
                       </th>
-                      <th className="text-center" scope="col">
+                      <th className="table-head-content" scope="col">
                         MODELO EQUIPAMENTO
                       </th>
-                      <th className="text-center" scope="col">
-                        DATA AQUISIÇÃO
+                      <th className="table-head-content" scope="col">
+                        {" "}
+                      </th>
+                      <th className="table-head-content" scope="col">
+                        {" "}
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {equipamentos.map((equipamento, index) => (
                       <tr key={equipamento.id}>
-                        <td className="text-center">
+                        <td className="table-row-content">
+                          {equipamento.nome_equipamento}
+                        </td>
+                        <td className="table-row-content">
+                          {equipamento.marca_equipamento}
+                        </td>
+                        <td className="table-row-content">
+                          {equipamento.tipo_equipamento}
+                        </td>
+                        <td className="table-row-content">
+                          {equipamento.modelo_equipamento}
+                        </td>
+                        <td className="table-row-content">
                           <button
                             className="equipment-row-button"
                             onClick={() => {
@@ -193,7 +238,7 @@ export default function EquipmentPage() {
                             />
                           </button>
                         </td>
-                        <td className="text-center">
+                        <td className="table-row-content">
                           <button
                             className="equipment-row-button"
                             onClick={() => {
@@ -207,28 +252,12 @@ export default function EquipmentPage() {
                             />
                           </button>
                         </td>
-                        <td className="text-center">{equipamento.id}</td>
-                        <td className="text-center">
-                          {equipamento.nome_equipamento}
-                        </td>
-                        <td className="text-center">
-                          {equipamento.marca_equipamento}
-                        </td>
-                        <td className="text-center">
-                          {equipamento.tipo_equipamento}
-                        </td>
-                        <td className="text-center">
-                          {equipamento.modelo_equipamento}
-                        </td>
-                        <td className="text-center">
-                          {parseDate(equipamento.data_aquisicao)}
-                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               ) : (
-                <p className="text-center">
+                <p className="non-data-text">
                   Não existe nenhum equipamento cadastrado
                 </p>
               )}
