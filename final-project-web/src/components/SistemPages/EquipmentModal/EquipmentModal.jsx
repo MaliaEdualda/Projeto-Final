@@ -8,7 +8,7 @@ export function EquipmentModal({
   isOpen,
   closeFunction,
   addEquipment,
-  editEquipment
+  editEquipment,
 }) {
   const {
     handleSubmit,
@@ -24,21 +24,23 @@ export function EquipmentModal({
       setValue("tipo_equipamento", editData.tipo_equipamento);
       setValue("modelo_equipamento", editData.modelo_equipamento);
       setValue("data_aquisicao", editData.data_aquisicao);
-      setValue("id", editData.id)  
-      }
+      setValue("id", editData.id);
+    }
   }, [editData, setValue]);
 
   return (
     <Modal show={isOpen} onHide={() => closeFunction(false)}>
       <Modal.Header>
-        <Modal.Title>{!!editData ? 'Editar' : 'Criar' } equipamento: </Modal.Title>
+        <h1 className="modal-header-content">
+          {!!editData ? "Editar" : "Criar"} equipamento:{" "}
+        </h1>
       </Modal.Header>
       <form
         className="modal-content-formulario"
         noValidate
         validated={!errors}
         onSubmit={(e) => {
-          e.preventDefault()
+          e.preventDefault();
           if (editData) {
             handleSubmit(editEquipment)();
           } else {
@@ -46,10 +48,11 @@ export function EquipmentModal({
           }
         }}
       >
-        <h1 className="modal-body-title">
-          Preencha o formulário para {!!editData ? 'editar' : 'criar' } um equipamento:{" "}
-        </h1>
         <Modal.Body>
+          <h1 className="modal-body-title">
+            Preencha o formulário para {!!editData ? "editar" : "criar"} um
+            equipamento:{" "}
+          </h1>
           <InputComponent
             name={"nome_equipamento"}
             register={register}
@@ -116,8 +119,9 @@ export function EquipmentModal({
           <button
             className="submit-modal-button"
             type="submit"
-            disabled={!isValid}>
-            {!!editData ? 'Editar' : 'Criar'}  equipamento
+            disabled={!isValid}
+          >
+            {!!editData ? "Editar" : "Criar"} equipamento
           </button>
           <button
             className="close-modal-button"

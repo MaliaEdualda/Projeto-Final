@@ -85,8 +85,6 @@ routes.put('/:id', authentication, (req, res) => {
     const { id } = req.params;
     const attributes = req.body;
 
-    console.log(attributes);
-
     equipamentoController.atualizarEquipamento(id, attributes)
         .then((result) => {
             if (result) return res.status(400).json({ message: result });

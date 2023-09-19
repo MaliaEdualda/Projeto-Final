@@ -13,7 +13,6 @@ export default function Login() {
 
     const onSubmit = async (data) => {
         try {
-            console.log(data)
             await registerUser(data);
             navigate('/pagina-principal');
         } catch (error) {

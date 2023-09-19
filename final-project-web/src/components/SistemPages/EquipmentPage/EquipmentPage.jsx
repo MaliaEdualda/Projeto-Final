@@ -11,6 +11,7 @@ import { Modal } from "react-bootstrap";
 import Logo from "../../../images/logo.png";
 import EditIcon from "../../../images/icons/EditIcon.png";
 import DeleteIcon from "../../../images/icons/DeleteIcon.png";
+import WarningIcon from "../../../images/icons/WarningIcon.png";
 import "./styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -89,6 +90,7 @@ export default function EquipmentPage() {
             >
               Criar Equipamento
             </button>
+
             {modalOpen && (
               <EquipmentModal
                 data={currentUpdating}
@@ -102,16 +104,44 @@ export default function EquipmentPage() {
               />
             )}
 
-            <Modal show={!!isDeleting} onHide={() => { setIsDeleting(null) }}>
+            {/* MODAL DE EXCLUSÃO */}
+            <Modal
+              show={!!isDeleting}
+              onHide={() => {
+                setIsDeleting(null);
+              }}
+            >
               <Modal.Header>
-                <Modal.Title>Deletar {isDeleting?.nome_equipamento}</Modal.Title>
+                <h1 className="modal-header-content">
+                  Deletar {isDeleting?.nome_equipamento}
+                </h1>
               </Modal.Header>
               <Modal.Body>
-                <h1>Tem certeza que deseja excluir este equipamento?</h1>
-              </Modal.Body> 
+                <div className="delete-modal-content-container">
+                  <img
+                    className="delete-modal-icon"
+                    src={WarningIcon}
+                    alt="Ícone de aviso"
+                  />
+                  <h1 className="delete-modal-content-text">
+                    Atenção! Ao realizar esta ação, você não será mais capaz de
+                    acessar as informações deste equipamento.
+                  </h1>
+                </div>
+              </Modal.Body>
               <Modal.Footer>
-                <button className="delete-button" onClick={() => deleteEquipamento(isDeleting.id)}>Sim. Excluir</button>
-                <button className="cancel-button" onClick={() => setIsDeleting(null)}>Não. Cancelar</button>
+                <button
+                  className="delete-modal-button"
+                  onClick={() => deleteEquipamento(isDeleting.id)}
+                >
+                  Excluir
+                </button>
+                <button
+                  className="cancel-modal-button"
+                  onClick={() => setIsDeleting(null)}
+                >
+                  Cancelar
+                </button>
               </Modal.Footer>
             </Modal>
 
