@@ -7,11 +7,11 @@ import {
   deleteUser,
 } from "../../../services/userService";
 import { useNavigate } from "react-router-dom";
+import { InputComponent } from "../InputComponent/InputComponent";
 import { Modal } from "react-bootstrap";
 import { LeftMenu } from "../LeftMenu/LeftMenu";
 import Logo from "../../../images/logo.png";
 import "./styles.css";
-import { InputComponent } from "../InputComponent/InputComponent";
 
 export default function EditProfilePage() {
   const [isDeleting, setIsDeleting] = useState();
@@ -69,7 +69,6 @@ export default function EditProfilePage() {
 
   return (
     <>
-      {!loading && (
         <div className="full-page">
           <div className="top-bar">
             <div className="logo-component">
@@ -84,8 +83,10 @@ export default function EditProfilePage() {
             </div>
           </div>
           <div className="main-page">
-            <LeftMenu className="left-menu" />
+          <LeftMenu className="left-menu" />
+          {!loading &&
             <div className="edit-profile-page">
+              <h1 className="edit-profile-title">Edite o seu perfil: </h1>
               <Modal
                 show={!!isDeleting}
                 onHide={() => {
@@ -116,7 +117,7 @@ export default function EditProfilePage() {
                 </Modal.Footer>
               </Modal>
               <form
-                className="formulario"
+                className="formulario-editar-perfil"
                 noValidate
                 validated={!errors}
                 onSubmit={handleSubmit(editUser)}
@@ -165,9 +166,9 @@ export default function EditProfilePage() {
                 </div>
               </form>
             </div>
+          }
           </div>
         </div>
-      )}
     </>
   );
 }

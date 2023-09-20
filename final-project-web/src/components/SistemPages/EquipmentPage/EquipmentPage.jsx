@@ -14,6 +14,7 @@ import Logo from "../../../images/logo.png";
 import EditIcon from "../../../images/icons/EditIcon.png";
 import DeleteIcon from "../../../images/icons/DeleteIcon.png";
 import WarningIcon from "../../../images/icons/WarningIcon.png";
+import AddIcon from "../../../images/icons/AddIcon.png"
 import "./styles.css";
 
 export default function EquipmentPage() {
@@ -42,7 +43,6 @@ export default function EquipmentPage() {
     try {
       const result = await getEquipmentsFiltered(data);
       setEquipamentos(result.data);
-      reset();
     } catch (error) {
       console.log(error);
     }
@@ -100,19 +100,19 @@ export default function EquipmentPage() {
             <div className="action-area">
               <form className="filter-form" noValidate validate reset onSubmit={handleSubmit(addFilter)}>
                 <h1>Filtrar por: </h1>
-                <input className="filter-form-input" placeholder="Nome do Equipamento:"
+                <input className="filter-form-input" placeholder="Nome:"
                   type="text"
                   {...register("nome_equipamento")} />
                 
-                <input className="filter-form-input" placeholder="Marca do Equipamento:"
+                <input className="filter-form-input" placeholder="Marca:"
                   type="text"
                   {...register("marca_equipamento")} />
                 
-                <input className="filter-form-input" placeholder="Tipo de Equipamento:"
+                <input className="filter-form-input" placeholder="Tipo:"
                   type="text"
                   {...register("tipo_equipamento")} />
                 
-                <input className="filter-form-input" placeholder="Modelo do Equipamento:"
+                <input className="filter-form-input" placeholder="Modelo:"
                   type="text"
                   {...register("modelo_equipamento")} />
                 
@@ -120,11 +120,13 @@ export default function EquipmentPage() {
                   type="text"
                   {...register("data_aquisicao")} />
                 <button type='submit' className="filter-form-button">Filtrar</button>
+                <button className="filter-form-clean-button" onClick={() => reset()}>Limpar</button>
               </form>
               <button
                 className="create-equipment-button"
                 onClick={() => setModalOpen(true)}
               >
+                <img src={AddIcon} alt="Ícone de adicionar" />
                 Criar Equipamento
               </button>
             </div>

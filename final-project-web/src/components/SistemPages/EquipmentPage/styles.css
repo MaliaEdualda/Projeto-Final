@@ -68,7 +68,7 @@
     padding-right: 0.6rem;
     border-radius: 0px 5px 0px 0px;
     border: 1px solid rgba(255, 255, 255, 0.10);
-    background: #E63946;
+    background: #132948;
     box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
     gap: 20px;
 }
@@ -83,12 +83,11 @@
     border: none;
     align-items: center;
     color: white;
-    /* background-color: hotpink; */
 }
 
 .link-to-component:hover {
     border-radius: 5px;
-    background-color: #e75c68;
+    background: #274875
 }
 
 .link-to-component h1 {
@@ -106,7 +105,6 @@
 .logout-component {
     display: flex;
     flex-direction: row;
-    position: fixed;
     bottom: 1rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
@@ -114,12 +112,11 @@
     border: none;
     align-items: center;
     color: white;
-    /* background-color: hotpink; */
 }
 
 .logout-component:hover {
     border-radius: 5px;
-    background-color: #e75c68;
+    background: #274875
 }
 
 .logout-component h1 {
@@ -138,58 +135,108 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 85%;
     height: 100%;
+    justify-content: end;
 }
 
 .equipment-area {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 99%;
     height: 100%;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
 .action-area {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 4rem;
-    gap: 10px;
+    min-height: 10%;
+    padding: 0 1.5% 0 1.5%;
+    align-items: center;
+    background-color: white;
 }
 
 .filter-form {
-    width: 60%;
+    width: 80%;
     height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 5px;
+    position: sticky;
+    left: 2%;
+    margin: 0;
 }
 
 .filter-form h1 {
     font-size: 1.2rem;
+    color: #132948;
+    margin: 0 1% 0 0;
 }
 
 .filter-form input {
     width: 13%;
     height: 50%;
+    margin: 0 0.3% 0 0.3%;
+    border: 0.5px solid;
+    font-size: 14px;
+    padding-left: 0.5%;
+}
+
+.filter-form input:focus-within {
+    border: 0.5px solid #0a53e4;
 }
 
 .filter-form button {
     width: 8%;
     height: 50%;
+    background-color: #1D3557;
+    border: none;
+    border-radius: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: white;
+    margin: 0 0.3% 0 0.5%;
+}
+
+.filter-form button:hover {
+    background-color: #3a5f93;
+}
+
+.filter-form button:active {
+    background-color: #132948;
 }
 
 .create-equipment-button {
-    width: 200px;
-    height: 40px;
+    display: flex;
+    flex-direction: row;
+    width: 12%;
+    height: 4.7%;
     background-color: #457B9D;
     border: none;
     border-radius: 5px;
     font-family: 'Roboto', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     color: white;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: 4%;
+    gap: 5%;
+}
+
+.create-equipment-button:hover {
+    background-color: #22506c;
+}
+
+.create-equipment-button:active {
+    background-color: #4c8eb6;
+}
+
+.create-equipment-button img {
+    max-width: 20px;
+    max-height: 20px;
 }
 
 .modal-header-content {
@@ -346,16 +393,41 @@
     display: flex;
     width: 100%;
     height: auto;
-    background-color: #457B9D;
+    justify-content: center;
+    overflow-y: scroll;
 }
 
 .table-content {
-    overflow-y: scroll;
-    width: 100%;
-
+    width: 99%;
 }
 
-table button {
+.table-content thead {
+    position: sticky;
+    top: 0;
+    background-color: #1D3557;
+    color: white;
+}
+
+.table-content th {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    padding: 0.8% 0 0.8% 0;
+}
+
+.table-content td {
+    padding: 0.3% 0 0.3% 0;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.table-content tr:hover {
+    background-color: #dddbdb;
+}
+
+.table-content button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -369,8 +441,4 @@ table button {
 .equipment-area img {
     width: 100%;
     height: 100%;
-}
-
-table th {
-    font-size: 16px;
 }
