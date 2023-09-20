@@ -11,6 +11,7 @@ import { InputComponent } from "../InputComponent/InputComponent";
 import { Modal } from "react-bootstrap";
 import { LeftMenu } from "../LeftMenu/LeftMenu";
 import Logo from "../../../images/logo.png";
+import WarningIcon from "../../../images/icons/WarningIcon.png"
 import "./styles.css";
 
 export default function EditProfilePage() {
@@ -69,20 +70,20 @@ export default function EditProfilePage() {
 
   return (
     <>
-        <div className="full-page">
-          <div className="top-bar">
-            <div className="logo-component">
-              <img
-                className="logo-image-main"
-                src={Logo}
-                alt="Logo do sistema"
-              />
-              <div className="logo-text-component">
-                <h1>SIGED MT</h1>
-              </div>
+      <div className="full-page">
+        <div className="top-bar">
+          <div className="logo-component">
+            <img
+              className="logo-image-main"
+              src={Logo}
+              alt="Logo do sistema"
+            />
+            <div className="logo-text-component">
+              <h1>SIGED MT</h1>
             </div>
           </div>
-          <div className="main-page">
+        </div>
+        <div className="main-page">
           <LeftMenu className="left-menu" />
           {!loading &&
             <div className="edit-profile-page">
@@ -94,19 +95,29 @@ export default function EditProfilePage() {
                 }}
               >
                 <Modal.Header>
-                  <Modal.Title>
-                    Deletar {isDeleting?.nome_equipamento}
-                  </Modal.Title>
+                  <h1 className="delete-modal-title">
+                    Excluir conta
+                  </h1>
                 </Modal.Header>
                 <Modal.Body>
-                  <h1>Tem certeza que deseja excluir a sua conta?</h1>
+                  <div className="delete-account-modal-content-container">
+                    <img
+                      className="delete-account-modal-icon"
+                      src={WarningIcon}
+                      alt="Ícone de aviso"
+                    />
+                    <h1 className="delete-account-modal-content-text">
+                      Atenção! Ao realizar esta ação, você não será mais capaz de
+                      acessar as informações deste equipamento.
+                    </h1>
+                  </div>
                 </Modal.Body>
                 <Modal.Footer>
                   <button
-                    className="delete-button"
+                    className="delete-account-button"
                     onClick={() => deletarUsuario()}
                   >
-                    Sim. Quero excluir a minha conta
+                    Excluir
                   </button>
                   <button
                     className="cancel-button"
@@ -167,8 +178,8 @@ export default function EditProfilePage() {
               </form>
             </div>
           }
-          </div>
         </div>
+      </div>
     </>
   );
 }

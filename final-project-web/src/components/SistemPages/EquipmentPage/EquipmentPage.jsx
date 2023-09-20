@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
-  getEquipments,
   getEquipmentsFiltered,
   createEquipment,
   updateEquipment,
@@ -271,27 +270,27 @@ export default function EquipmentPage() {
   );
 }
 
-const months = [
-  "",
-  "jan.",
-  "fev.",
-  "mar.",
-  "abr.",
-  "mai.",
-  "jun.",
-  "jul.",
-  "ago.",
-  "set.",
-  "out.",
-  "nov.",
-  "dez.",
-];
+// const months = [
+//   "",
+//   "jan.",
+//   "fev.",
+//   "mar.",
+//   "abr.",
+//   "mai.",
+//   "jun.",
+//   "jul.",
+//   "ago.",
+//   "set.",
+//   "out.",
+//   "nov.",
+//   "dez.",
+// ];
 
-const parseDate = (date) => {
-  const data = new Date(date);
-  const day = data.getDate();
-  const month = months[data.getMonth()];
-  const year = data.getFullYear();
+// const parseDate = (date) => {
+//   const data = new Date(date);
+//   const day = data.getDate();
+//   const month = months[data.getMonth()];
+//   const year = data.getFullYear();
 
-  return `${day} de ${month} de ${year}`;
-};
+//   return `${day} de ${month} de ${year}`;
+// };
