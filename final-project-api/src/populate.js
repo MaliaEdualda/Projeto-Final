@@ -1,6 +1,7 @@
 require('./database/database');
 
 const EquipamentoDidatico = require('./database/models/EquipamentoDidatico');
+const usuarioController = require('./controllers/UsuarioController');
 
 const equipments = [
     { "nome_equipamento": "Fume Hood", "marca_equipamento": "TechWave", "tipo_equipamento": "PCR Machine", "modelo_equipamento": "Explorer Sport", "data_aquisicao": "2011-02-10" },
@@ -54,6 +55,12 @@ const equipments = [
     { "nome_equipamento": "Flow Cytometer", "marca_equipamento": "CyberSci", "tipo_equipamento": "Fume Hood", "modelo_equipamento": "Legacy", "data_aquisicao": "2005-07-07" },
     { "nome_equipamento": "Chromatography System", "marca_equipamento": "SciGenius", "tipo_equipamento": "Electron Microscope", "modelo_equipamento": "Space", "data_aquisicao": "2021-06-04" }];
 
+
+const users = [
+    { "nome_completo": "Maria Eduarda Ramos de Queiroz", "email": "mariaedduardda@gmail.com", "data_nascimento": "2004-08-07", "cep": "78056340", "telefone": "(65) 99956-9572", "senha": "malia1234" },
+    { "nome_completo": "Felipe Neves Brito", "email": "felipe.snow@gmail.com", "data_nascimento": "2003-10-15", "cep": "81045035", "telefone": "(65) 99816-3262", "senha": "felipesnow" },
+    { "nome_completo": "Ana Beatriz Schuindt do Amaral", "email": "ana.schuindt@gmail.com", "data_nascimento": "2005-07-20", "cep": "78070410", "telefone": "", "senha": "beatriz123" }];
+
 (async () => {
     for (let equipment of equipments) {
         const {
@@ -63,7 +70,7 @@ const equipments = [
             modelo_equipamento,
             data_aquisicao
         } = equipment
-        
+
         await EquipamentoDidatico.create({
             nome_equipamento,
             marca_equipamento,
@@ -72,5 +79,12 @@ const equipments = [
             data_aquisicao
         });
     }
+
+    for (let user of users) {
+        const { senha, ...attributes } = user;
+
+        await usuarioController.signUp(attributes, senha);
+    }
+
     console.log('Processo de população concluído!');
 })();

@@ -77,7 +77,8 @@ export default function Login() {
                         errors={errors}
                         constraints={{
                             required: { value: true, message: 'O CEP é obrigatório.' },
-                            pattern: { value: /^[0-9]+$/i, message: 'Apenas números são válidos.' }
+                            pattern: { value: /^[0-9]+$/i, message: 'Apenas números são válidos.' },
+                            maxLength: { value: 8, message: 'O CEP deve conter no máximo 8 números.'}
                         }}
                         label="CEP:" />
                 </div>

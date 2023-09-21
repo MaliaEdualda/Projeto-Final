@@ -42,7 +42,8 @@ module.exports = {
       },
       status_emprestimo: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: "Em andamento"
       },
       createdAt: {
         type: Sequelize.DATE,

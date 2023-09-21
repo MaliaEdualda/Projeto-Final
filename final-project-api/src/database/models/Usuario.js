@@ -7,7 +7,8 @@ const Usuario = database.define('Usuario', {
     data_nascimento: DataTypes.DATEONLY,
     cep: DataTypes.STRING,
     telefone: DataTypes.STRING,
-    senha: DataTypes.STRING
+    senha: DataTypes.STRING,
+    situacao: DataTypes.STRING
 }, {
     freezeTableName: true
 });

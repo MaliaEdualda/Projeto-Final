@@ -16,6 +16,8 @@ import "./styles.css";
 
 export default function EditProfilePage() {
   const [isDeleting, setIsDeleting] = useState();
+  const [editsuccess, setEditSuccess] = useState(false);
+  const [error, setError] = useState();
   const navigate = useNavigate();
 
   const {
@@ -24,14 +26,15 @@ export default function EditProfilePage() {
     formState: { errors },
     setValue,
     getValues,
-  } = useForm({ mode: "onChange" });
+  } = useForm();
   const [loading, setLoading] = useState(true);
 
   const editUser = async (data) => {
     try {
       await updateUser(data);
+      setEditSuccess(true);
     } catch (error) {
-      console.log(error);
+      setError({ message: error.response.data.message })
     }
   };
 
@@ -57,6 +60,7 @@ export default function EditProfilePage() {
           setValue("data_nascimento", userData?.data_nascimento);
           setValue("cep", userData?.cep);
           setValue("telefone", userData?.telefone);
+          setValue("senha", userData?.senha);
           setValue("id", userData?.id);
           setLoading(false);
         }
@@ -87,7 +91,26 @@ export default function EditProfilePage() {
           <LeftMenu className="left-menu" />
           {!loading &&
             <div className="edit-profile-page">
-              <h1 className="edit-profile-title">Edite o seu perfil: </h1>
+              <h1 className="edit-profile-title">Edite o seu perfil: {error && <p className='edit-profile-error-message'>{error.message}</p>}</h1>
+              <Modal
+                show={editsuccess}
+                onHide={() => {
+                  setEditSuccess(false)
+                }}
+              >
+                <Modal.Header>
+                  <h1 className="modal-title">Sucesso!</h1>
+                </Modal.Header>
+                <Modal.Body>
+                  <h1 className="modal-content-text">Dados atualizados com sucesso.</h1>
+                </Modal.Body>
+                <Modal.Footer>
+                  <button className="close-modal-button" onClick={() => setEditSuccess(false)}>
+                    OK
+                  </button>
+                </Modal.Footer>
+              </Modal>
+              
               <Modal
                 show={!!isDeleting}
                 onHide={() => {
@@ -95,7 +118,7 @@ export default function EditProfilePage() {
                 }}
               >
                 <Modal.Header>
-                  <h1 className="delete-modal-title">
+                  <h1 className="modal-title">
                     Excluir conta
                   </h1>
                 </Modal.Header>
@@ -120,7 +143,7 @@ export default function EditProfilePage() {
                     Excluir
                   </button>
                   <button
-                    className="cancel-button"
+                    className="cancel-modal-button"
                     onClick={() => setIsDeleting(null)}
                   >
                     Não. Cancelar
@@ -142,6 +165,9 @@ export default function EditProfilePage() {
                 <InputComponent
                   name={"email"}
                   register={register}
+                  constraints={{
+                    pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.+[A-Z]{2,}$/i, message: 'Email inválido.', }
+                  }}
                   errors
                   label={"Email:"}
                 />
@@ -155,6 +181,10 @@ export default function EditProfilePage() {
                 <InputComponent
                   name={"cep"}
                   register={register}
+                  constraints={{
+                    pattern: { value: /^[0-9]+$/i, message: 'Apenas números são válidos.' },
+                    maxLength: { value: 8, message: 'O CEP deve conter no máximo 8 números.' }
+                  }}
                   errors
                   label={"CEP:"}
                 />
@@ -163,6 +193,15 @@ export default function EditProfilePage() {
                   register={register}
                   errors
                   label={"Telefone"}
+                />
+                <InputComponent
+                  name={"senha"}
+                  register={register}
+                  constraints={{
+                    minLength: { value: 8, message: 'A senha deve conter no mínimo 8 caracteres.' }
+                  }}
+                  errors
+                  label={"Alterar senha: "}
                 />
                 <div className="button-container">
                   <button className="edit-button" type="submit">

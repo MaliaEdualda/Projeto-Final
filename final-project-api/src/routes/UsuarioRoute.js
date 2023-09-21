@@ -83,7 +83,7 @@ routes.delete('/:id', authentication, (req, res) => {
     usuarioController.deleteUsuario(id)
         .then((result) => {
             if (!result === 0) return res.status(404).json({ message: "Usuário não encontrado. Verifique o ID." });
-            return res.status(200).json({ message: "Usuario deletado com sucesso." });
+            return res.status(200).json({ message: "Usuario desativado com sucesso." });
         })
         .catch ((error) => {
             console.log(error);

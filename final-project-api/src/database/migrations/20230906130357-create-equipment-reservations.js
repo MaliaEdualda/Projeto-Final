@@ -42,7 +42,8 @@ module.exports = {
       },
       status_reserva: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: "Pendente"
       },
       createdAt: {
         type: Sequelize.DATE,

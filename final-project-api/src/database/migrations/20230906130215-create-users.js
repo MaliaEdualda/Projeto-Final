@@ -34,6 +34,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      situacao: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "ATIVO"
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false

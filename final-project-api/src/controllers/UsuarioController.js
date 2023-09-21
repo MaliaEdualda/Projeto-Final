@@ -11,7 +11,7 @@ class UsuarioController {
     // Verifica a existência do usuário
     const usuario = await Usuario.findOne({ where: { email: email } });
 
-    if (!usuario) throw new Error("Email ou senha incorretos!");
+    if ((!usuario) || (usuario.situacao == "INATIVO")) throw new Error("Email ou senha incorretos!");
 
     // Verifica a senha
     const senhaValida = await bcrypt.compare(senha, usuario.senha);
@@ -20,7 +20,7 @@ class UsuarioController {
 
     // Gera token de acesso}
     const tokenAcesso = jwt.sign({ id: usuario.id }, TOKEN_SECRET, {
-      expiresIn: "2h",
+      expiresIn: "5h",
     });
     return tokenAcesso;
   }
@@ -31,7 +31,8 @@ class UsuarioController {
     const usuarioExistente = await Usuario.findOne({
       where: { email: attributes.email },
     });
-    if (usuarioExistente)
+
+    if (usuarioExistente?.situacao == "ATIVO")
       throw new Error(
         "Este email já corresponde à um usuário. Utilize outro email."
       );
@@ -42,7 +43,7 @@ class UsuarioController {
 
     // Gera token de acesso
     const tokenAcesso = jwt.sign({ id: usuario.id }, TOKEN_SECRET, {
-      expiresIn: "2h",
+      expiresIn: "5h",
     });
     return tokenAcesso;
   }
@@ -62,7 +63,12 @@ class UsuarioController {
 
   async updateUsuario(idUsuario, attributes) {
     const usuario = await Usuario.findByPk(idUsuario);
-    if(!usuario) return "Este usuário não existe";
+    if (!usuario) return "Este usuário não existe";
+    
+    if (usuario.situacao == "INATIVO") return "Este usuário está desativado";
+
+    const emailExistente = await Usuario.findOne({ where: { email: attributes.email } });
+    if ((emailExistente?.situacao == "ATIVO") && (emailExistente?.id !== usuario.id)) return "Este email já corresponde a um usuário. Utilize outro email.";
     
     if (!attributes.nome_completo) attributes.nome_completo = usuario.nome_completo;
     if (!attributes.email) attributes.email = usuario.email;
@@ -73,16 +79,24 @@ class UsuarioController {
 
     if(attributes.senha !== usuario.senha) {
         const hashedSenha = await bcrypt.hash(attributes.senha, SALT);
-        attributes.senha = hashedSenha
+        attributes.senha = hashedSenha;
     }
 
     await usuario.update({...attributes});
   }
 
   async deleteUsuario(idUsuario) {
-    const usuarioDeletado = await Usuario.destroy({where: {id: idUsuario}});
+    const usuarioDesativado = await Usuario.update(
+      {
+        situacao: "INATIVO"
+      },
+      {
+        where: {
+          id: idUsuario
+        }
+      });
 
-    return usuarioDeletado;
+    return usuarioDesativado;
   }
 }
 
