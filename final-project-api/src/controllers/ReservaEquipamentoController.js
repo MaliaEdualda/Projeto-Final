@@ -4,7 +4,19 @@ const Usuario = require('../database/models/Usuario');
 
 class ReservaEquipamentoController {
     async buscarReservas() {
-        const reservas = await ReservaEquipamento.findAll({ order: [["id", "ASC"]]});
+        const reservas = await ReservaEquipamento.findAll({
+            include: [
+                {
+                    model: EquipamentoDidatico,
+                    required: true
+                }, {
+                    model: Usuario,
+                    required: true
+                }
+            ]
+        }, {
+            order: [["id", "ASC"]]
+        });
 
         return reservas;
     }

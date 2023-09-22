@@ -57,19 +57,19 @@ class UsuarioController {
   }
 
   async buscarUsuarioID(idUsuario) {
-    const usuario = await Usuario.findByPk(idUsuario, {attributes: {exclude: ['senha']}});
+    const usuario = await Usuario.findByPk(idUsuario, { attributes: { exclude: ['senha'] } });
     return usuario;
   }
 
   async updateUsuario(idUsuario, attributes) {
     const usuario = await Usuario.findByPk(idUsuario);
     if (!usuario) return "Este usuário não existe";
-    
+
     if (usuario.situacao == "INATIVO") return "Este usuário está desativado";
 
     const emailExistente = await Usuario.findOne({ where: { email: attributes.email } });
     if ((emailExistente?.situacao == "ATIVO") && (emailExistente?.id !== usuario.id)) return "Este email já corresponde a um usuário. Utilize outro email.";
-    
+
     if (!attributes.nome_completo) attributes.nome_completo = usuario.nome_completo;
     if (!attributes.email) attributes.email = usuario.email;
     if (!attributes.data_nascimento) attributes.data_nascimento = usuario.data_nascimento;
@@ -77,12 +77,12 @@ class UsuarioController {
     if (!attributes.telefone) attributes.telefone = usuario.telefone;
     if (!attributes.senha) attributes.senha = usuario.senha;
 
-    if(attributes.senha !== usuario.senha) {
-        const hashedSenha = await bcrypt.hash(attributes.senha, SALT);
-        attributes.senha = hashedSenha;
+    if (attributes.senha !== usuario.senha) {
+      const hashedSenha = await bcrypt.hash(attributes.senha, SALT);
+      attributes.senha = hashedSenha;
     }
 
-    await usuario.update({...attributes});
+    await usuario.update({ ...attributes });
   }
 
   async deleteUsuario(idUsuario) {
@@ -98,6 +98,19 @@ class UsuarioController {
 
     return usuarioDesativado;
   }
+
+  // async buscarUsuarioReservas(idUsuario) {
+  //   const reservas = await Usuario.findAll({
+  //     include: [
+  //       {
+  //         model: EquipamentoDidatico,
+  //         required: true
+  //       }
+  //     ]
+  //   });
+
+  //   return reservas;
+  // }
 }
 
 module.exports = new UsuarioController();

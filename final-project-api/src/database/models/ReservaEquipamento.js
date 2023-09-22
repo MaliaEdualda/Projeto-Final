@@ -13,9 +13,7 @@ const ReservaEquipamento = database.define('ReservaEquipamento', {
     freezeTableName: true
 });
 
-ReservaEquipamento.associate = function (models) {
-    ReservaEquipamento.belongsTo(models.Usuario, { foreignKey: 'idUsuario' })
-    ReservaEquipamento.belongsTo(models.EquipamentoDidatico, {foreignKey: 'idEquipamento'})
-}
+ReservaEquipamento.belongsTo(Usuario, { foreignKey: 'idUsuario' });
+ReservaEquipamento.belongsTo(EquipamentoDidatico, { foreignKey: 'idEquipamento' });
 
 module.exports = ReservaEquipamento;

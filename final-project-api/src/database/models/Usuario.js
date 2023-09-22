@@ -13,9 +13,7 @@ const Usuario = database.define('Usuario', {
     freezeTableName: true
 });
 
-Usuario.associate = function (models) {
-    Usuario.belongsToMany(models.EquipamentoDidatico, { through: 'EmprestimoEquipamento', foreignKey: 'idUsuario', as: 'usuario' })
-    Usuario.belongsToMany(models.EquipamentoDidatico, { through: 'ReservaEquipamento', foreignKey: 'idUsuario', as: 'usuario' })
-};
+Usuario.hasMany(ReservaEquipamento, {foreignKey: "idUsuario"});
+Usuario.hasMany(EmprestimoEquipamento, {foreignKey: "idUsuario"});
 
 module.exports = Usuario;

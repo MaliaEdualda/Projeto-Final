@@ -11,9 +11,7 @@ const EquipamentoDidatico = database.define('EquipamentoDidatico', {
     freezeTableName: true
 });
 
-EquipamentoDidatico.associate = function (models) {
-    EquipamentoDidatico.belongsToMany(models.Usuario, { through: 'EmprestimoEquipamento', foreignKey: 'idUsuario', as: 'usuario' })
-    EquipamentoDidatico.belongsToMany(models.Usuario, { through: 'ReservaEquipamento', foreignKey: 'idUsuario', as: 'usuario' })
-};
+EquipamentoDidatico.hasMany(ReservaEquipamento, {foreignKey: "idEquipamento"});
+EquipamentoDidatico.hasMany(EmprestimoEquipamento, {foreignKey: "idEquipamento"});
 
 module.exports = EquipamentoDidatico;
