@@ -116,7 +116,7 @@ export default function EquipmentPage() {
                   {...register("modelo_equipamento")} />
                 
                 <input className="filter-form-input" placeholder="Data de aquisição:"
-                  type="text"
+                  type="date"
                   {...register("data_aquisicao")} />
                 <button type='submit' className="filter-form-button">Filtrar</button>
                 <button className="filter-form-clean-button" onClick={() => reset()}>Limpar</button>

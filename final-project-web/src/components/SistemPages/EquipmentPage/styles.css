@@ -11,6 +11,7 @@
     padding-top: 0.5rem;
     padding-left: 1rem;
     padding-bottom: 0.5rem;
+    background-color: #A8DADC;
 }
 
 .main-page {
@@ -66,7 +67,7 @@
     padding-bottom: 1rem;
     padding-left: 0.6rem;
     padding-right: 0.6rem;
-    border-radius: 0px 5px 0px 0px;
+    border-radius: 0px 0px 0px 0px;
     border: 1px solid rgba(255, 255, 255, 0.10);
     background: #132948;
     box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
@@ -86,12 +87,12 @@
 }
 
 .link-to-component:hover {
-    border-radius: 5px;
+    border-radius: 3px;
     background: #274875
 }
 
 .link-to-component h1 {
-    font-size: 16px;
+    font-size: 15px;
     text-align: left;
     margin-bottom: 0;
     padding-left: 0.8rem;
@@ -115,7 +116,7 @@
 }
 
 .logout-component:hover {
-    border-radius: 5px;
+    border-radius: 3px;
     background: #274875
 }
 
@@ -188,7 +189,7 @@
     border: 0.5px solid #0a53e4;
 }
 
-.filter-form button {
+.filter-form-button {
     width: 8%;
     height: 50%;
     background-color: #1D3557;
@@ -200,12 +201,33 @@
     margin: 0 0.3% 0 0.5%;
 }
 
-.filter-form button:hover {
+.filter-form-button:hover {
     background-color: #3a5f93;
 }
 
-.filter-form button:active {
+.filter-form-button:active {
     background-color: #132948;
+}
+
+.filter-form-clean-button {
+    width: 8%;
+    height: 50%;
+    background-color: transparent;
+    border: 0.5px solid #1D3557;
+    border-radius: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #1D3557;
+    margin: 0 0.3% 0 0.5%;
+}
+
+.filter-form-clean-button:hover {
+    background-color: #7091be;
+    color: white;
+}
+
+.filter-form-clean-button:active{
+    background-color: #1D3557;
 }
 
 .create-equipment-button {

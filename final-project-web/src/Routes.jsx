@@ -3,7 +3,7 @@ import Register from './components/LoginAndRegisterPages/Register';
 import Login from './components/LoginAndRegisterPages/Login';
 import MainPage from './components/SistemPages/MainPage/MainPage';
 import EquipmentPage from './components/SistemPages/EquipmentPage/EquipmentPage';
-import LoaningAndDevolutionPage from './components/SistemPages/LoaningAndDevolutionPage/LoaningAndDevolutionPage';
+import ReservationPage from './components/SistemPages/ReservationPage/ReservationPage';
 import EditProfilePage from './components/SistemPages/EditProfilePage/EditProfilePage';
 import HelpAndSupportPage from './components/SistemPages/HelpAndSupportPage/HelpAndSupportPage';
 import NotFound from './components/NotFound/NotFound';
@@ -33,7 +33,7 @@ export function Navigations() {
           <EquipmentPage />
         </PrivateRoute>} />
         <Route path='/emprestimo-e-devolucao' element={<PrivateRoute>
-          <LoaningAndDevolutionPage />
+          <ReservationPage />
         </PrivateRoute>} />
         <Route path='/editar-perfil' element={<PrivateRoute>
           <EditProfilePage />

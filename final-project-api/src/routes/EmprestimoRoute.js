@@ -25,7 +25,6 @@ routes.post('/', authentication, (req, res) => {
     if (!attributes.data_emprestimo) return res.status(400).json({ message: "A data do empréstimo é obrigatória." });
     if (!attributes.razao_emprestimo) return res.status(400).json({ message: "A razão do empréstimo é obrigatória." });
     if (!attributes.previsao_devolucao) return res.status(400).json({ message: "A data de previsão da devolução é obrigatória." });
-    if (!attributes.status_emprestimo) return res.status(400).json({ message: "O status do empréstimo é obrigatório." });
 
     emprestimoController.adicionarEmprestimo(attributes)
         .then((result) => {

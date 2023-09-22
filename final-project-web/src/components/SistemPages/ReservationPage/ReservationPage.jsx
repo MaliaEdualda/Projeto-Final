@@ -2,7 +2,7 @@ import { LeftMenu } from '../LeftMenu/LeftMenu';
 import Logo from '../../../images/logo.png';
 import './styles.css';
 
-export default function LoaningAndDevolutionPage() {
+export default function ReservationPage() {
     return (
         <div className='full-page'>
             <div className='top-bar'>
@@ -16,7 +16,7 @@ export default function LoaningAndDevolutionPage() {
             <div className='main-page'>
                 <LeftMenu className='left-menu' />
                 <div className='loaning-and-devolution-page'>
-                    <h1>Empréstimos e devoluções</h1>
+                    <h1>Reserva de equipamentos</h1>
                 </div>
             </div>
 

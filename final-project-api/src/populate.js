@@ -2,6 +2,7 @@ require('./database/database');
 
 const EquipamentoDidatico = require('./database/models/EquipamentoDidatico');
 const usuarioController = require('./controllers/UsuarioController');
+const ReservaEquipamento = require('./database/models/ReservaEquipamento');
 
 const equipments = [
     { "nome_equipamento": "Fume Hood", "marca_equipamento": "TechWave", "tipo_equipamento": "PCR Machine", "modelo_equipamento": "Explorer Sport", "data_aquisicao": "2011-02-10" },
@@ -61,23 +62,20 @@ const users = [
     { "nome_completo": "Felipe Neves Brito", "email": "felipe.snow@gmail.com", "data_nascimento": "2003-10-15", "cep": "81045035", "telefone": "(65) 99816-3262", "senha": "felipesnow" },
     { "nome_completo": "Ana Beatriz Schuindt do Amaral", "email": "ana.schuindt@gmail.com", "data_nascimento": "2005-07-20", "cep": "78070410", "telefone": "", "senha": "beatriz123" }];
 
+const reservations = [
+    { "idEquipamento": "1", "idUsuario": "1", "data_reserva": "2023-12-25", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2024-01-01", "data_devolucao": null },
+    { "idEquipamento": "2", "idUsuario": "1", "data_reserva": "2023-10-10", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-10-10", "data_devolucao": null },
+    { "idEquipamento": "3", "idUsuario": "1", "data_reserva": "2023-11-11", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-11-11", "data_devolucao": null },
+    { "idEquipamento": "4", "idUsuario": "2", "data_reserva": "2023-10-09", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-10-09", "data_devolucao": null },
+    { "idEquipamento": "5", "idUsuario": "2", "data_reserva": "2023-11-10", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-11-20", "data_devolucao": null },
+    { "idEquipamento": "6", "idUsuario": "3", "data_reserva": "2023-10-11", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-10-15", "data_devolucao": null },
+    { "idEquipamento": "7", "idUsuario": "3", "data_reserva": "2023-11-09", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-11-12", "data_devolucao": null }];
+
 (async () => {
     for (let equipment of equipments) {
-        const {
-            nome_equipamento,
-            marca_equipamento,
-            tipo_equipamento,
-            modelo_equipamento,
-            data_aquisicao
-        } = equipment
+        const attributes = equipment
 
-        await EquipamentoDidatico.create({
-            nome_equipamento,
-            marca_equipamento,
-            tipo_equipamento,
-            modelo_equipamento,
-            data_aquisicao
-        });
+        await EquipamentoDidatico.create(attributes);
     }
 
     for (let user of users) {
@@ -86,5 +84,12 @@ const users = [
         await usuarioController.signUp(attributes, senha);
     }
 
+    for (let reservation of reservations) {
+        const attributes = reservation;
+
+        await ReservaEquipamento.create(attributes);
+    }
+
     console.log('Processo de população concluído!');
+
 })();

@@ -29,7 +29,7 @@ export function LeftMenu() {
             <Link to='/emprestimo-e-devolucao' style={{ textDecoration: 'none' }}>
                 <button className='link-to-component'>
                     <img className='navigation-icon' src={AgendaIcon} alt='Ícone de agenda' />
-                    <h1>Empréstimos e devoluções</h1>
+                    <h1>Reservas</h1>
                 </button>
             </Link>
 

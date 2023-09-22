@@ -25,7 +25,6 @@ routes.post('/', authentication, (req, res) => {
     if (!attributes.data_reserva) return res.status(400).json({ message: "A data da reserva é obrigatória." });
     if (!attributes.razao_reserva) return res.status(400).json({ message: "A razão da reserva é obrigatória." });
     if (!attributes.previsao_devolucao) return res.status(400).json({ message: "A data de previsão da devolução é obrigatória." });
-    if (!attributes.status_reserva) return res.status(400).json({ message: "O status da reserva é obrigatório." });
 
     reservaController.adicionarReserva(attributes)
         .then((result) => {
