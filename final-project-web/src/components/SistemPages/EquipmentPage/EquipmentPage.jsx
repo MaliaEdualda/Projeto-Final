@@ -208,7 +208,7 @@ export default function EquipmentPage() {
                   className="cancel-modal-button"
                   onClick={() => setIsDeleting(null)}
                 >
-                  Cancelar
+                  Voltar
                 </button>
               </Modal.Footer>
             </Modal>

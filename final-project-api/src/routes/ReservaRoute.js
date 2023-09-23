@@ -21,8 +21,8 @@ routes.get('/:id', authentication, async (req, res) => {
 routes.post('/', authentication, (req, res) => {
     const attributes = req.body;
 
-    if (!attributes.idEquipamento) return res.status(400).json({ message: "O ID do equipamento é obrigatório." });
-    if (!attributes.idUsuario) return res.status(400).json({ message: "O ID do usuário é obrigatório." });
+    if (!attributes.equipamentoDidaticoId) return res.status(400).json({ message: "O ID do equipamento é obrigatório." });
+    if (!attributes.usuarioId) return res.status(400).json({ message: "O ID do usuário é obrigatório." });
     if (!attributes.data_reserva) return res.status(400).json({ message: "A data da reserva é obrigatória." });
     if (!attributes.razao_reserva) return res.status(400).json({ message: "A razão da reserva é obrigatória." });
     if (!attributes.previsao_devolucao) return res.status(400).json({ message: "A data de previsão da devolução é obrigatória." });

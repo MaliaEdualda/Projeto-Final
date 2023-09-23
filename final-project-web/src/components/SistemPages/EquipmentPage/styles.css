@@ -224,7 +224,7 @@
     color: white;
 }
 
-.filter-form-clean-button:active{
+.filter-form-clean-button:active {
     background-color: #1D3557;
 }
 
@@ -255,8 +255,8 @@
 }
 
 .create-equipment-button img {
-    max-width: 20px;
-    max-height: 20px;
+    max-width: 15%;
+    max-height: 65%;
 }
 
 .modal-header-content {
@@ -415,6 +415,23 @@
     height: auto;
     justify-content: center;
     overflow-y: scroll;
+    overflow-x: scroll;
+}
+
+::-webkit-scrollbar {
+    max-width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .table-content {

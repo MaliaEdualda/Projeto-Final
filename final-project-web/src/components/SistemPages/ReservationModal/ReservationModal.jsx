@@ -32,7 +32,7 @@ export function ReservationModal({
     <Modal show={isOpen} onHide={() => closeFunction(false)}>
       <Modal.Header>
         <h1 className="modal-header-content">
-          {!!editData ? "Editar" : "Solicitar"} uma reserva:{" "}
+          {!!editData ? `Editar reserva de ${editData.EquipamentoDidatico.nome_equipamento}` : "Solicitar uma reserva:"}
         </h1>
       </Modal.Header>
       <form

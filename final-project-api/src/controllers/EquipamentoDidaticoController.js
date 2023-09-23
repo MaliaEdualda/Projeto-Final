@@ -61,8 +61,8 @@ class EquipamentoDidaticoController {
         await EquipamentoDidatico.update(attributes, { where: { id: idEquipamento } });
     }
 
-    async deletarEquipamento(idEquipamentoDidatico) {
-        const equipamentodeletado = await EquipamentoDidatico.destroy({ where: { id: idEquipamentoDidatico } });
+    async deletarEquipamento(idEquipamento) {
+        const equipamentodeletado = await EquipamentoDidatico.destroy({ where: { id: idEquipamento } });
 
         return equipamentodeletado;
     }

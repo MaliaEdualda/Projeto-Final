@@ -1,7 +1,7 @@
 import { api } from './API';
 
-export async function getReservations() {
-    const result = await api.get('/reserva');
+export async function getReservations(userId) {
+    const result = await api.get(`/reserva/${userId}`);
     return result
 }
 

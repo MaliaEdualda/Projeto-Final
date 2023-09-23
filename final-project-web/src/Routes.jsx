@@ -32,7 +32,7 @@ export function Navigations() {
         <Route path='/equipamentos' element={<PrivateRoute>
           <EquipmentPage />
         </PrivateRoute>} />
-        <Route path='/emprestimo-e-devolucao' element={<PrivateRoute>
+        <Route path='/reservas' element={<PrivateRoute>
           <ReservationPage />
         </PrivateRoute>} />
         <Route path='/editar-perfil' element={<PrivateRoute>

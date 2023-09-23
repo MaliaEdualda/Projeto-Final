@@ -97,7 +97,7 @@ export default function EditProfilePage() {
                 )}
               </h1>
               <Modal
-                show={editSuccess}
+                show={!!editSuccess}
                 onHide={() => {
                   setEditSuccess(false);
                 }}

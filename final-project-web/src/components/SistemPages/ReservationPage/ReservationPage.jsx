@@ -1,18 +1,20 @@
 import jwt_decode from "jwt-decode";
 import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
 import {
   getReservations,
   createReservation,
   updateReservation,
   deleteReservation,
 } from "../../../services/reservation-service";
+import { getUserById } from "../../../services/userService";
 import { ReservationModal } from "../ReservationModal/ReservationModal";
 import { Modal } from "react-bootstrap";
 import { LeftMenu } from "../LeftMenu/LeftMenu";
 import EditIcon from "../../../images/icons/EditIcon.png";
 import CancelIcon from "../../../images/icons/CancelIcon.png";
+import CheckIcon from "../../../images/icons/CheckIcon.png";
 import WarningIcon from "../../../images/icons/WarningIcon.png";
+import AddIcon from "../../../images/icons/AddIcon.png";
 import Logo from "../../../images/logo.png";
 import "./styles.css";
 
@@ -20,7 +22,20 @@ export default function ReservationPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentUpdating, setCurrentUpdating] = useState(null);
   const [isDeleting, setIsDeleting] = useState(null);
+  const [isCompleting, setIsCompleting] = useState(null);
+  const [userName, setUserName] = useState("");
   const [reservas, setReservas] = useState();
+
+  const getUserName = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const user = jwt_decode(token);
+      const result = await getUserById(user.id);
+      setUserName(result.nome_completo.split(" ").shift());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const startEditing = (data) => {
     setCurrentUpdating(data);
@@ -29,7 +44,9 @@ export default function ReservationPage() {
 
   const setReservations = async () => {
     try {
-      const result = await getReservations();
+      const token = sessionStorage.getItem("token");
+      const user = jwt_decode(token);
+      const result = await getReservations(user.id);
       setReservas(result.data);
     } catch (error) {
       console.log(error);
@@ -57,7 +74,20 @@ export default function ReservationPage() {
     }
   };
 
-  const removeEquipment = async (id) => {
+  const completeReservation = async (data) => {
+    try {
+      console.log(data);
+      data.status_reserva = "Concluída";
+      data.data_devolucao = new Date();
+      await updateReservation(data);
+      await setReservations();
+      setIsCompleting(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeReservation = async (id) => {
     try {
       await deleteReservation(id);
       setIsDeleting(null);
@@ -69,6 +99,7 @@ export default function ReservationPage() {
 
   useEffect(() => {
     setReservations();
+    getUserName();
   }, []);
 
   return (
@@ -94,7 +125,8 @@ export default function ReservationPage() {
             >
               <Modal.Header>
                 <h1 className="modal-header-content">
-                  Deletar {isDeleting?.nome_equipamento}
+                  Deletar reserva de{" "}
+                  {isDeleting?.EquipamentoDidatico.nome_equipamento}?
                 </h1>
               </Modal.Header>
               <Modal.Body>
@@ -105,21 +137,57 @@ export default function ReservationPage() {
                     alt="Ícone de aviso"
                   />
                   <h1 className="delete-modal-content-text">
-                    Atenção! Ao realizar esta ação, você não será mais capaz de
-                    acessar as informações deste equipamento.
+                    Atenção! Ao realizar esta ação, você não terá mais essa
+                    reserva em seu nome.
                   </h1>
                 </div>
               </Modal.Body>
               <Modal.Footer>
                 <button
                   className="delete-modal-button"
-                  onClick={() => removeEquipment(isDeleting.id)}
+                  onClick={() => removeReservation(isDeleting.id)}
                 >
-                  Excluir
+                  Cancelar
                 </button>
                 <button
                   className="cancel-modal-button"
                   onClick={() => setIsDeleting(null)}
+                >
+                  Voltar
+                </button>
+              </Modal.Footer>
+            </Modal>
+
+            {/* MODAL DE DE COMPLETAR RESERVA */}
+            <Modal
+              show={!!isCompleting}
+              onHide={() => {
+                setIsCompleting(null);
+              }}
+            >
+              <Modal.Header>
+                <h1 className="modal-header-content">
+                  Concluir a reserva de
+                  {isCompleting?.EquipamentoDidatico.nome_equipamento}?
+                </h1>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="complete-modal-content-container">
+                  <h1 className="complete-modal-content-text">
+                    Deseja concluir esta reserva?
+                  </h1>
+                </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <button
+                  className="complete-modal-button"
+                  onClick={() => completeReservation(isCompleting)}
+                >
+                  Concluir
+                </button>
+                <button
+                  className="cancel-modal-button"
+                  onClick={() => setIsCompleting(null)}
                 >
                   Cancelar
                 </button>
@@ -137,8 +205,18 @@ export default function ReservationPage() {
                 editReservation={editReservation}
               />
             )}
-            <h1>Olá, Fulano. Verifique as suas reservas em aberto.</h1>
-            <div className="reservation-table-container">
+            <div className="reservation-page-title">
+              <h1>{`Olá, ${userName}. Dê uma olha nas suas reservas.`}</h1>
+              <button
+                className="create-reservation-button"
+                onClick={() => setModalOpen(true)}
+              >
+                <img src={AddIcon} alt="Ícone de adicionar" />
+                Solicitar reserva
+              </button>
+            </div>
+            <div className="current-reservation-table-container">
+              <h2 className="">Em andamento: </h2>
               {reservas && reservas.length > 0 ? (
                 <table className="reservation-table-content">
                   <thead className="reservation-table-head">
@@ -179,58 +257,141 @@ export default function ReservationPage() {
                       >
                         {" "}
                       </th>
+                      <th
+                        className="reservation-table-head-content"
+                        scope="col"
+                      >
+                        {" "}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {reservas.map((reserva, index) => (
-                      <tr key={reserva.id}>
-                        <td className="table-row-content">
-                          {reserva.EquipamentoDidatico.nome_equipamento}
-                        </td>
-                        <td className="table-row-content">
-                          {reserva.data_reserva}
-                        </td>
-                        <td className="table-row-content">
-                          {reserva.razao_reserva}
-                        </td>
-                        <td className="table-row-content">
-                          {reserva.previsao_devolucao}
-                        </td>
-                        <td className="table-row-content">
-                          <button
-                            className="equipment-row-button"
-                            onClick={() => {
-                              startEditing(reserva);
-                            }}
-                          >
-                            <img
-                              className="equipment-row-icon"
-                              src={EditIcon}
-                              alt="Ícone Editar Equipamento"
-                            />
-                          </button>
-                        </td>
-                        <td className="table-row-content">
-                          <button
-                            className="equipment-row-button"
-                            onClick={() => {
-                              setIsDeleting(reserva);
-                            }}
-                          >
-                            <img
-                              className="equipment-row-icon"
-                              src={CancelIcon}
-                              alt="Ícone Deletar Equipamento"
-                            />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                    {reservas.map(
+                      (reserva, index) =>
+                        reserva.status_reserva !== "Concluída" && (
+                          <tr key={reserva.id}>
+                            <td className="table-row-content">
+                              {reserva.EquipamentoDidatico.nome_equipamento}
+                            </td>
+                            <td className="table-row-content">
+                              {parseDate(reserva.data_reserva)}
+                            </td>
+                            <td className="table-row-content">
+                              {reserva.razao_reserva}
+                            </td>
+                            <td className="table-row-content">
+                              {parseDate(reserva.previsao_devolucao)}
+                            </td>
+                            <td className="table-row-content">
+                              <button
+                                className="reservation-row-button"
+                                onClick={() => {
+                                  startEditing(reserva);
+                                }}
+                              >
+                                <img
+                                  className="reservation-row-icon"
+                                  src={EditIcon}
+                                  alt="Ícone Editar Reserva"
+                                />
+                              </button>
+                            </td>
+                            <td className="table-row-content">
+                              <button
+                                className="reservation-row-button"
+                                onClick={() => {
+                                  setIsCompleting(reserva);
+                                }}
+                              >
+                                <img
+                                  className="reservation-row-icon"
+                                  src={CheckIcon}
+                                  alt="Ícone Completar Reserva"
+                                />
+                              </button>
+                            </td>
+                            <td className="table-row-content">
+                              <button
+                                className="reservation-row-button"
+                                onClick={() => {
+                                  setIsDeleting(reserva);
+                                }}
+                              >
+                                <img
+                                  className="reservation-row-icon"
+                                  src={CancelIcon}
+                                  alt="Ícone Cancelar Reserva"
+                                />
+                              </button>
+                            </td>
+                          </tr>
+                        )
+                    )}
                   </tbody>
                 </table>
               ) : (
                 <p className="non-data-text">
-                  Não há nenhuma reserva em seu nome
+                  Não há nenhuma reserva em andamento no seu nome.
+                </p>
+              )}
+            </div>
+            <div className="completed-reservation-table-container">
+              <h2>Concluídas: </h2>
+              {reservas && reservas.length > 0 ? (
+                <table className="reservation-table-content">
+                  <thead className="reservation-table-head">
+                    <tr>
+                      <th
+                        className="reservation-table-head-content"
+                        scope="col"
+                      >
+                        EQUIPAMENTO
+                      </th>
+                      <th
+                        className="reservation-table-head-content"
+                        scope="col"
+                      >
+                        DATA RESERVA
+                      </th>
+                      <th
+                        className="reservation-table-head-content"
+                        scope="col"
+                      >
+                        RAZÃO RESERVA
+                      </th>
+                      <th
+                        className="reservation-table-head-content"
+                        scope="col"
+                      >
+                        DATA CONCLUSÃO
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {reservas.map(
+                      (reserva, index) =>
+                        reserva.status_reserva === "Concluída" && (
+                          <tr key={reserva.id}>
+                            <td className="table-row-content">
+                              {reserva.EquipamentoDidatico.nome_equipamento}
+                            </td>
+                            <td className="table-row-content">
+                              {parseDate(reserva.data_reserva)}
+                            </td>
+                            <td className="table-row-content">
+                              {reserva.razao_reserva}
+                            </td>
+                            <td className="table-row-content">
+                              {parseDate(reserva.data_devolucao)}
+                            </td>
+                          </tr>
+                        )
+                    )}
+                  </tbody>
+                </table>
+              ) : (
+                <p className="non-data-text">
+                  Não há nenhuma reserva concluída em seu nome.
                 </p>
               )}
             </div>
@@ -240,3 +401,24 @@ export default function ReservationPage() {
     </div>
   );
 }
+
+const months = [
+  " ",
+  "jan.",
+  "fev.",
+  "mar.",
+  "abr.",
+  "mai.",
+  "jun.",
+  "jul.",
+  "ago.",
+  "set.",
+  "out.",
+  "nov.",
+  "dez.",
+];
+
+const parseDate = (date) => {
+  const data = new Date(date);
+  return `${data.getDate()} de ${months[data.getMonth()]} de ${data.getFullYear()}`;
+};

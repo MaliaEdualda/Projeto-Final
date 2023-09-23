@@ -26,7 +26,7 @@ export function LeftMenu() {
                 </button>
             </Link>
 
-            <Link to='/emprestimo-e-devolucao' style={{ textDecoration: 'none' }}>
+            <Link to='/reservas' style={{ textDecoration: 'none' }}>
                 <button className='link-to-component'>
                     <img className='navigation-icon' src={AgendaIcon} alt='Ícone de agenda' />
                     <h1>Reservas</h1>

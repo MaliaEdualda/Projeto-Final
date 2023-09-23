@@ -10,10 +10,10 @@ class EmprestimoEquipamentoController {
     }
 
     async adicionarEmprestimo(attributes) {
-        const equipamento = await EquipamentoDidatico.findByPk(attributes.idEquipamento);
+        const equipamento = await EquipamentoDidatico.findByPk(attributes.equipamentoDidaticoId);
         if (!equipamento) return "Este ID não corresponde a nenhum equipamento didático. Verifique o ID.";
 
-        const usuario = await Usuario.findByPk(attributes.idUsuario);
+        const usuario = await Usuario.findByPk(attributes.usuarioId);
         if (!usuario) return "Este ID não corresponde a nenhum usuário. Verifique o ID.";
 
         await EmprestimoEquipamento.create(attributes);
@@ -23,12 +23,12 @@ class EmprestimoEquipamentoController {
         const emprestimo = await EmprestimoEquipamento.findByPk(idEmprestimo);
         if (!emprestimo) return "Este ID não corresponde a nenhum empréstimo. Verifique o ID."
 
-        if (!attributes.idEquipamento) attributes.idEquipamento = emprestimo.idEquipamento;
-        const equipamento = await EquipamentoDidatico.findByPk(attributes.idEquipamento);
+        if (!attributes.equipamentoDidaticoId) attributes.equipamentoDidaticoId = emprestimo.equipamentoDidaticoId;
+        const equipamento = await EquipamentoDidatico.findByPk(attributes.equipamentoDidaticoId);
         if (!equipamento) return "Este ID não corresponde a nenhum equipamento didático. Verifique o ID.";
 
-        if (!attributes.idUsuario) attributes.idUsuario = emprestimo.idUsuario;
-        const usuario = await Usuario.findByPk(attributes.idUsuario);
+        if (!attributes.usuarioId) attributes.usuarioId = emprestimo.usuarioId;
+        const usuario = await Usuario.findByPk(attributes.usuarioId);
         if (!usuario) return "Este ID não corresponde a nenhum usuário. Verifique o ID.";
 
         if (!attributes.data_emprestimo) attributes.data_emprestimo = emprestimo.data_emprestimo;
