@@ -5,10 +5,11 @@ const reservaController = require('../controllers/ReservaEquipamentoController')
 
 const authentication = require('../middlewares/authMiddleware');
 
-routes.get('/', authentication, async (req, res) => {
-    reservaController.buscarReservas()
+routes.get('/:id', authentication, async (req, res) => {
+    const { id } = req.params;
+    reservaController.buscarReservasUsuario(id)
         .then((result) => {
-            if (result.length === 0) return res.status(404).json({ message: "Nenhuma reserva foi encontrada." })
+            if (typeof result === "string") return res.status(404).json({ message: result })
             return res.status(200).json(result)
         })
         .catch((error) => {

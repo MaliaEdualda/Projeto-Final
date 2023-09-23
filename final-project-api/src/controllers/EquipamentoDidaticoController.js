@@ -8,12 +8,6 @@ class EquipamentoDidaticoController {
         return equipamentodidatico;
     }
 
-    async buscarEquipamentoNome(nome_equipamento) {
-        const equipamentodidatico = await EquipamentoDidatico.findOne({ where: { nome_equipamento: { [Op.like]: nome_equipamento } } });
-
-        return equipamentodidatico;
-    }
-
     async buscarEquipamentos() {
         const equipamentosdidaticos = await EquipamentoDidatico.findAll({ order: [["id", "ASC"]] });
 

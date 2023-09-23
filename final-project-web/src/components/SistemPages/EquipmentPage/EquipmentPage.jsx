@@ -13,7 +13,7 @@ import Logo from "../../../images/logo.png";
 import EditIcon from "../../../images/icons/EditIcon.png";
 import DeleteIcon from "../../../images/icons/DeleteIcon.png";
 import WarningIcon from "../../../images/icons/WarningIcon.png";
-import AddIcon from "../../../images/icons/AddIcon.png"
+import AddIcon from "../../../images/icons/AddIcon.png";
 import "./styles.css";
 
 export default function EquipmentPage() {
@@ -45,7 +45,7 @@ export default function EquipmentPage() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const addEquipment = async (data) => {
     try {
@@ -97,29 +97,57 @@ export default function EquipmentPage() {
         <div className="equipment-page">
           <div className="equipment-area">
             <div className="action-area">
-              <form className="filter-form" noValidate validate reset onSubmit={handleSubmit(addFilter)}>
+              <form
+                className="filter-form"
+                noValidate
+                validate
+                reset
+                onSubmit={handleSubmit(addFilter)}
+              >
                 <h1>Filtrar por: </h1>
-                <input className="filter-form-input" placeholder="Nome:"
+                <input
+                  className="filter-form-input"
+                  placeholder="Nome:"
                   type="text"
-                  {...register("nome_equipamento")} />
-                
-                <input className="filter-form-input" placeholder="Marca:"
+                  {...register("nome_equipamento")}
+                />
+
+                <input
+                  className="filter-form-input"
+                  placeholder="Marca:"
                   type="text"
-                  {...register("marca_equipamento")} />
-                
-                <input className="filter-form-input" placeholder="Tipo:"
+                  {...register("marca_equipamento")}
+                />
+
+                <input
+                  className="filter-form-input"
+                  placeholder="Tipo:"
                   type="text"
-                  {...register("tipo_equipamento")} />
-                
-                <input className="filter-form-input" placeholder="Modelo:"
+                  {...register("tipo_equipamento")}
+                />
+
+                <input
+                  className="filter-form-input"
+                  placeholder="Modelo:"
                   type="text"
-                  {...register("modelo_equipamento")} />
-                
-                <input className="filter-form-input" placeholder="Data de aquisição:"
+                  {...register("modelo_equipamento")}
+                />
+
+                <input
+                  className="filter-form-input"
+                  placeholder="Data de aquisição:"
                   type="date"
-                  {...register("data_aquisicao")} />
-                <button type='submit' className="filter-form-button">Filtrar</button>
-                <button className="filter-form-clean-button" onClick={() => reset()}>Limpar</button>
+                  {...register("data_aquisicao")}
+                />
+                <button type="submit" className="filter-form-button">
+                  Filtrar
+                </button>
+                <button
+                  className="filter-form-clean-button"
+                  onClick={() => reset()}
+                >
+                  Limpar
+                </button>
               </form>
               <button
                 className="create-equipment-button"

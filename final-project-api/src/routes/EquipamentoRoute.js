@@ -33,22 +33,6 @@ routes.get('/:id', authentication, async (req, res) => {
         })
 });
 
-routes.get('/nome/:nome', authentication, async (req, res) => {
-    const { nome } = req.params;
-    equipamentoController.buscarEquipamentoNome(nome)
-        .then((result) => {
-            if (result) {
-                return res.status(200).json(result);
-            } else {
-                return res.status(404).json({ message: "Equipamento não encontrado. Verifique o nome." })
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-            return res.status(500).json({ message: "Erro ao encontrar o equipamento." })
-        });
-});
-
 routes.post('/filtro', authentication, (req, res) => {
     const attributes = req.body;
 

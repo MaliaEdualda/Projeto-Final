@@ -84,7 +84,7 @@
 
 .login-page-text-content {
     margin-top: 5%;
-    padding-left: 18%;
+    margin-left: 18%;
 }
 
 .login-page-text-title {
@@ -100,7 +100,7 @@
 .login-page-text-subtitle {
     color: #1D3557;
     font-family: 'Roboto Slab', serif;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;

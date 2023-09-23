@@ -12,10 +12,5 @@ const ReservaEquipamento = database.define('ReservaEquipamento', {
 }, {
     freezeTableName: true
 });
-
-// ReservaEquipamento.associate = (models) => {
-//     
-//     
-// }
     
 module.exports = ReservaEquipamento;
