@@ -1,3 +1,5 @@
+const ReservaEquipamento = require("./ReservaEquipamento")
+const EmprestimoEquipamento = require("./EmprestimoEquipamento")
 const { DataTypes } = require('sequelize');
 const database = require('../database');
 
@@ -11,7 +13,10 @@ const EquipamentoDidatico = database.define('EquipamentoDidatico', {
     freezeTableName: true
 });
 
-EquipamentoDidatico.hasMany(ReservaEquipamento, {foreignKey: "idEquipamento"});
-EquipamentoDidatico.hasMany(EmprestimoEquipamento, {foreignKey: "idEquipamento"});
+EquipamentoDidatico.hasMany(ReservaEquipamento, {foreignKey: "equipamentoDidaticoId"});
+ReservaEquipamento.belongsTo(EquipamentoDidatico, { foreignKey: 'equipamentoDidaticoId' });
+
+EquipamentoDidatico.hasMany(EmprestimoEquipamento, {foreignKey: "equipamentoDidaticoId"});
+EmprestimoEquipamento.belongsTo(EquipamentoDidatico, { foreignKey: 'equipamentoDidaticoId' });
 
 module.exports = EquipamentoDidatico;

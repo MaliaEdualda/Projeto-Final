@@ -10,14 +10,14 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      idEquipamento: {
+      equipamentoDidaticoId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'EquipamentoDidatico',
           key: 'id'
         }
       },
-      idUsuario: {
+      usuarioId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Usuario',

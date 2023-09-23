@@ -2,8 +2,8 @@ const { DataTypes } = require('sequelize');
 const database = require('../database');
 
 const ReservaEquipamento = database.define('ReservaEquipamento', {
-    idEquipamento: DataTypes.INTEGER,
-    idUsuario: DataTypes.INTEGER,
+    equipamentoDidaticoId: DataTypes.INTEGER,
+    usuarioId: DataTypes.INTEGER,
     data_reserva: DataTypes.DATEONLY,
     razao_reserva: DataTypes.STRING,
     previsao_devolucao: DataTypes.DATEONLY,
@@ -13,7 +13,9 @@ const ReservaEquipamento = database.define('ReservaEquipamento', {
     freezeTableName: true
 });
 
-ReservaEquipamento.belongsTo(Usuario, { foreignKey: 'idUsuario' });
-ReservaEquipamento.belongsTo(EquipamentoDidatico, { foreignKey: 'idEquipamento' });
-
+// ReservaEquipamento.associate = (models) => {
+//     
+//     
+// }
+    
 module.exports = ReservaEquipamento;

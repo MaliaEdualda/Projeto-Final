@@ -8,10 +8,12 @@ class ReservaEquipamentoController {
             include: [
                 {
                     model: EquipamentoDidatico,
-                    required: true
+                    required: true,
+                    attributes: ['nome_equipamento']
                 }, {
                     model: Usuario,
-                    required: true
+                    required: true,
+                    attributes: ['nome_completo']
                 }
             ]
         }, {
