@@ -150,13 +150,13 @@
 
 .reservation-area h2 {
     font-family: 'Roboto', sans-serif;
-    color:#1D3557;
+    color: #1D3557;
     font-weight: 500;
     font-size: 26px;
     margin: 0;
 }
 
-.reservation-page-title{
+.reservation-page-title {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -167,7 +167,7 @@
 
 .reservation-page-title h1 {
     font-family: 'Roboto', sans-serif;
-    color:#1D3557;
+    color: #1D3557;
     font-weight: 500;
     font-size: 30px;
     margin: 0;
@@ -203,7 +203,7 @@
 .create-reservation-button img {
     max-width: 12%;
     max-height: 65%;
-    margin:0;
+    margin: 0;
 }
 
 .modal-header-content {
@@ -281,15 +281,15 @@
     font-size: 17px;
     color: white;
     border: none;
-    background-color: #1D3557;
+    background-color: #457B9D;
 }
 
 .submit-modal-button:disabled {
-    background-color: rgb(92, 117, 151);
+    background-color: #77aaca;
 }
 
 .submit-modal-button:active {
-    background-color: #0e223e;
+    background-color: #123a53;
 }
 
 .close-modal-button {

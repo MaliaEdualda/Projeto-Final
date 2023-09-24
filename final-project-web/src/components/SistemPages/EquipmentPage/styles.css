@@ -333,15 +333,15 @@
     font-size: 17px;
     color: white;
     border: none;
-    background-color: #1D3557;
+    background-color: #457B9D;
 }
 
 .submit-modal-button:disabled {
-    background-color: rgb(92, 117, 151);
+    background-color: #77aaca;
 }
 
 .submit-modal-button:active {
-    background-color: #0e223e;
+    background-color: #123a53;
 }
 
 .close-modal-button {
