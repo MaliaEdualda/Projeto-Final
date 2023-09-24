@@ -10,6 +10,16 @@ export async function getEquipmentsFiltered(data) {
     return result
 }
 
+export async function countEquipments() {
+    const result = api.get('/equipamento/contar');
+    return result
+}
+
+export async function getEquipmentsByBrand() {
+    const result = api.get('equipamento/contar-marca');
+    return result
+}
+
 export async function createEquipment(data) {
     const result = api.post('/equipamento', data);
     return result

@@ -63,13 +63,18 @@ const users = [
     { "nome_completo": "Ana Beatriz Schuindt do Amaral", "email": "ana.schuindt@gmail.com", "data_nascimento": "2005-07-20", "cep": "78070410", "telefone": "", "senha": "beatriz123" }];
 
 const reservations = [
-    { "equipamentoDidaticoId": "1", "usuarioId": "1", "data_reserva": "2023-12-25", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2024-01-01", "data_devolucao": null },
-    { "equipamentoDidaticoId": "2", "usuarioId": "1", "data_reserva": "2023-10-10", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-10-10", "data_devolucao": null },
-    { "equipamentoDidaticoId": "3", "usuarioId": "1", "data_reserva": "2023-11-11", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-11-11", "data_devolucao": null },
-    { "equipamentoDidaticoId": "4", "usuarioId": "2", "data_reserva": "2023-10-09", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-10-09", "data_devolucao": null },
-    { "equipamentoDidaticoId": "5", "usuarioId": "2", "data_reserva": "2023-11-10", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-11-20", "data_devolucao": null },
-    { "equipamentoDidaticoId": "6", "usuarioId": "3", "data_reserva": "2023-10-11", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-10-15", "data_devolucao": null },
-    { "equipamentoDidaticoId": "7", "usuarioId": "3", "data_reserva": "2023-11-09", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-11-12", "data_devolucao": null }];
+    { "equipamentoDidaticoId": "10", "usuarioId": "1", "data_reserva": "2023-12-25", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2024-01-01", "data_devolucao": null },
+    { "equipamentoDidaticoId": "10", "usuarioId": "2", "data_reserva": "2023-10-10", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-10-11", "data_devolucao": null },
+    { "equipamentoDidaticoId": "10", "usuarioId": "3", "data_reserva": "2023-11-11", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-11-12", "data_devolucao": null },
+    { "equipamentoDidaticoId": "10", "usuarioId": "1", "data_reserva": "2023-08-07", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-08-08", "data_devolucao": "2023-08-08", "status_reserva": "Concluída" },
+    { "equipamentoDidaticoId": "10", "usuarioId": "2", "data_reserva": "2023-07-20", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-07-21", "data_devolucao": "2023-07-21", "status_reserva": "Concluída" },
+    { "equipamentoDidaticoId": "20", "usuarioId": "2", "data_reserva": "2023-09-25", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-09-25", "data_devolucao": null },
+    { "equipamentoDidaticoId": "20", "usuarioId": "3", "data_reserva": "2023-10-04", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-10-05", "data_devolucao": null },
+    { "equipamentoDidaticoId": "20", "usuarioId": "2", "data_reserva": "2023-07-15", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-07-16", "data_devolucao": "2023-07-16", "status_reserva": "Concluída" },
+    { "equipamentoDidaticoId": "25", "usuarioId": "1", "data_reserva": "2023-10-18", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-10-19", "data_devolucao": null },
+    { "equipamentoDidaticoId": "25", "usuarioId": "3", "data_reserva": "2023-11-14", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-11-14", "data_devolucao": null },
+    { "equipamentoDidaticoId": "34", "usuarioId": "1", "data_reserva": "2023-05-04", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-05-06", "data_devolucao": "2023-05-06", "status_reserva": "Concluída" },
+    { "equipamentoDidaticoId": "21", "usuarioId": "2", "data_reserva": "2023-05-11", "razao_reserva": "Uso em sala de aula", "previsao_devolucao": "2023-05-12", "data_devolucao": "2023-05-12", "status_reserva": "Concluída" }];
 
 (async () => {
     for (let equipment of equipments) {

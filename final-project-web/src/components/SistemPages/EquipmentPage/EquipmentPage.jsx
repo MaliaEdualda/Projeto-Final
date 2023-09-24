@@ -1,3 +1,4 @@
+import jwt_decode from "jwt-decode";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -5,7 +6,8 @@ import {
   createEquipment,
   updateEquipment,
   deleteEquipment,
-} from "../../../services/equipmentService";
+} from "../../../services/equipment-service";
+import { getUserById } from "../../../services/user-service";
 import { EquipmentModal } from "../EquipmentModal/EquipmentModal";
 import { LeftMenu } from "../LeftMenu/LeftMenu";
 import { Modal } from "react-bootstrap";
@@ -23,6 +25,18 @@ export default function EquipmentPage() {
   const [currentUpdating, setCurrentUpdating] = useState(null);
   const [isDeleting, setIsDeleting] = useState(null);
   const [equipamentos, setEquipamentos] = useState();
+  const [user, setUser] = useState();
+
+  const getUser = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const user = jwt_decode(token);
+      const result = await getUserById(user.id);
+      setUser(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const startEditing = (data) => {
     setCurrentUpdating(data);
@@ -80,6 +94,7 @@ export default function EquipmentPage() {
 
   useEffect(() => {
     setEquipments();
+    getUser();
   }, []);
 
   return (
@@ -95,6 +110,13 @@ export default function EquipmentPage() {
       <div className="main-page">
         <LeftMenu className="left-menu" />
         <div className="equipment-page">
+          <div className="equipment-page-title">
+            <h1>
+              {`Olá, ${user?.nome_completo
+                ?.split(" ")
+                .shift()}. Dê uma olhada nas suas reservas.`}
+            </h1>
+          </div>
           <div className="equipment-area">
             <div className="action-area">
               <form

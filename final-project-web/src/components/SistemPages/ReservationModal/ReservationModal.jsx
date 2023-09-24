@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import SelectSearch from "react-select-search";
 import "react-select-search/style.css";
-import { getEquipments } from "../../../services/equipmentService";
+import { getEquipments } from "../../../services/equipment-service";
 import { Modal } from "react-bootstrap";
 import { InputComponent } from "../InputComponent/InputComponent";
 

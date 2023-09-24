@@ -1,7 +1,26 @@
 const EquipamentoDidatico = require('../database/models/EquipamentoDidatico');
-const { Op } = require('sequelize');
+const sequelize = require('sequelize');
+const { Op, fn, col } = require('sequelize');
 
 class EquipamentoDidaticoController {
+    async contarEquipamentos() {
+        const quantidade = await EquipamentoDidatico.count();
+
+        return quantidade;
+    }
+
+    async contarEquipamentosByMarca() {
+        const [result, metadata] = await EquipamentoDidatico.sequelize.query(
+        'SELECT COUNT(e.id) AS "quantidade",' + 
+        ' e.marca_equipamento AS "marca"' +
+        ' FROM public."EquipamentoDidatico" e' +
+        ' GROUP BY e.marca_equipamento' + 
+        ' ORDER BY "quantidade" DESC' + 
+        ' LIMIT 5');
+
+        return result;
+    }
+
     async buscarEquipamentoID(idEquipamento) {
         const equipamentodidatico = await EquipamentoDidatico.findByPk(idEquipamento);
 

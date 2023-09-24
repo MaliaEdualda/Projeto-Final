@@ -1,7 +1,7 @@
-const ReservaEquipamento = require("./ReservaEquipamento")
-const EmprestimoEquipamento = require("./EmprestimoEquipamento")
 const { DataTypes } = require('sequelize');
 const database = require('../database');
+
+const ReservaEquipamento = require("./ReservaEquipamento");
 
 const EquipamentoDidatico = database.define('EquipamentoDidatico', {
     nome_equipamento: DataTypes.STRING,
@@ -15,8 +15,5 @@ const EquipamentoDidatico = database.define('EquipamentoDidatico', {
 
 EquipamentoDidatico.hasMany(ReservaEquipamento, {foreignKey: "equipamentoDidaticoId"});
 ReservaEquipamento.belongsTo(EquipamentoDidatico, { foreignKey: 'equipamentoDidaticoId' });
-
-EquipamentoDidatico.hasMany(EmprestimoEquipamento, {foreignKey: "equipamentoDidaticoId"});
-EmprestimoEquipamento.belongsTo(EquipamentoDidatico, { foreignKey: 'equipamentoDidaticoId' });
 
 module.exports = EquipamentoDidatico;

@@ -137,14 +137,31 @@
     width: 85%;
     height: 100%;
     justify-content: flex-end;
+    padding: 1% 2% 1% 2%;
+}
+
+.equipment-page-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    min-height: 10%;
+    padding: 1% 1% 1% 1%;
+}
+
+.equipment-page-title h1{
+    font-family: 'Roboto', sans-serif;
+    color: #1D3557;
+    font-weight: 500;
+    font-size: 30px;
+    margin: 0;
 }
 
 .equipment-area {
     display: flex;
     flex-direction: column;
-    width: 99%;
-    height: 100%;
-    /* overflow-y: scroll; */
+    width: 100%;
+    height: 90%;
 }
 
 .action-area {
@@ -163,8 +180,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    position: sticky;
-    left: 2%;
+    /* position: sticky;
+    left: 2%; */
     margin: 0;
 }
 

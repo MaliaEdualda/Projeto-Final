@@ -17,6 +17,29 @@ routes.get('/', authentication, async (req, res) => {
         });
 });
 
+routes.get('/contar', authentication, (req, res) => {
+    equipamentoController.contarEquipamentos()
+        .then((result) => {
+            if(result === 0) res.status(404).json({message: "Não existe nenhum equipamento cadastrado."})
+            return res.status(200).json(result)
+        })
+        .catch((error) => {
+            console.log(error);
+            return res.status(500).json({ message: "Erro ao contar os equipamentos." })
+        })
+});
+
+routes.get('/contar-marca', authentication, (req, res) => {
+    equipamentoController.contarEquipamentosByMarca()
+        .then((result) => {
+            return res.status(200).json(result)
+        })
+        .catch((error) => {
+            console.log(error);
+            return res.status(500).json({ message: "Erro ao contar os equipamentos." })
+        })
+});
+
 routes.get('/:id', authentication, async (req, res) => {
     const { id } = req.params;
     equipamentoController.buscarEquipamentoID(id)

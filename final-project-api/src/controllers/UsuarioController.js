@@ -98,19 +98,6 @@ class UsuarioController {
 
     return usuarioDesativado;
   }
-
-  // async buscarUsuarioReservas(idUsuario) {
-  //   const reservas = await Usuario.findAll({
-  //     include: [
-  //       {
-  //         model: EquipamentoDidatico,
-  //         required: true
-  //       }
-  //     ]
-  //   });
-
-  //   return reservas;
-  // }
 }
 
 module.exports = new UsuarioController();

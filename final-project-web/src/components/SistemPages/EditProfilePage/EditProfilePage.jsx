@@ -5,7 +5,7 @@ import {
   getUserById,
   updateUser,
   deleteUser,
-} from "../../../services/userService";
+} from "../../../services/user-service";
 import { useNavigate } from "react-router-dom";
 import { InputComponent } from "../InputComponent/InputComponent";
 import { Modal } from "react-bootstrap";
@@ -90,12 +90,18 @@ export default function EditProfilePage() {
           <LeftMenu className="left-menu" />
           {!loading && (
             <div className="edit-profile-page">
-              <h1 className="edit-profile-title">
-                Edite o seu perfil:{" "}
-                {error && (
-                  <p className="edit-profile-error-message">{error.message}</p>
-                )}
-              </h1>
+              <div className="edit-profile-title">
+                <h1>
+                  {`Olá, ${getValues("nome_completo")
+                    ?.split(" ")
+                    .shift()}. Edite seu perfil:`}
+                  {error && (
+                    <p className="edit-profile-error-message">
+                      {error.message}
+                    </p>
+                  )}
+                </h1>
+              </div>
               {!!editSuccess && (
                 <Modal
                   show={!!editSuccess}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { TextInput } from './TextInput'
-import { loginUser } from '../../services/userService'
+import { loginUser } from '../../services/user-service'
 import Logo from '../../images/logo.png'
 import './styles.css';
 

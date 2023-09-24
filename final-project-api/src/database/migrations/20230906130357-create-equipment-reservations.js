@@ -43,7 +43,7 @@ module.exports = {
       status_reserva: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: "Pendente"
+        defaultValue: "Em andamento"
       },
       createdAt: {
         type: Sequelize.DATE,

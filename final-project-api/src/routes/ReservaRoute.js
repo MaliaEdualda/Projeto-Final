@@ -5,6 +5,30 @@ const reservaController = require('../controllers/ReservaEquipamentoController')
 
 const authentication = require('../middlewares/authMiddleware');
 
+routes.get('/contar', authentication, (req, res) => {
+    reservaController.contarReservas()
+        .then((result) => {
+            if (result === 0) res.status(404).json({ message: "Não existe nenhuma reserva cadastrada." })
+            return res.status(200).json(result)
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(500).json({ message: "Erro ao buscar as reservas." })
+        })
+});
+
+routes.get('/contar-por-periodo', authentication, (req, res) => {
+    reservaController.reservasPorAnoMes()
+        .then((result) => {
+            if (result === 0) res.status(404).json({ message: "Não existe nenhuma reserva cadastrada." })
+            return res.status(200).json(result)
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(500).json({ message: "Erro ao buscar as reservas." })
+        })
+});
+
 routes.get('/:id', authentication, async (req, res) => {
     const { id } = req.params;
     reservaController.buscarReservasUsuario(id)
@@ -29,7 +53,7 @@ routes.post('/', authentication, (req, res) => {
 
     reservaController.adicionarReserva(attributes)
         .then((result) => {
-            if(result) return res.status(400).json({message: result})
+            if (result) return res.status(400).json({ message: result })
             return res.status(201).json({ message: "Reserva criada com sucesso." });
         })
         .catch((error) => {

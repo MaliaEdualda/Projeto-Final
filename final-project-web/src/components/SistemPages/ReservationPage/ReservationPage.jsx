@@ -6,7 +6,7 @@ import {
   updateReservation,
   deleteReservation,
 } from "../../../services/reservation-service";
-import { getUserById } from "../../../services/userService";
+import { getUserById } from "../../../services/user-service";
 import { ReservationModal } from "../ReservationModal/ReservationModal";
 import { Modal } from "react-bootstrap";
 import { LeftMenu } from "../LeftMenu/LeftMenu";
@@ -121,7 +121,6 @@ export default function ReservationPage() {
         <LeftMenu className="left-menu" />
         <div className="reservation-page">
           <div className="reservation-area">
-
             {/*MODAL DE ERRO */}
             <Modal
               show={error}
@@ -232,7 +231,8 @@ export default function ReservationPage() {
             <div className="reservation-page-title">
               <h1>{`Olá, ${user.nome_completo
                 ?.split(" ")
-                .shift()}. Dê uma olhada nas suas reservas.`}</h1>
+                .shift()}. Dê uma olhada nas suas reservas.`}
+              </h1>
               <button
                 className="create-reservation-button"
                 onClick={() => setModalOpen(true)}
