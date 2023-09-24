@@ -55,6 +55,15 @@ class ReservaEquipamentoController {
 
         if (reservas.length === 3) return "Você já possui o limite de reservas em andamento.";
 
+        const equipamentoAlreadyReservado = await ReservaEquipamento.findOne({
+            where: {
+                equipamentoDidaticoId: attributes.equipamentoDidaticoId,
+                data_reserva: attributes.data_reserva
+            }
+        });
+
+        if (equipamentoAlreadyReservado) return "Este equipamento já está reservado para esta data.";
+
         await ReservaEquipamento.create(attributes);
     }
 

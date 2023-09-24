@@ -23,15 +23,16 @@ export default function ReservationPage() {
   const [currentUpdating, setCurrentUpdating] = useState(null);
   const [isDeleting, setIsDeleting] = useState(null);
   const [isCompleting, setIsCompleting] = useState(null);
-  const [userName, setUserName] = useState("");
+  const [error, setError] = useState(null);
+  const [user, setUser] = useState("");
   const [reservas, setReservas] = useState();
 
-  const getUserName = async () => {
+  const getUser = async () => {
     try {
       const token = sessionStorage.getItem("token");
       const user = jwt_decode(token);
       const result = await getUserById(user.id);
-      setUserName(result.nome_completo.split(" ").shift());
+      setUser(result);
     } catch (error) {
       console.log(error);
     }
@@ -49,17 +50,21 @@ export default function ReservationPage() {
       const result = await getReservations(user.id);
       setReservas(result.data);
     } catch (error) {
+      setReservas([]);
       console.log(error);
     }
   };
 
   const addReservation = async (data) => {
     try {
+      data.usuarioId = user.id;
       await createReservation(data);
-      setModalOpen(false);
       await setReservations();
+      setModalOpen(false);
     } catch (error) {
+      setError(error.response.data)
       console.log(error);
+    } finally {
     }
   };
 
@@ -76,7 +81,6 @@ export default function ReservationPage() {
 
   const completeReservation = async (data) => {
     try {
-      console.log(data);
       data.status_reserva = "Concluída";
       data.data_devolucao = new Date();
       await updateReservation(data);
@@ -90,8 +94,8 @@ export default function ReservationPage() {
   const removeReservation = async (id) => {
     try {
       await deleteReservation(id);
-      setIsDeleting(null);
       await setReservations();
+      setIsDeleting(null);
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +103,7 @@ export default function ReservationPage() {
 
   useEffect(() => {
     setReservations();
-    getUserName();
+    getUser();
   }, []);
 
   return (
@@ -116,6 +120,27 @@ export default function ReservationPage() {
         <LeftMenu className="left-menu" />
         <div className="reservation-page">
           <div className="reservation-area">
+
+            {/*MODAL DE ERRO */}
+            <Modal
+              show={error}
+              onHide={() => {
+                setError(null);
+              }}
+            >
+              <Modal.Body>
+                <h1 className="error-modal-content-text">{error?.message}</h1>
+              </Modal.Body>
+              <Modal.Footer>
+                <button className="submit-modal-button"
+                onClick={() => {
+                  setError(null);
+                }}>
+                  OK.
+                </button>
+              </Modal.Footer>
+            </Modal>
+
             {/* MODAL DE EXCLUSÃO */}
             <Modal
               show={!!isDeleting}
@@ -166,21 +191,19 @@ export default function ReservationPage() {
               }}
             >
               <Modal.Header>
-                <h1 className="modal-header-content">
-                  Concluir a reserva de
+                <h1 className="complete-modal-header-content">
+                  Concluir a reserva de{" "}
                   {isCompleting?.EquipamentoDidatico.nome_equipamento}?
                 </h1>
               </Modal.Header>
               <Modal.Body>
-                <div className="complete-modal-content-container">
-                  <h1 className="complete-modal-content-text">
-                    Deseja concluir esta reserva?
-                  </h1>
-                </div>
+                <h1 className="complete-modal-content-text">
+                  Deseja concluir esta reserva?
+                </h1>
               </Modal.Body>
               <Modal.Footer>
                 <button
-                  className="complete-modal-button"
+                  className="submit-modal-button"
                   onClick={() => completeReservation(isCompleting)}
                 >
                   Concluir
@@ -206,7 +229,9 @@ export default function ReservationPage() {
               />
             )}
             <div className="reservation-page-title">
-              <h1>{`Olá, ${userName}. Dê uma olha nas suas reservas.`}</h1>
+              <h1>{`Olá, ${user.nome_completo
+                ?.split(" ")
+                .shift()}. Dê uma olhada nas suas reservas.`}</h1>
               <button
                 className="create-reservation-button"
                 onClick={() => setModalOpen(true)}
@@ -215,7 +240,7 @@ export default function ReservationPage() {
                 Solicitar reserva
               </button>
             </div>
-            <div className="current-reservation-table-container">
+            <div className="reservation-table-container">
               <h2 className="">Em andamento: </h2>
               {reservas && reservas.length > 0 ? (
                 <table className="reservation-table-content">
@@ -335,7 +360,7 @@ export default function ReservationPage() {
                 </p>
               )}
             </div>
-            <div className="completed-reservation-table-container">
+            <div className="reservation-table-container">
               <h2>Concluídas: </h2>
               {reservas && reservas.length > 0 ? (
                 <table className="reservation-table-content">
@@ -403,7 +428,6 @@ export default function ReservationPage() {
 }
 
 const months = [
-  " ",
   "jan.",
   "fev.",
   "mar.",
@@ -420,5 +444,7 @@ const months = [
 
 const parseDate = (date) => {
   const data = new Date(date);
-  return `${data.getDate()} de ${months[data.getMonth()]} de ${data.getFullYear()}`;
+  return `${data.getUTCDate()} de ${
+    months[data.getUTCMonth()]
+  } de ${data.getFullYear()}`;
 };

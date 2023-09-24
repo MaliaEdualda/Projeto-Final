@@ -96,35 +96,40 @@ export default function EditProfilePage() {
                   <p className="edit-profile-error-message">{error.message}</p>
                 )}
               </h1>
-              <Modal
-                show={!!editSuccess}
-                onHide={() => {
-                  setEditSuccess(false);
-                }}
-              >
-                <Modal.Header>
-                  <h1 className="success-modal-title">Sucesso!</h1>
-                </Modal.Header>
-                <Modal.Body>
-                  <div className="success-modal-content">
-                    <img src={SuccessIcon} alt="Logo de sucesso na operação." />
-                    <h1 className="success-modal-content-text">
-                      Dados atualizados com sucesso.
-                    </h1>
-                  </div>
-                </Modal.Body>
-                <Modal.Footer>
-                  <button
-                    className="close-success-modal-button"
-                    onClick={() => {
-                      setEditSuccess(false);
-                      console.log(editSuccess);
-                    }}
-                  >
-                    OK
-                  </button>
-                </Modal.Footer>
-              </Modal>
+              {!!editSuccess && (
+                <Modal
+                  show={!!editSuccess}
+                  onHide={() => {
+                    setEditSuccess(false);
+                  }}
+                >
+                  <Modal.Header>
+                    <h1 className="success-modal-title">Sucesso!</h1>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <div className="success-modal-content">
+                      <img
+                        src={SuccessIcon}
+                        alt="Logo de sucesso na operação."
+                      />
+                      <h1 className="success-modal-content-text">
+                        Dados atualizados com sucesso.
+                      </h1>
+                    </div>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <button
+                      className="close-success-modal-button"
+                      onClick={() => {
+                        setEditSuccess(false);
+                        console.log(editSuccess);
+                      }}
+                    >
+                      OK
+                    </button>
+                  </Modal.Footer>
+                </Modal>
+              )}
 
               <Modal
                 show={!!isDeleting}
@@ -240,6 +245,7 @@ export default function EditProfilePage() {
                     Editar dados
                   </button>
                   <button
+                    type="button"
                     className="delete-button"
                     onClick={() => {
                       setIsDeleting(true);
