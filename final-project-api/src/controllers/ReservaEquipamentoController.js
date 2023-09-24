@@ -85,6 +85,16 @@ class ReservaEquipamentoController {
         if (!attributes.data_devolucao) attributes.data_devolucao = reserva.data_devolucao;
         if (!attributes.status_reserva) attributes.status_reserva = reserva.status_reserva;
 
+        const equipamentoAlreadyReservado = await ReservaEquipamento.findOne({
+            where: {
+                id: {[Op.ne]: idReserva},
+                equipamentoDidaticoId: attributes.equipamentoDidaticoId,
+                data_reserva: attributes.data_reserva,
+            }
+        });
+
+        if (equipamentoAlreadyReservado) return "Este equipamento já está reservado para esta data.";
+
         await ReservaEquipamento.update(attributes, { where: { id: idReserva } });
     }
 

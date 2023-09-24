@@ -62,7 +62,7 @@ export default function ReservationPage() {
       await setReservations();
       setModalOpen(false);
     } catch (error) {
-      setError(error.response.data)
+      setError(error.response.data);
       console.log(error);
     } finally {
     }
@@ -75,6 +75,7 @@ export default function ReservationPage() {
       setCurrentUpdating(null);
       await setReservations();
     } catch (error) {
+      setError(error.response.data);
       console.log(error);
     }
   };
