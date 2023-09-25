@@ -11,7 +11,7 @@ class UsuarioController {
     // Verifica a existência do usuário
     const usuario = await Usuario.findOne({ where: { email: email } });
 
-    if ((!usuario) || (usuario.situacao == "INATIVO")) throw new Error("Email ou senha incorretos!");
+    if ((!usuario) || (usuario.situacao == "INATIVO")) throw new Error("Usuário não encontrado!");
 
     // Verifica a senha
     const senhaValida = await bcrypt.compare(senha, usuario.senha);

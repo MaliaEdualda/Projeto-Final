@@ -48,9 +48,7 @@ class ReservaEquipamentoController {
   }
 
   async adicionarReserva(attributes) {
-    const equipamento = await EquipamentoDidatico.findByPk(
-      attributes.equipamentoDidaticoId
-    );
+    const equipamento = await EquipamentoDidatico.findByPk(attributes.equipamentoDidaticoId);
     if (!equipamento)
       return "Este ID não corresponde a nenhum equipamento didático. Verifique o ID.";
 
@@ -81,17 +79,57 @@ class ReservaEquipamentoController {
     if (reservas.length === 3)
       return "Você já possui o limite de reservas em andamento.";
 
-    const equipamentoAlreadyReservado = await ReservaEquipamento.findOne({
+    //Verifica se o equipamento já está reservado para o dia selecionado pelo usuário
+    const buscarDatasIntervalo = (dataInicio, dataFim) => {
+      const data = new Date(dataInicio.getTime());
+    
+      const datas = [];
+    
+      while (data <= dataFim) {
+        datas.push(new Date(data));
+        data.setDate(data.getDate() + 1);
+      }
+      
+      return datas;
+    }
+
+    let equipamentoAlreadyReservado = await ReservaEquipamento.findAll({
       where: {
         equipamentoDidaticoId: attributes.equipamentoDidaticoId,
-        data_reserva: attributes.data_reserva,
+        status_reserva: { [Op.ne]: "Concluída" }
       },
     });
 
-    if (equipamentoAlreadyReservado)
-      return "Este equipamento já está reservado para esta data.";
+    const data_reserva = []
+    equipamentoAlreadyReservado.map((reserva, index) => {
+      data_reserva.push(new Date(reserva.dataValues.data_reserva))
+    });
 
-    await ReservaEquipamento.create(attributes);
+    const previsao_devolucao = []
+    equipamentoAlreadyReservado.map((reserva, index) => {
+      previsao_devolucao.push(new Date(reserva.dataValues.previsao_devolucao))
+    });
+
+    console.log(data_reserva, " ", previsao_devolucao);
+
+    let intervalo = [[]];
+
+    for (let i = 0; i < data_reserva.length; i++) {
+      intervalo[i] = buscarDatasIntervalo(data_reserva[i], previsao_devolucao[i]);
+    }
+
+    equipamentoAlreadyReservado = intervalo.find((data, index) => {
+      if (data === attributes.data_reserva) {
+        return true;
+      }
+      return false
+    });
+
+    // console.log("T ou F", equipamentoAlreadyReservado);
+
+    // if (equipamentoAlreadyReservado) return "Este equipamento já está reservado para esta data.";
+
+    // await ReservaEquipamento.create(attributes);
   }
 
   async atualizarReserva(idReserva, attributes) {
