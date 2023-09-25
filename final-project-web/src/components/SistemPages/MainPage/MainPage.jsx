@@ -63,7 +63,6 @@ export default function MainPage() {
         }),
       ]);
 
-      console.log(equipmentsByBrand);
     } catch (error) {
       console.log(error);
     }
