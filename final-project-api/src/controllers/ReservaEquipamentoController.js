@@ -1,4 +1,4 @@
-const {Op} = require("sequelize");
+const { Op } = require("sequelize");
 const EquipamentoDidatico = require("../database/models/EquipamentoDidatico");
 const ReservaEquipamento = require("../database/models/ReservaEquipamento");
 const Usuario = require("../database/models/Usuario");
@@ -38,13 +38,13 @@ class ReservaEquipamentoController {
 
   async reservasPorAnoMes() {
     const [result, metadata] = await ReservaEquipamento.sequelize.query(
-      'SELECT EXTRACT(month from r.data_reserva) AS "mes", COUNT(id) AS "count"' + 
-      ' FROM public."ReservaEquipamento" r' + 
+      'SELECT EXTRACT(month from r.data_reserva) AS "mes", COUNT(id) AS "count"' +
+      ' FROM public."ReservaEquipamento" r' +
       ' WHERE EXTRACT(year from r.data_reserva) = EXTRACT(year from current_date)' +
       ' GROUP BY EXTRACT(month from r.data_reserva);'
-      );
-      
-      return result
+    );
+
+    return result
   }
 
   async adicionarReserva(attributes) {
@@ -82,14 +82,14 @@ class ReservaEquipamentoController {
     //Verifica se o equipamento já está reservado para o dia selecionado pelo usuário
     const buscarDatasIntervalo = (dataInicio, dataFim) => {
       const data = new Date(dataInicio.getTime());
-    
+
       const datas = [];
-    
+
       while (data <= dataFim) {
         datas.push(new Date(data));
         data.setDate(data.getDate() + 1);
       }
-      
+
       return datas;
     }
 
@@ -110,26 +110,24 @@ class ReservaEquipamentoController {
       previsao_devolucao.push(new Date(reserva.dataValues.previsao_devolucao))
     });
 
-    console.log(data_reserva, " ", previsao_devolucao);
-
     let intervalo = [[]];
-
     for (let i = 0; i < data_reserva.length; i++) {
       intervalo[i] = buscarDatasIntervalo(data_reserva[i], previsao_devolucao[i]);
     }
 
-    equipamentoAlreadyReservado = intervalo.find((data, index) => {
-      if (data === attributes.data_reserva) {
-        return true;
+    let flag = 0;
+    const data = new Date(attributes.data_reserva);
+    for (let i = 0; i < intervalo.length; i++) {
+      for (let j = 0; j < intervalo[i].length; j++){
+        if (data.getTime() === intervalo[i][j].getTime()) {
+          flag++;
+        }
       }
-      return false
-    });
+    }
 
-    // console.log("T ou F", equipamentoAlreadyReservado);
-
-    // if (equipamentoAlreadyReservado) return "Este equipamento já está reservado para esta data.";
-
-    // await ReservaEquipamento.create(attributes);
+    if (flag) return "Este equipamento já está reservado para esta data.";
+    
+    await ReservaEquipamento.create(attributes);
   }
 
   async atualizarReserva(idReserva, attributes) {
