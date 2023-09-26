@@ -23,9 +23,9 @@ export default function ReservationPage() {
   const [currentUpdating, setCurrentUpdating] = useState(null);
   const [isDeleting, setIsDeleting] = useState(null);
   const [isCompleting, setIsCompleting] = useState(null);
-  const [error, setError] = useState(null);
   const [user, setUser] = useState("");
   const [reservas, setReservas] = useState();
+  const [error, setError] = useState(null);
 
   const getUser = async () => {
     try {

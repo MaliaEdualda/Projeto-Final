@@ -105,10 +105,9 @@ routes.put('/:id', authentication, (req, res) => {
 
 routes.delete('/:id', authentication, (req, res) => {
     const { id } = req.params;
-
     equipamentoController.deletarEquipamento(id)
         .then((result) => {
-            if (result === 0) return res.status(404).json({ message: "Equipamento não encontrado." });
+            if (result) return res.status(400).json({ message: result });
             return res.status(200).json({ message: "Equipamento deletado com sucesso. " })
         })
         .catch((error) => {

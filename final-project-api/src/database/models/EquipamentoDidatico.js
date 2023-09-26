@@ -8,7 +8,8 @@ const EquipamentoDidatico = database.define('EquipamentoDidatico', {
     marca_equipamento: DataTypes.STRING,
     tipo_equipamento: DataTypes.STRING,
     modelo_equipamento: DataTypes.STRING,
-    data_aquisicao: DataTypes.DATEONLY
+    data_aquisicao: DataTypes.DATEONLY,
+    situacao_estoque: DataTypes.STRING
 }, {
     freezeTableName: true
 });

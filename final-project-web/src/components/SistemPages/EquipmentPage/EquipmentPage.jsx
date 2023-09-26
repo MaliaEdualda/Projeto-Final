@@ -26,6 +26,7 @@ export default function EquipmentPage() {
   const [isDeleting, setIsDeleting] = useState(null);
   const [equipamentos, setEquipamentos] = useState();
   const [user, setUser] = useState();
+  const [error, setError] = useState(null);
 
   const getUser = async () => {
     try {
@@ -85,10 +86,12 @@ export default function EquipmentPage() {
   const removeEquipment = async (id) => {
     try {
       await deleteEquipment(id);
+    } catch (error) {
+      setError(error.response.data);
+      console.log(error);
+    } finally {
       setIsDeleting(null);
       await setEquipments();
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -114,7 +117,7 @@ export default function EquipmentPage() {
             <h1>
               {`Olá, ${user?.nome_completo
                 ?.split(" ")
-                .shift()}. Dê uma olhada nas suas reservas.`}
+                .shift()}. Dê uma olhada nos equipamentos.`}
             </h1>
           </div>
           <div className="equipment-area">
@@ -179,6 +182,26 @@ export default function EquipmentPage() {
                 Criar Equipamento
               </button>
             </div>
+            
+            {/*MODAL DE ERRO */}
+            <Modal
+              show={error}
+              onHide={() => {
+                setError(null);
+              }}
+            >
+              <Modal.Body>
+                <h1 className="error-modal-content-text">{error?.message}</h1>
+              </Modal.Body>
+              <Modal.Footer>
+                <button className="submit-modal-button"
+                onClick={() => {
+                  setError(null);
+                }}>
+                  OK.
+                </button>
+              </Modal.Footer>
+            </Modal>
 
             {/* MODAL DE ADIÇÃO E EDIÇÃO */}
             {modalOpen && (

@@ -30,6 +30,11 @@ module.exports = {
         type: Sequelize.DATEONLY,
         allowNull: true
       },
+      situacao_estoque: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "ATIVO"
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false

@@ -1,22 +1,28 @@
 const EquipamentoDidatico = require('../database/models/EquipamentoDidatico');
+const ReservaEquipamento = require('../database/models/ReservaEquipamento')
 const sequelize = require('sequelize');
-const { Op, fn, col } = require('sequelize');
+const { Op } = require('sequelize');
 
 class EquipamentoDidaticoController {
     async contarEquipamentos() {
-        const quantidade = await EquipamentoDidatico.count();
+        const quantidade = await EquipamentoDidatico.count({
+            where: {
+                situacao_estoque: { [Op.ne]: "INATIVO" }
+            }
+        });
 
         return quantidade;
     }
 
     async contarEquipamentosByMarca() {
         const [result, metadata] = await EquipamentoDidatico.sequelize.query(
-        'SELECT COUNT(e.id) AS "quantidade",' + 
-        ' e.marca_equipamento AS "marca"' +
-        ' FROM public."EquipamentoDidatico" e' +
-        ' GROUP BY e.marca_equipamento' + 
-        ' ORDER BY "quantidade" DESC' + 
-        ' LIMIT 5');
+            'SELECT COUNT(e.id) AS "quantidade",' +
+            ' e.marca_equipamento AS "marca"' +
+            ' FROM public."EquipamentoDidatico" e' +
+            " WHERE e.situacao_estoque = 'ATIVO'" +
+            ' GROUP BY e.marca_equipamento' +
+            ' ORDER BY "quantidade" DESC' +
+            ' LIMIT 5');
 
         return result;
     }
@@ -28,7 +34,10 @@ class EquipamentoDidaticoController {
     }
 
     async buscarEquipamentos() {
-        const equipamentosdidaticos = await EquipamentoDidatico.findAll({ order: [["id", "ASC"]] });
+        const equipamentosdidaticos = await EquipamentoDidatico.findAll({
+            where: { situacao_estoque: { [Op.ne]: "INATIVO" } },
+            order: [["id", "ASC"]]
+        });
 
         return equipamentosdidaticos;
     }
@@ -47,7 +56,7 @@ class EquipamentoDidaticoController {
         }
 
         if (attributes.tipo_equipamento) query.tipo_equipamento = {
-            [Op.like]: `%${attributes.tipo_equipamento}%` 
+            [Op.like]: `%${attributes.tipo_equipamento}%`
         }
 
         if (attributes.modelo_equipamento) query.modelo_equipamento = {
@@ -56,11 +65,13 @@ class EquipamentoDidaticoController {
 
         if (attributes.data_aquisicao) query.data_aquisicao = attributes.data_aquisicao
 
+        query.situacao_estoque = { [Op.like]: "ATIVO"}
+
         const equipamentos = await EquipamentoDidatico.findAll({
-            where: query,
+            where: query
         });
 
-        return equipamentos;
+        return equipamentos
     }
 
     async adicionarEquipamento(attributes) {
@@ -81,9 +92,25 @@ class EquipamentoDidaticoController {
     }
 
     async deletarEquipamento(idEquipamento) {
-        const equipamentodeletado = await EquipamentoDidatico.destroy({ where: { id: idEquipamento } });
+        const equipamento = await EquipamentoDidatico.findByPk(idEquipamento);
+        if (!equipamento) return "Equipamento não encontrado."
+        
+        const isReservado = await ReservaEquipamento.findAll({
+            where: {
+                equipamentoDidaticoId: idEquipamento,
+                status_reserva: { [Op.ne]: "Concluída" }
+            }
+        })
 
-        return equipamentodeletado;
+        if (isReservado.length > 0) return "Você não pode excluir equipamentos com reservas em andamento.";
+
+        await EquipamentoDidatico.update(
+            {
+                situacao_estoque: "INATIVO"
+            },
+            {
+                where: { id: idEquipamento }
+            });
     }
 }
 

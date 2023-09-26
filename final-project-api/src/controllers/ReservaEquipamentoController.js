@@ -159,16 +159,54 @@ class ReservaEquipamentoController {
     if (!attributes.status_reserva)
       attributes.status_reserva = reserva.status_reserva;
 
-    const equipamentoAlreadyReservado = await ReservaEquipamento.findOne({
+    //Verifica se o equipamento já está reservado para o dia selecionado pelo usuário
+    const buscarDatasIntervalo = (dataInicio, dataFim) => {
+      const data = new Date(dataInicio.getTime());
+
+      const datas = [];
+
+      while (data <= dataFim) {
+        datas.push(new Date(data));
+        data.setDate(data.getDate() + 1);
+      }
+
+      return datas;
+    }
+
+    let equipamentoAlreadyReservado = await ReservaEquipamento.findAll({
       where: {
-        id: { [Op.ne]: idReserva },
+        id: { [Op.ne]: idReserva }, 
         equipamentoDidaticoId: attributes.equipamentoDidaticoId,
-        data_reserva: attributes.data_reserva,
+        status_reserva: { [Op.ne]: "Concluída" }
       },
     });
 
-    if (equipamentoAlreadyReservado)
-      return "Este equipamento já está reservado para esta data.";
+    const data_reserva = []
+    equipamentoAlreadyReservado.map((reserva, index) => {
+      data_reserva.push(new Date(reserva.dataValues.data_reserva))
+    });
+
+    const previsao_devolucao = []
+    equipamentoAlreadyReservado.map((reserva, index) => {
+      previsao_devolucao.push(new Date(reserva.dataValues.previsao_devolucao))
+    });
+
+    let intervalo = [[]];
+    for (let i = 0; i < data_reserva.length; i++) {
+      intervalo[i] = buscarDatasIntervalo(data_reserva[i], previsao_devolucao[i]);
+    }
+
+    let flag = 0;
+    const data = new Date(attributes.data_reserva);
+    for (let i = 0; i < intervalo.length; i++) {
+      for (let j = 0; j < intervalo[i].length; j++){
+        if (data.getTime() === intervalo[i][j].getTime()) {
+          flag++;
+        }
+      }
+    }
+
+    if (flag) return "Este equipamento já está reservado para esta data.";
 
     await ReservaEquipamento.update(attributes, { where: { id: idReserva } });
   }
