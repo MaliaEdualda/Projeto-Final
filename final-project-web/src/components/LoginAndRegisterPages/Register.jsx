@@ -15,6 +15,7 @@ export default function Login() {
         try {
             await registerUser(data);
             navigate('/pagina-principal');
+            window.location.reload(true);
         } catch (error) {
             setError({ message: error.response.data.error });
         }
