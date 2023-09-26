@@ -61,10 +61,10 @@
     flex-direction: column;
     width: 15%;
     height: 100%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 0.8%;
+    padding-right: 0.8%;
     border-radius: 0px 0px 0px 0px;
     border: 1px solid rgba(255, 255, 255, 0.10);
     background: #1D3557;
@@ -106,9 +106,9 @@
     display: flex;
     flex-direction: row;
     position: fixed;
-    bottom: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    bottom: 1%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
     background-color: transparent;
     border: none;
     align-items: center;

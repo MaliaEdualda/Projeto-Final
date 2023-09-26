@@ -61,11 +61,11 @@
     flex-direction: column;
     width: 15%;
     height: 100%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
-    border-radius: 0px 5px 0px 0px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 0.8%;
+    padding-right: 0.8%;
+    border-radius: 0px 0px 0px 0px;
     border: 1px solid rgba(255, 255, 255, 0.10);
     background: #1D3557;
     box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
@@ -106,9 +106,9 @@
     display: flex;
     flex-direction: row;
     position: fixed;
-    bottom: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    bottom: 1%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
     background-color: transparent;
     border: none;
     align-items: center;
@@ -191,15 +191,16 @@
 .card-chart-content-equipments h1 {
     margin: 0;
     font-size: 30px;
-    font-family: 'Roboto'  sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     color: white;
+    text-align: center;
 }
 
 .card-chart-content-equipments p{
     margin: 0;
     font-size: 30px;
-    font-family: 'Roboto'  sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     color: white;
 }
@@ -218,15 +219,16 @@
 .card-chart-content-reservations h1{
     margin: 0;
     font-size: 30px;
-    font-family: 'Roboto'  sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     color: white;
+    text-align: center;
 }
 
 .card-chart-content-reservations p{
     margin: 0;
     font-size: 26px;
-    font-family: 'Roboto'  sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     color: white;
 }

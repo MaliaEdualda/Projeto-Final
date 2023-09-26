@@ -61,10 +61,10 @@
     flex-direction: column;
     width: 15%;
     height: 100%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 0.8%;
+    padding-right: 0.8%;
     border-radius: 0px 0px 0px 0px;
     border: 1px solid rgba(255, 255, 255, 0.10);
     background: #1D3557;
@@ -78,6 +78,37 @@
     width: 100%;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    color: white;
+    /* background-color: hotpink; */
+}
+
+.link-to-component:hover {
+    border-radius: 3px;
+    background: #274875
+}
+
+.link-to-component h1 {
+    font-size: 15px;
+    text-align: left;
+    margin-bottom: 0;
+    padding-left: 0.8rem;
+}
+
+.navigation-icon {
+    width: 26px;
+    height: 26px;
+}
+
+.logout-component {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    bottom: 1%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
     background-color: transparent;
     border: none;
     align-items: center;
