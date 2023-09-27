@@ -156,7 +156,7 @@
     font-family: 'Roboto', sans-serif;
     color: #1D3557;
     font-weight: 500;
-    font-size: 30px;
+    font-size: 3rem;
     margin: 0;
 }
 
@@ -189,7 +189,7 @@
 }
 
 .filter-form h1 {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     color: #132948;
     margin: 0 1% 0 0;
 }
@@ -467,7 +467,7 @@
 }
 
 .table-content th {
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: 400;
     text-align: center;
     padding: 0.8% 0 0.8% 0;
@@ -479,6 +479,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    font-size: 1.5rem;
 }
 
 .table-content tr:hover {
@@ -489,8 +490,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 2.8rem;
+    height: auto;
     padding: 0%;
     background-color: transparent;
     border: transparent;

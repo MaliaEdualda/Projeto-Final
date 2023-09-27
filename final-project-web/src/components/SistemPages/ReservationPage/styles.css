@@ -397,7 +397,7 @@
 
 .reservation-table-content th {
     width: fit-content;
-    font-size: 14px;
+    font-size: 1.5rem;
     font-weight: 400;
     text-align: center;
     padding: 0.3% 0 0.3% 0;
@@ -409,6 +409,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    font-size: 1.5rem;
 }
 
 .reservation-table-content tr:hover {
@@ -419,8 +420,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 2.4rem;
+    height: auto;
     padding: 0%;
     background-color: transparent;
     border: transparent;

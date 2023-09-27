@@ -116,7 +116,17 @@ class ReservaEquipamentoController {
     }
 
     let flag = 0;
-    const data = new Date(attributes.data_reserva);
+    let data = new Date(attributes.data_reserva);
+    for (let i = 0; i < intervalo.length; i++) {
+      for (let j = 0; j < intervalo[i].length; j++){
+        if (data.getTime() === intervalo[i][j].getTime()) {
+          flag++;
+        }
+      }
+    }
+
+    let flag2 = 0;
+    data = new Date(attributes.previsao_devolucao);
     for (let i = 0; i < intervalo.length; i++) {
       for (let j = 0; j < intervalo[i].length; j++){
         if (data.getTime() === intervalo[i][j].getTime()) {
@@ -126,6 +136,8 @@ class ReservaEquipamentoController {
     }
 
     if (flag) return "Este equipamento já está reservado para esta data.";
+
+    if (flag2) return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva";
     
     await ReservaEquipamento.create(attributes);
   }
@@ -197,7 +209,17 @@ class ReservaEquipamentoController {
     }
 
     let flag = 0;
-    const data = new Date(attributes.data_reserva);
+    let data = new Date(attributes.data_reserva);
+    for (let i = 0; i < intervalo.length; i++) {
+      for (let j = 0; j < intervalo[i].length; j++){
+        if (data.getTime() === intervalo[i][j].getTime()) {
+          flag++;
+        }
+      }
+    }
+
+    let flag2 = 0;
+    data = new Date(attributes.previsao_devolucao);
     for (let i = 0; i < intervalo.length; i++) {
       for (let j = 0; j < intervalo[i].length; j++){
         if (data.getTime() === intervalo[i][j].getTime()) {
@@ -207,6 +229,8 @@ class ReservaEquipamentoController {
     }
 
     if (flag) return "Este equipamento já está reservado para esta data.";
+    
+    if(flag2) return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva"
 
     await ReservaEquipamento.update(attributes, { where: { id: idReserva } });
   }

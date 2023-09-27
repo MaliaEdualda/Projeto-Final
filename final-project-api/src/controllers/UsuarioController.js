@@ -32,20 +32,36 @@ class UsuarioController {
       where: { email: attributes.email },
     });
 
-    if (usuarioExistente?.situacao == "ATIVO")
-      throw new Error(
-        "Este email já corresponde à um usuário. Utilize outro email."
-      );
+    if (usuarioExistente?.situacao == "INATIVO") {
+      const hashedSenha = await bcrypt.hash(senha, SALT);
 
-    // Criptografa a senha inserida
-    const hashedSenha = await bcrypt.hash(senha, SALT);
-    const usuario = await Usuario.create({ ...attributes, senha: hashedSenha });
+      const usuario = await Usuario.update({ ...attributes, senha: hashedSenha }, { where: { id: usuarioExistente.id } });
+      // Gera token de acesso
+      const tokenAcesso = jwt.sign({ id: usuario.id }, TOKEN_SECRET, {
+        expiresIn: "5h",
+      });
 
-    // Gera token de acesso
-    const tokenAcesso = jwt.sign({ id: usuario.id }, TOKEN_SECRET, {
-      expiresIn: "5h",
-    });
-    return tokenAcesso;
+      return tokenAcesso;
+
+    } else {
+
+      if (usuarioExistente?.situacao == "ATIVO")
+        throw new Error(
+          "Este email já corresponde à um usuário. Utilize outro email."
+        );
+
+      // Criptografa a senha inserida
+      const hashedSenha = await bcrypt.hash(senha, SALT);
+      const usuario = await Usuario.create({ ...attributes, senha: hashedSenha });
+
+      // Gera token de acesso
+      const tokenAcesso = jwt.sign({ id: usuario.id }, TOKEN_SECRET, {
+        expiresIn: "5h",
+      });
+
+      return tokenAcesso;
+
+    }
   }
 
   async buscarUsuarios() {
