@@ -223,14 +223,14 @@ class ReservaEquipamentoController {
     for (let i = 0; i < intervalo.length; i++) {
       for (let j = 0; j < intervalo[i].length; j++){
         if (data.getTime() === intervalo[i][j].getTime()) {
-          flag++;
+          flag2++;
         }
       }
     }
 
     if (flag) return "Este equipamento já está reservado para esta data.";
     
-    if(flag2) return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva"
+    if (flag2) return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva"
 
     await ReservaEquipamento.update(attributes, { where: { id: idReserva } });
   }

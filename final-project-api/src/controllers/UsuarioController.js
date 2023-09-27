@@ -35,9 +35,15 @@ class UsuarioController {
     if (usuarioExistente?.situacao == "INATIVO") {
       const hashedSenha = await bcrypt.hash(senha, SALT);
 
-      const usuario = await Usuario.update({ ...attributes, senha: hashedSenha }, { where: { id: usuarioExistente.id } });
+      await Usuario.update({
+        ...attributes,
+        senha: hashedSenha,
+        situacao: "ATIVO"
+      }, {
+        where: { id: usuarioExistente.id }
+      });
       // Gera token de acesso
-      const tokenAcesso = jwt.sign({ id: usuario.id }, TOKEN_SECRET, {
+      const tokenAcesso = jwt.sign({ id: usuarioExistente.id }, TOKEN_SECRET, {
         expiresIn: "5h",
       });
 

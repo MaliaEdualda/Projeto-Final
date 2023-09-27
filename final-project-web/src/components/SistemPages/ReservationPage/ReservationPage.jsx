@@ -357,7 +357,7 @@ export default function ReservationPage() {
                 </table>
               ) : (
                 <p className="non-data-text">
-                  Não há nenhuma reserva em andamento no seu nome.
+                  Não há nenhuma reserva em andamento em seu nome.
                 </p>
               )}
             </div>

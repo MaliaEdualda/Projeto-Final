@@ -386,6 +386,12 @@
     overflow-x: scroll;
 }
 
+.reservation-table-container h2 {
+    font-size: 2.8rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
 .reservation-table-content {
     width: 100%;
 }
@@ -446,4 +452,9 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.non-data-text {
+    font-size: 1.8rem;
+    font-family: 'Roboto', sans-serif;
 }
