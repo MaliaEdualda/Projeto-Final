@@ -38,7 +38,6 @@ export default function Login() {
                         <h2 className='login-page-text-subtitle'>Faça login para acessar o nosso sistema.</h2>
                     </div>
                 </div>
-
             </div>
             <form className='form' noValidate validated={!errors} onSubmit={handleSubmit(onSubmit)}>
                 {error && <p className='form-error-message'>{error.message}</p>}
