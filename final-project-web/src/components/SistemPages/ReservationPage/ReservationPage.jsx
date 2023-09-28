@@ -108,7 +108,7 @@ export default function ReservationPage() {
       await deleteReservation(id);
       await setReservations();
       setIsDeleting(null);
-      setSuccess({ message: "excluir" });
+      setSuccess({ message: "cancelar" });
     } catch (error) {
       console.log(error);
       if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
@@ -266,7 +266,7 @@ export default function ReservationPage() {
                       alt="Logo de sucesso na operação."
                     />
                     <h1 className="success-modal-content-text">
-                      Sucesso ao {success.message} o equipamento.
+                      Sucesso ao {success.message} a reserva.
                     </h1>
                   </div>
                 </Modal.Body>
