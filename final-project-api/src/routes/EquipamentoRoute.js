@@ -13,6 +13,7 @@ routes.get('/', authentication, async (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             res.status(500).json({ message: "Erro ao buscar os equipamentos." })
         });
 });
@@ -25,6 +26,7 @@ routes.get('/contar', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: "Erro ao contar os equipamentos." })
         })
 });
@@ -36,6 +38,7 @@ routes.get('/contar-marca', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: "Erro ao contar os equipamentos." })
         })
 });
@@ -52,6 +55,7 @@ routes.get('/:id', authentication, async (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: "Erro ao encontrar o equipamento." })
         })
 });
@@ -65,6 +69,7 @@ routes.post('/filtro', authentication, (req, res) => {
         }))
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({message: "Erro ao buscar os equipamentos filtrados."})
         })
 });
@@ -84,6 +89,7 @@ routes.post('/', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: "Erro ao criar o equipamento" });
         });
 });
@@ -99,6 +105,7 @@ routes.put('/:id', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: "Erro ao atualizar o equipamento." });
         });
 });
@@ -112,6 +119,7 @@ routes.delete('/:id', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: "Erro ao deletar o equipamento." })
         });
 });

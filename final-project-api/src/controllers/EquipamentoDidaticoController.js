@@ -68,7 +68,8 @@ class EquipamentoDidaticoController {
         query.situacao_estoque = { [Op.like]: "ATIVO"}
 
         const equipamentos = await EquipamentoDidatico.findAll({
-            where: query
+            where: query,
+            order: [['id', 'ASC']]
         });
 
         return equipamentos

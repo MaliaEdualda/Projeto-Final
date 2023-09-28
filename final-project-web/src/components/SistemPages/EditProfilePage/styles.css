@@ -402,3 +402,9 @@
     color: white;
     background-color: #1D3557;
 }
+
+.error-modal-content-text {
+    padding: 2% 2% 2% 2%;
+    font-size: 2.2rem;
+    color: crimson;
+}

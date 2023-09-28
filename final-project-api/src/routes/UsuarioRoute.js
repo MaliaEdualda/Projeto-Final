@@ -16,6 +16,8 @@ routes.post('/signin', (req, res) => {
             return res.status(201).json({ message: "Login realizado com sucesso.", result });
         })
         .catch((error) => {
+            console.log(error.message);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(400).json({error: error.message} );
         })
 });
@@ -34,6 +36,7 @@ routes.post('/signup', (req, res) => {
         })
         .catch((error) => {
             console.log(error.message);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(400).json({ error: error.message });
         })
 });
@@ -45,7 +48,8 @@ routes.get('/', authentication, (req, res) => {
             return res.status(200).json(result)
         })
         .catch((error) => {
-            console.log(error)
+            console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             res.status(500).json({ message: "Erro ao buscar os usuários." })
         })
 });
@@ -59,6 +63,7 @@ routes.get('/:id', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: 'Erro ao buscar o usuário.' })
         })
 });
@@ -73,6 +78,7 @@ routes.put('/:id', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: "Erro ao atualizar o usuário." })
         })
 });
@@ -86,6 +92,7 @@ routes.delete('/:id', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: 'Erro ao deletar o usuário.' })
         });
             

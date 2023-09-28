@@ -15,6 +15,7 @@ import CancelIcon from "../../../images/icons/CancelIcon.png";
 import CheckIcon from "../../../images/icons/CheckIcon.png";
 import WarningIcon from "../../../images/icons/WarningIcon.png";
 import AddIcon from "../../../images/icons/AddIcon.png";
+import SuccessIcon from "../../../images/icons/SuccessIcon.png";
 import Logo from "../../../images/logo.png";
 import "./styles.css";
 
@@ -26,6 +27,9 @@ export default function ReservationPage() {
   const [user, setUser] = useState("");
   const [reservas, setReservas] = useState();
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [connectionError, setConnectionError] = useState(null);
+
 
   const getUser = async () => {
     try {
@@ -35,6 +39,7 @@ export default function ReservationPage() {
       setUser(result);
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -52,6 +57,7 @@ export default function ReservationPage() {
     } catch (error) {
       setReservas([]);
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -61,10 +67,11 @@ export default function ReservationPage() {
       await createReservation(data);
       await setReservations();
       setModalOpen(false);
+      setSuccess({ message: "criar" });
     } catch (error) {
-      setError(error.response.data);
       console.log(error);
-    } finally {
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
+      setError(error.response.data);
     }
   };
 
@@ -74,9 +81,12 @@ export default function ReservationPage() {
       setModalOpen(false);
       setCurrentUpdating(null);
       await setReservations();
+      setSuccess({ message: "editar" });
     } catch (error) {
-      setError(error.response.data);
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
+      setError(error.response.data);
+
     }
   };
 
@@ -89,6 +99,7 @@ export default function ReservationPage() {
       setIsCompleting(null);
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -97,8 +108,10 @@ export default function ReservationPage() {
       await deleteReservation(id);
       await setReservations();
       setIsDeleting(null);
+      setSuccess({ message: "excluir" });
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -121,6 +134,24 @@ export default function ReservationPage() {
         <LeftMenu className="left-menu" />
         <div className="reservation-page">
           <div className="reservation-area">
+
+            {/*MODAL DE ERRO DE CONEXÃO*/}
+            <Modal
+              show={!!connectionError}
+              onHide={() => {
+                setConnectionError(null);
+              }}
+            >
+              <Modal.Body>
+                <h1 className="error-modal-content-text">{connectionError?.message}</h1>
+              </Modal.Body>
+              <Modal.Footer>
+                <button className='submit-modal-button' onClick={() => { setConnectionError(null) }}>
+                  OK.
+                </button>
+              </Modal.Footer>
+            </Modal>
+
             {/*MODAL DE ERRO */}
             <Modal
               show={error}
@@ -133,9 +164,9 @@ export default function ReservationPage() {
               </Modal.Body>
               <Modal.Footer>
                 <button className="submit-modal-button"
-                onClick={() => {
-                  setError(null);
-                }}>
+                  onClick={() => {
+                    setError(null);
+                  }}>
                   OK.
                 </button>
               </Modal.Footer>
@@ -216,6 +247,42 @@ export default function ReservationPage() {
                 </button>
               </Modal.Footer>
             </Modal>
+
+            {/*MODAL DE SUCESSO */}
+            {!!success && (
+              <Modal
+                show={!!success}
+                onHide={() => {
+                  setSuccess(null);
+                }}
+              >
+                <Modal.Header>
+                  <h1 className="success-modal-title">Sucesso!</h1>
+                </Modal.Header>
+                <Modal.Body>
+                  <div className="success-modal-content">
+                    <img
+                      src={SuccessIcon}
+                      alt="Logo de sucesso na operação."
+                    />
+                    <h1 className="success-modal-content-text">
+                      Sucesso ao {success.message} o equipamento.
+                    </h1>
+                  </div>
+                </Modal.Body>
+                <Modal.Footer>
+                  <button
+                    className="close-success-modal-button"
+                    onClick={() => {
+                      setSuccess(null);
+                    }}
+                  >
+                    OK
+                  </button>
+                </Modal.Footer>
+              </Modal>
+            )}
+
             {modalOpen && (
               <ReservationModal
                 data={currentUpdating}
@@ -357,7 +424,7 @@ export default function ReservationPage() {
                 </table>
               ) : (
                 <p className="non-data-text">
-                  Não há nenhuma reserva em andamento em seu nome.
+                  Nenhuma reserva em andamento encontrada.
                 </p>
               )}
             </div>
@@ -417,7 +484,7 @@ export default function ReservationPage() {
                 </table>
               ) : (
                 <p className="non-data-text">
-                  Não há nenhuma reserva concluída em seu nome.
+                  Nenhuma reserva conluída encontrada.
                 </p>
               )}
             </div>
@@ -445,7 +512,6 @@ const months = [
 
 const parseDate = (date) => {
   const data = new Date(date);
-  return `${data.getUTCDate()} de ${
-    months[data.getUTCMonth()]
-  } de ${data.getFullYear()}`;
+  return `${data.getUTCDate()} de ${months[data.getUTCMonth()]
+    } de ${data.getFullYear()}`;
 };

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { Modal } from 'react-bootstrap';
 import { TextInput } from './TextInput'
 import { loginUser } from '../../services/user-service'
 import Logo from '../../images/logo.png'
 import './styles.css';
 
 export default function Login() {
+    const [connectionError, setConnectionError] = useState(null);
     const [error, setError] = useState();
     const { handleSubmit, register, formState: { errors, isValid } } = useForm({ mode: 'onChange' });
     const navigate = useNavigate();
@@ -17,6 +19,8 @@ export default function Login() {
             navigate('/pagina-principal');
             window.location.reload(true);
         } catch (error) {
+            console.log(error);
+            if (error.response.data.status === "500") setConnectionError({message: error.response.data.error})
             setError({message: error.response.data.error})
         }
     }
@@ -39,6 +43,24 @@ export default function Login() {
                     </div>
                 </div>
             </div>
+
+            {/*MODAL DE ERRO DE CONEXÃO*/}
+            <Modal
+              show={!!connectionError}
+              onHide={() => {
+                setConnectionError(null);
+              }}
+            >
+              <Modal.Body>
+                <h1 className="error-modal-content-text">{connectionError?.message}</h1>
+              </Modal.Body>
+              <Modal.Footer>
+                <button className='submit-modal-button' onClick={() => {setConnectionError(null)}}>
+                  OK.
+                </button>
+                </Modal.Footer>
+            </Modal>
+
             <form className='form' noValidate validated={!errors} onSubmit={handleSubmit(onSubmit)}>
                 {error && <p className='form-error-message'>{error.message}</p>}
                 <TextInput

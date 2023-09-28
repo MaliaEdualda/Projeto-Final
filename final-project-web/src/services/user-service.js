@@ -6,8 +6,7 @@ export async function loginUser(data) {
 }
 
 export async function registerUser(data) {
-  const result = await api.post("/usuario/signup", data);
-  sessionStorage.setItem("token", JSON.stringify(result.data.result));
+  await api.post("/usuario/signup", data);
 }
 
 export async function getUsers() {

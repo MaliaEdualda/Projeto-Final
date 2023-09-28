@@ -13,6 +13,7 @@ routes.get('/contar', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             res.status(500).json({ message: "Erro ao buscar as reservas." })
         })
 });
@@ -25,6 +26,7 @@ routes.get('/contar-por-periodo', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             res.status(500).json({ message: "Erro ao buscar as reservas." })
         })
 });
@@ -38,6 +40,7 @@ routes.get('/:id', authentication, async (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             res.status(500).json({ message: "Erro ao buscar as reservas." })
         });
 });
@@ -58,6 +61,7 @@ routes.post('/', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: "Erro ao criar a reserva" });
         });
 });
@@ -73,6 +77,7 @@ routes.put('/:id', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: "Erro ao atualizar a reserva." });
         });
 });
@@ -87,6 +92,7 @@ routes.delete('/:id', authentication, (req, res) => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
             return res.status(500).json({ message: "Erro ao deletar a reserva." })
         })
 });

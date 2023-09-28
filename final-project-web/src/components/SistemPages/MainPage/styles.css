@@ -257,3 +257,9 @@
     width: 60%;
     height: 100%;
 }
+
+.error-modal-content-text {
+    padding: 2% 2% 2% 2%;
+    font-size: 2.2rem;
+    color: crimson;
+}

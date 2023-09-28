@@ -19,6 +19,7 @@ export default function EditProfilePage() {
   const [isDeleting, setIsDeleting] = useState();
   const [editSuccess, setEditSuccess] = useState();
   const [error, setError] = useState({});
+  const [connectionError, setConnectionError] = useState(null);
   const navigate = useNavigate();
 
   const {
@@ -36,6 +37,9 @@ export default function EditProfilePage() {
       await updateUser(data);
       setEditSuccess(true);
     } catch (error) {
+      if (error.response.data.status === "500") {
+        setConnectionError({ message: error.response.data.error });
+      }
       setError({ message: error.response.data.message });
     }
   };
@@ -46,6 +50,7 @@ export default function EditProfilePage() {
       await deleteUser(id);
       navigate("/");
     } catch (error) {
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
       console.log(error);
     }
   };
@@ -69,6 +74,8 @@ export default function EditProfilePage() {
         }
       } catch (error) {
         console.log(error);
+        if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
+        setLoading(false);
       }
     };
 
@@ -88,6 +95,22 @@ export default function EditProfilePage() {
         </div>
         <div className="main-page">
           <LeftMenu className="left-menu" />
+          {/*MODAL DE ERRO DE CONEXÃO*/}
+          <Modal
+            show={!!connectionError}
+            onHide={() => {
+              setConnectionError(null);
+            }}
+          >
+            <Modal.Body>
+              <h1 className="error-modal-content-text">{connectionError?.message}</h1>
+            </Modal.Body>
+            <Modal.Footer>
+              <button className='submit-modal-button' onClick={() => { setConnectionError(null) }}>
+                OK.
+              </button>
+            </Modal.Footer>
+          </Modal>
           {!loading && (
             <div className="edit-profile-page">
               <div className="edit-profile-title">
@@ -102,6 +125,7 @@ export default function EditProfilePage() {
                   )}
                 </h1>
               </div>
+
               {!!editSuccess && (
                 <Modal
                   show={!!editSuccess}

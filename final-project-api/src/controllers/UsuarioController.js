@@ -42,6 +42,7 @@ class UsuarioController {
       }, {
         where: { id: usuarioExistente.id }
       });
+      
       // Gera token de acesso
       const tokenAcesso = jwt.sign({ id: usuarioExistente.id }, TOKEN_SECRET, {
         expiresIn: "5h",

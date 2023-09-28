@@ -16,6 +16,7 @@ import EditIcon from "../../../images/icons/EditIcon.png";
 import DeleteIcon from "../../../images/icons/DeleteIcon.png";
 import WarningIcon from "../../../images/icons/WarningIcon.png";
 import AddIcon from "../../../images/icons/AddIcon.png";
+import SuccessIcon from "../../../images/icons/SuccessIcon.png";
 import "./styles.css";
 
 export default function EquipmentPage() {
@@ -27,6 +28,8 @@ export default function EquipmentPage() {
   const [equipamentos, setEquipamentos] = useState();
   const [user, setUser] = useState();
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [connectionError, setConnectionError] = useState(null);
 
   const getUser = async () => {
     try {
@@ -35,7 +38,8 @@ export default function EquipmentPage() {
       const result = await getUserById(user.id);
       setUser(result);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -50,6 +54,7 @@ export default function EquipmentPage() {
       setEquipamentos(result.data);
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -59,6 +64,7 @@ export default function EquipmentPage() {
       setEquipamentos(result.data);
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -67,8 +73,10 @@ export default function EquipmentPage() {
       await createEquipment(data);
       setModalOpen(false);
       await setEquipments();
+      setSuccess({ message: "criar" });
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -78,17 +86,24 @@ export default function EquipmentPage() {
       setModalOpen(false);
       setCurrentUpdating(null);
       await setEquipments();
+      setSuccess({ message: "editar" });
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
   const removeEquipment = async (id) => {
     try {
       await deleteEquipment(id);
+      setSuccess({ message: "excluir" });
     } catch (error) {
-      setError(error.response.data);
       console.log(error);
+      if (error.response.data.status === "500") {
+        setConnectionError({ message: error.response.data.error })
+      } else {
+        setError(error.response.data);
+      }
     } finally {
       setIsDeleting(null);
       await setEquipments();
@@ -122,6 +137,58 @@ export default function EquipmentPage() {
           </div>
           <div className="equipment-area">
             <div className="action-area">
+
+              {/*MODAL DE ERRO DE CONEXÃO*/}
+              <Modal
+                show={!!connectionError}
+                onHide={() => {
+                  setConnectionError(null);
+                }}
+              >
+                <Modal.Body>
+                  <h1 className="error-modal-content-text">{connectionError?.message}</h1>
+                </Modal.Body>
+                <Modal.Footer>
+                  <button className='submit-modal-button' onClick={() => { setConnectionError(null) }}>
+                    OK.
+                  </button>
+                </Modal.Footer>
+              </Modal>
+
+              {!!success && (
+                <Modal
+                  show={!!success}
+                  onHide={() => {
+                    setSuccess(null);
+                  }}
+                >
+                  <Modal.Header>
+                    <h1 className="success-modal-title">Sucesso!</h1>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <div className="success-modal-content">
+                      <img
+                        src={SuccessIcon}
+                        alt="Logo de sucesso na operação."
+                      />
+                      <h1 className="success-modal-content-text">
+                        Sucesso ao {success.message} o equipamento.
+                      </h1>
+                    </div>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <button
+                      className="close-success-modal-button"
+                      onClick={() => {
+                        setSuccess(null);
+                      }}
+                    >
+                      OK
+                    </button>
+                  </Modal.Footer>
+                </Modal>
+              )}
+              
               <form
                 className="filter-form"
                 noValidate
@@ -332,7 +399,7 @@ export default function EquipmentPage() {
                 </table>
               ) : (
                 <p className="non-data-text">
-                  Não existe nenhum equipamento cadastrado
+                  Não equipamento encontrado.
                 </p>
               )}
             </div>

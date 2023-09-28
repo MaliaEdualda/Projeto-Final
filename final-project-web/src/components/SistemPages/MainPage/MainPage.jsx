@@ -10,6 +10,7 @@ import {
 } from "../../../services/reservation-service";
 import { getUserById } from "../../../services/user-service";
 import { LeftMenu } from "../LeftMenu/LeftMenu";
+import { Modal } from "react-bootstrap";
 import { Chart } from "react-google-charts";
 import Logo from "../../../images/logo.png";
 import "./styles.css";
@@ -20,6 +21,7 @@ export default function MainPage() {
   const [reservations, setReservations] = useState();
   const [equipmentsByBrand, setEquipmentsByBrand] = useState([]);
   const [user, setUser] = useState("");
+  const [connectionError, setConnectionError] = useState(null);
 
   const getUser = async () => {
     try {
@@ -29,6 +31,7 @@ export default function MainPage() {
       setUser(result);
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -38,6 +41,7 @@ export default function MainPage() {
       setEquipments(result.data);
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -47,6 +51,7 @@ export default function MainPage() {
       setReservations(result.data);
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -65,6 +70,7 @@ export default function MainPage() {
 
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -98,6 +104,7 @@ export default function MainPage() {
       ]);
     } catch (error) {
       console.log(error);
+      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
     }
   };
 
@@ -124,6 +131,24 @@ export default function MainPage() {
         <LeftMenu className="left-menu" />
         <div className="dashboard-page">
           <div className="dashboard-area">
+
+            {/*MODAL DE ERRO DE CONEXÃO*/}
+            <Modal
+                show={!!connectionError}
+                onHide={() => {
+                  setConnectionError(null);
+                }}
+              >
+                <Modal.Body>
+                  <h1 className="error-modal-content-text">{connectionError?.message}</h1>
+                </Modal.Body>
+                <Modal.Footer>
+                  <button className='submit-modal-button' onClick={() => { setConnectionError(null) }}>
+                    OK.
+                  </button>
+                </Modal.Footer>
+            </Modal>
+            
             <div className="main-page-title">
               <h1 className="main-page-welcome-text">
                 {`Olá, ${user.nome_completo
