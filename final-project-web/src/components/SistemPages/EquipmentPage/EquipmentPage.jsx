@@ -36,7 +36,6 @@ export default function EquipmentPage() {
       const user = jwt_decode(token);
       const result = await getUserById(user.id);
       setUser(result);
-      console.log(result);
     } catch (error) {
       console.log(error.message);
       if (error.response.data.status === "500")
