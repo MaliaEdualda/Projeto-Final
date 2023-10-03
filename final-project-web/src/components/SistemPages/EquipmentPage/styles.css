@@ -152,7 +152,7 @@
     padding: 1% 1% 1% 1%;
 }
 
-.equipment-page-title h1{
+.equipment-page-title h1 {
     font-family: 'Roboto', sans-serif;
     color: #1D3557;
     font-weight: 500;
@@ -466,7 +466,12 @@
     color: white;
 }
 
+.table-content tr {
+    width: 100%;
+}
+
 .table-content th {
+    width: 25%;
     font-size: 1.6rem;
     font-weight: 400;
     text-align: center;
@@ -474,11 +479,11 @@
 }
 
 .table-content td {
-    padding: 0.3% 0 0.3% 0;
+    padding: 0.5% 1% 0.5% 1%;
     text-align: center;
-    text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 1.5rem;
 }
 
@@ -490,7 +495,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 2.8rem;
+    width: 3rem;
     height: auto;
     padding: 0%;
     background-color: transparent;

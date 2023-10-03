@@ -39,6 +39,11 @@ module.exports = {
         allowNull: false,
         defaultValue: "ATIVO"
       },
+      cargo: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "Usuario"
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false

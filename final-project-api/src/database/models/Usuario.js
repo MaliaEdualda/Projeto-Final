@@ -10,7 +10,8 @@ const Usuario = database.define('Usuario', {
     cep: DataTypes.STRING,
     telefone: DataTypes.STRING,
     senha: DataTypes.STRING,
-    situacao: DataTypes.STRING
+    situacao: DataTypes.STRING,
+    cargo: DataTypes.STRING
 }, {
     freezeTableName: true
 });

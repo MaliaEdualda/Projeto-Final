@@ -31,6 +31,18 @@ routes.get('/contar-por-periodo', authentication, (req, res) => {
         })
 });
 
+routes.get('/', authentication, async (req, res) => {
+    reservaController.buscarReservas()
+        .then((result) => {
+            return res.status(200).json(result);
+        })
+        .catch((error) => {
+            console.log(error);
+            if (error.message === "connect ECONNREFUSED ::1:5432") return res.status(500).json({status: "500", error: "Nosso sistema está fora do ar. Aguarde a resolução do problema."} );
+            res.status(500).json({ message: "Erro ao buscar as reservas." })
+    })
+});
+
 routes.get('/:id', authentication, async (req, res) => {
     const { id } = req.params;
     reservaController.buscarReservasUsuario(id)

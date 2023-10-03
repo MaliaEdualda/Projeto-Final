@@ -10,6 +10,26 @@ class ReservaEquipamentoController {
     return reservas;
   }
 
+  async buscarReservas() {
+    const reservas = await ReservaEquipamento.findAll({
+      include: [
+        {
+          model: EquipamentoDidatico,
+          required: true,
+          attributes: ["nome_equipamento"],
+        },
+        {
+          model: Usuario,
+          required: true,
+          attributes: ["nome_completo"],
+        },
+      ],
+      order: [['data_reserva', 'ASC']]
+    });
+
+    return reservas;
+  }
+
   async buscarReservasUsuario(usuarioId) {
     const usuario = await Usuario.findByPk(usuarioId);
     if (!usuario) return "Este id não corresponde a nenhum usuário.";

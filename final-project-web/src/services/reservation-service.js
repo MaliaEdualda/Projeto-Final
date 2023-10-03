@@ -5,6 +5,11 @@ export async function getReservations(userId) {
     return result
 }
 
+export async function getAllReservations() {
+    const result = await api.get('/reserva');
+    return result
+}
+
 export async function countReservations() {
     const result = await api.get('/reserva/contar');
     return result

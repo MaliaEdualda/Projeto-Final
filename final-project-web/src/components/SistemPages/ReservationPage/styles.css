@@ -113,7 +113,6 @@
     border: none;
     align-items: center;
     color: white;
-    /* background-color: hotpink; */
 }
 
 .logout-component:hover {
@@ -138,7 +137,9 @@
     flex-direction: row;
     width: 85%;
     height: auto;
-    padding: 1% 2% 0 2%;
+    padding: 0 2% 0 2%;
+    margin-bottom: 2%;
+    overflow-y: scroll;
 }
 
 .reservation-area {
@@ -160,9 +161,13 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     min-height: 10%;
-    padding: 1% 1% 1% 1%;
+    padding: 2.5% 1.5% 0 1%;
+    margin-bottom: 1%;
+    z-index: 10;
+    background-color: white;
 }
 
 .reservation-page-title h1 {
@@ -176,10 +181,8 @@
 .create-reservation-button {
     display: flex;
     flex-direction: row;
-    width: 14%;
-    height: 4.7%;
-    position: fixed;
-    right: 4%;
+    width: 18%;
+    height: 35px;
     padding: 0;
     background-color: #457B9D;
     border: none;
@@ -276,7 +279,7 @@
 .submit-modal-button {
     width: fit-content;
     height: 40px;
-    padding: 0 2.5% 0 2.5%;
+    padding: 0 3% 0 3%;
     font-family: 'Roboto', sans-serif;
     font-size: 17px;
     color: white;
@@ -368,7 +371,7 @@
 }
 
 .complete-modal-content-text {
-    font-family: 'Roboto', sans serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 26px;
 }
 
@@ -381,22 +384,27 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: auto;
-    padding: 1% 1% 1% 1%;
-    overflow-x: scroll;
+    min-height: 40%;
+    overflow-y: scroll;
+    margin: 1% 1% 1% 1%;
 }
 
 .reservation-table-container h2 {
     font-size: 2.8rem;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
+    background-color: white;
 }
 
 .reservation-table-content {
+    overflow-x: scroll;
+    overflow-y: scroll;
     width: 100%;
 }
 
 .reservation-table-content thead {
+    position: sticky;
+    top: 0;
     background-color: #1D3557;
     color: white;
 }

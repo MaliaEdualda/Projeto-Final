@@ -29,7 +29,6 @@ export default function EquipmentPage() {
   const [user, setUser] = useState();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [connectionError, setConnectionError] = useState(null);
 
   const getUser = async () => {
     try {
@@ -37,9 +36,11 @@ export default function EquipmentPage() {
       const user = jwt_decode(token);
       const result = await getUserById(user.id);
       setUser(result);
+      console.log(result);
     } catch (error) {
       console.log(error.message);
-      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
+      if (error.response.data.status === "500")
+        setError({ message: error.response.data.error });
     }
   };
 
@@ -54,7 +55,8 @@ export default function EquipmentPage() {
       setEquipamentos(result.data);
     } catch (error) {
       console.log(error);
-      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
+      if (error.response.data.status === "500")
+        setError({ message: error.response.data.error });
     }
   };
 
@@ -64,7 +66,8 @@ export default function EquipmentPage() {
       setEquipamentos(result.data);
     } catch (error) {
       console.log(error);
-      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
+      if (error.response.data.status === "500")
+        setError({ message: error.response.data.error });
     }
   };
 
@@ -76,7 +79,8 @@ export default function EquipmentPage() {
       setSuccess({ message: "criar" });
     } catch (error) {
       console.log(error);
-      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
+      if (error.response.data.status === "500")
+        setError({ message: error.response.data.error });
     }
   };
 
@@ -89,7 +93,8 @@ export default function EquipmentPage() {
       setSuccess({ message: "editar" });
     } catch (error) {
       console.log(error);
-      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
+      if (error.response.data.status === "500")
+        setError({ message: error.response.data.error });
     }
   };
 
@@ -99,11 +104,9 @@ export default function EquipmentPage() {
       setSuccess({ message: "excluir" });
     } catch (error) {
       console.log(error);
-      if (error.response.data.status === "500") {
-        setConnectionError({ message: error.response.data.error })
-      } else {
-        setError(error.response.data);
-      }
+      if (error.response.data.status === "500")
+        setError({ message: error.response.data.error });
+      setError(error.response.data);
     } finally {
       setIsDeleting(null);
       await setEquipments();
@@ -137,24 +140,84 @@ export default function EquipmentPage() {
           </div>
           <div className="equipment-area">
             <div className="action-area">
-
-              {/*MODAL DE ERRO DE CONEXÃO*/}
+              {/*MODAL DE ERRO */}
               <Modal
-                show={!!connectionError}
+                show={error}
                 onHide={() => {
-                  setConnectionError(null);
+                  setError(null);
                 }}
               >
                 <Modal.Body>
-                  <h1 className="error-modal-content-text">{connectionError?.message}</h1>
+                  <h1 className="error-modal-content-text">{error?.message}</h1>
                 </Modal.Body>
                 <Modal.Footer>
-                  <button className='submit-modal-button' onClick={() => { setConnectionError(null) }}>
+                  <button
+                    className="submit-modal-button"
+                    onClick={() => {
+                      setError(null);
+                    }}
+                  >
                     OK.
                   </button>
                 </Modal.Footer>
               </Modal>
 
+              {/* MODAL DE ADIÇÃO E EDIÇÃO */}
+              {modalOpen && (
+                <EquipmentModal
+                  data={currentUpdating}
+                  isOpen={modalOpen}
+                  closeFunction={() => {
+                    setModalOpen(false);
+                    setCurrentUpdating(null);
+                  }}
+                  addEquipment={addEquipment}
+                  editEquipment={editEquipment}
+                />
+              )}
+
+              {/* MODAL DE EXCLUSÃO */}
+              <Modal
+                show={!!isDeleting}
+                onHide={() => {
+                  setIsDeleting(null);
+                }}
+              >
+                <Modal.Header>
+                  <h1 className="modal-header-content">
+                    Deletar {isDeleting?.nome_equipamento}
+                  </h1>
+                </Modal.Header>
+                <Modal.Body>
+                  <div className="delete-modal-content-container">
+                    <img
+                      className="delete-modal-icon"
+                      src={WarningIcon}
+                      alt="Ícone de aviso"
+                    />
+                    <h1 className="delete-modal-content-text">
+                      Atenção! Ao realizar esta ação, você não será mais capaz
+                      de acessar as informações deste equipamento.
+                    </h1>
+                  </div>
+                </Modal.Body>
+                <Modal.Footer>
+                  <button
+                    className="delete-modal-button"
+                    onClick={() => removeEquipment(isDeleting.id)}
+                  >
+                    Excluir
+                  </button>
+                  <button
+                    className="cancel-modal-button"
+                    onClick={() => setIsDeleting(null)}
+                  >
+                    Voltar
+                  </button>
+                </Modal.Footer>
+              </Modal>
+
+              {/* MODAL DE SUCESSO */}
               {!!success && (
                 <Modal
                   show={!!success}
@@ -188,7 +251,7 @@ export default function EquipmentPage() {
                   </Modal.Footer>
                 </Modal>
               )}
-              
+
               <form
                 className="filter-form"
                 noValidate
@@ -249,81 +312,6 @@ export default function EquipmentPage() {
                 Criar Equipamento
               </button>
             </div>
-            
-            {/*MODAL DE ERRO */}
-            <Modal
-              show={error}
-              onHide={() => {
-                setError(null);
-              }}
-            >
-              <Modal.Body>
-                <h1 className="error-modal-content-text">{error?.message}</h1>
-              </Modal.Body>
-              <Modal.Footer>
-                <button className="submit-modal-button"
-                onClick={() => {
-                  setError(null);
-                }}>
-                  OK.
-                </button>
-              </Modal.Footer>
-            </Modal>
-
-            {/* MODAL DE ADIÇÃO E EDIÇÃO */}
-            {modalOpen && (
-              <EquipmentModal
-                data={currentUpdating}
-                isOpen={modalOpen}
-                closeFunction={() => {
-                  setModalOpen(false);
-                  setCurrentUpdating(null);
-                }}
-                addEquipment={addEquipment}
-                editEquipment={editEquipment}
-              />
-            )}
-
-            {/* MODAL DE EXCLUSÃO */}
-            <Modal
-              show={!!isDeleting}
-              onHide={() => {
-                setIsDeleting(null);
-              }}
-            >
-              <Modal.Header>
-                <h1 className="modal-header-content">
-                  Deletar {isDeleting?.nome_equipamento}
-                </h1>
-              </Modal.Header>
-              <Modal.Body>
-                <div className="delete-modal-content-container">
-                  <img
-                    className="delete-modal-icon"
-                    src={WarningIcon}
-                    alt="Ícone de aviso"
-                  />
-                  <h1 className="delete-modal-content-text">
-                    Atenção! Ao realizar esta ação, você não será mais capaz de
-                    acessar as informações deste equipamento.
-                  </h1>
-                </div>
-              </Modal.Body>
-              <Modal.Footer>
-                <button
-                  className="delete-modal-button"
-                  onClick={() => removeEquipment(isDeleting.id)}
-                >
-                  Excluir
-                </button>
-                <button
-                  className="cancel-modal-button"
-                  onClick={() => setIsDeleting(null)}
-                >
-                  Voltar
-                </button>
-              </Modal.Footer>
-            </Modal>
 
             <div className="table-container">
               {equipamentos && equipamentos.length > 0 ? (
@@ -342,12 +330,16 @@ export default function EquipmentPage() {
                       <th className="table-head-content" scope="col">
                         MODELO EQUIPAMENTO
                       </th>
-                      <th className="table-head-content" scope="col">
-                        {" "}
-                      </th>
-                      <th className="table-head-content" scope="col">
-                        {" "}
-                      </th>
+                      {user?.cargo === "Admin" && (
+                        <div>
+                          <th className="table-head-content" scope="col">
+                            {" "}
+                          </th>
+                          <th className="table-head-content" scope="col">
+                            {" "}
+                          </th>
+                        </div>
+                      )}
                     </tr>
                   </thead>
                   <tbody>
@@ -365,42 +357,44 @@ export default function EquipmentPage() {
                         <td className="table-row-content">
                           {equipamento.modelo_equipamento}
                         </td>
-                        <td className="table-row-content">
-                          <button
-                            className="equipment-row-button"
-                            onClick={() => {
-                              startEditing(equipamento);
-                            }}
-                          >
-                            <img
-                              className="equipment-row-icon"
-                              src={EditIcon}
-                              alt="Ícone Editar Equipamento"
-                            />
-                          </button>
-                        </td>
-                        <td className="table-row-content">
-                          <button
-                            className="equipment-row-button"
-                            onClick={() => {
-                              setIsDeleting(equipamento);
-                            }}
-                          >
-                            <img
-                              className="equipment-row-icon"
-                              src={DeleteIcon}
-                              alt="Ícone Deletar Equipamento"
-                            />
-                          </button>
-                        </td>
+                        {user?.cargo === "Admin" && (
+                          <div>
+                            <td className="table-row-content">
+                              <button
+                                className="equipment-row-button"
+                                onClick={() => {
+                                  startEditing(equipamento);
+                                }}
+                              >
+                                <img
+                                  className="equipment-row-icon"
+                                  src={EditIcon}
+                                  alt="Ícone Editar Equipamento"
+                                />
+                              </button>
+                            </td>
+                            <td className="table-row-content">
+                              <button
+                                className="equipment-row-button"
+                                onClick={() => {
+                                  setIsDeleting(equipamento);
+                                }}
+                              >
+                                <img
+                                  className="equipment-row-icon"
+                                  src={DeleteIcon}
+                                  alt="Ícone Deletar Equipamento"
+                                />
+                              </button>
+                            </td>
+                          </div>
+                        )}
                       </tr>
                     ))}
                   </tbody>
                 </table>
               ) : (
-                <p className="non-data-text">
-                  Não equipamento encontrado.
-                </p>
+                <p className="non-data-text">Nenhum equipamento encontrado.</p>
               )}
             </div>
           </div>
@@ -409,28 +403,3 @@ export default function EquipmentPage() {
     </div>
   );
 }
-
-// const months = [
-//   "",
-//   "jan.",
-//   "fev.",
-//   "mar.",
-//   "abr.",
-//   "mai.",
-//   "jun.",
-//   "jul.",
-//   "ago.",
-//   "set.",
-//   "out.",
-//   "nov.",
-//   "dez.",
-// ];
-
-// const parseDate = (date) => {
-//   const data = new Date(date);
-//   const day = data.getDate();
-//   const month = months[data.getMonth()];
-//   const year = data.getFullYear();
-
-//   return `${day} de ${month} de ${year}`;
-// };
