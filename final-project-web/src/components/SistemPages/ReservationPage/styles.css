@@ -376,6 +376,7 @@
 }
 
 .error-modal-content-text {
+    padding: 1% 1% 1% 1%;
     font-size: 26px;
     color: crimson;
 }

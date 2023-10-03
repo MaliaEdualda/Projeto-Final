@@ -140,6 +140,7 @@ export default function EquipmentPage() {
           </div>
           <div className="equipment-area">
             <div className="action-area">
+              
               {/*MODAL DE ERRO */}
               <Modal
                 show={error}
