@@ -1,12 +1,17 @@
 import { api } from './API';
 
-export async function getReservations(userId) {
+export async function getUserReservations(userId) {
     const result = await api.get(`/reserva/${userId}`);
     return result
 }
 
-export async function getAllReservations() {
-    const result = await api.get('/reserva');
+export async function getConcludedReservations() {
+    const result = await api.get('/reserva/concluida');
+    return result
+}
+
+export async function getUnfinishedReservations() {
+    const result = await api.get('/reserva/em-andamento');
     return result
 }
 

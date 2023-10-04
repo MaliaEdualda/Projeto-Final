@@ -10,8 +10,34 @@ class ReservaEquipamentoController {
     return reservas;
   }
 
-  async buscarReservas() {
+  async buscarReservasEmAndamento() {
     const reservas = await ReservaEquipamento.findAll({
+      where: {
+        status_reserva: { [Op.ne]: "Concluída" }
+      },
+      include: [
+        {
+          model: EquipamentoDidatico,
+          required: true,
+          attributes: ["nome_equipamento"],
+        },
+        {
+          model: Usuario,
+          required: true,
+          attributes: ["nome_completo"],
+        },
+      ],
+      order: [['data_reserva', 'ASC']]
+    });
+
+    return reservas;
+  }
+
+  async buscarReservasConcluidas() {
+    const reservas = await ReservaEquipamento.findAll({
+      where: {
+        status_reserva: "Concluída"
+      },
       include: [
         {
           model: EquipamentoDidatico,
@@ -138,7 +164,7 @@ class ReservaEquipamentoController {
     let flag = 0;
     let data = new Date(attributes.data_reserva);
     for (let i = 0; i < intervalo.length; i++) {
-      for (let j = 0; j < intervalo[i].length; j++){
+      for (let j = 0; j < intervalo[i].length; j++) {
         if (data.getTime() === intervalo[i][j].getTime()) {
           flag++;
         }
@@ -148,7 +174,7 @@ class ReservaEquipamentoController {
     let flag2 = 0;
     data = new Date(attributes.previsao_devolucao);
     for (let i = 0; i < intervalo.length; i++) {
-      for (let j = 0; j < intervalo[i].length; j++){
+      for (let j = 0; j < intervalo[i].length; j++) {
         if (data.getTime() === intervalo[i][j].getTime()) {
           flag++;
         }
@@ -158,7 +184,7 @@ class ReservaEquipamentoController {
     if (flag) return "Este equipamento já está reservado para esta data.";
 
     if (flag2) return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva";
-    
+
     await ReservaEquipamento.create(attributes);
   }
 
@@ -207,7 +233,7 @@ class ReservaEquipamentoController {
 
     let equipamentoAlreadyReservado = await ReservaEquipamento.findAll({
       where: {
-        id: { [Op.ne]: idReserva }, 
+        id: { [Op.ne]: idReserva },
         equipamentoDidaticoId: attributes.equipamentoDidaticoId,
         status_reserva: { [Op.ne]: "Concluída" }
       },
@@ -231,7 +257,7 @@ class ReservaEquipamentoController {
     let flag = 0;
     let data = new Date(attributes.data_reserva);
     for (let i = 0; i < intervalo.length; i++) {
-      for (let j = 0; j < intervalo[i].length; j++){
+      for (let j = 0; j < intervalo[i].length; j++) {
         if (data.getTime() === intervalo[i][j].getTime()) {
           flag++;
         }
@@ -241,7 +267,7 @@ class ReservaEquipamentoController {
     let flag2 = 0;
     data = new Date(attributes.previsao_devolucao);
     for (let i = 0; i < intervalo.length; i++) {
-      for (let j = 0; j < intervalo[i].length; j++){
+      for (let j = 0; j < intervalo[i].length; j++) {
         if (data.getTime() === intervalo[i][j].getTime()) {
           flag2++;
         }
@@ -249,7 +275,7 @@ class ReservaEquipamentoController {
     }
 
     if (flag) return "Este equipamento já está reservado para esta data.";
-    
+
     if (flag2) return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva"
 
     await ReservaEquipamento.update(attributes, { where: { id: idReserva } });

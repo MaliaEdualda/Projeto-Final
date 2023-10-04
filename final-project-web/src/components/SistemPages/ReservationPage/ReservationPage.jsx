@@ -1,8 +1,10 @@
 import jwt_decode from "jwt-decode";
 import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import {
-  getReservations,
-  getAllReservations,
+  getUserReservations,
+  getConcludedReservations,
+  getUnfinishedReservations,
   createReservation,
   updateReservation,
   deleteReservation,
@@ -21,13 +23,16 @@ import Logo from "../../../images/logo.png";
 import "./styles.css";
 
 export default function ReservationPage() {
+  const { handleSubmit, register, reset } = useForm();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [currentUpdating, setCurrentUpdating] = useState(null);
   const [isDeleting, setIsDeleting] = useState(null);
   const [isCompleting, setIsCompleting] = useState(null);
   const [user, setUser] = useState("");
   const [userReservas, setUserReservas] = useState();
-  const [allReservas, setAllReservas] = useState();
+  const [reservasConcluidas, setReservasConcluidas] = useState();
+  const [reservasEmAndamento, setReservasEmAndamento] = useState();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -49,11 +54,11 @@ export default function ReservationPage() {
     setModalOpen(true);
   };
 
-  const setReservations = async () => {
+  const setUserReservations = async () => {
     try {
       const token = sessionStorage.getItem("token");
       const user = jwt_decode(token);
-      const result = await getReservations(user.id);
+      const result = await getUserReservations(user.id);
       setUserReservas(result.data);
     } catch (error) {
       setUserReservas([]);
@@ -63,13 +68,24 @@ export default function ReservationPage() {
     }
   };
 
-  const setAllReservations = async () => {
+  const setConcludedReservations = async () => {
     try {
-      const result = await getAllReservations();
-      setAllReservas(result.data);
-      console.log(result);
+      const result = await getConcludedReservations();
+      setReservasConcluidas(result.data);
     } catch (error) {
-      setAllReservas([]);
+      setReservasConcluidas([]);
+      console.log(error);
+      if (error.response.data.status === "500")
+        setError({ message: error.response.data.error });
+    }
+  };
+
+  const setUnfinishedReservations = async () => {
+    try {
+      const result = await getUnfinishedReservations();
+      setReservasEmAndamento(result.data);
+    } catch (error) {
+      setReservasEmAndamento([]);
       console.log(error);
       if (error.response.data.status === "500")
         setError({ message: error.response.data.error });
@@ -80,7 +96,7 @@ export default function ReservationPage() {
     try {
       data.usuarioId = user.id;
       await createReservation(data);
-      await setReservations();
+      await setUserReservations();
       setModalOpen(false);
       setSuccess({ message: "criar" });
     } catch (error) {
@@ -96,7 +112,7 @@ export default function ReservationPage() {
       await updateReservation(data);
       setModalOpen(false);
       setCurrentUpdating(null);
-      await setReservations();
+      await setUserReservations();
       setSuccess({ message: "editar" });
     } catch (error) {
       console.log(error);
@@ -111,7 +127,7 @@ export default function ReservationPage() {
       data.status_reserva = "Concluída";
       data.data_devolucao = new Date();
       await updateReservation(data);
-      await setReservations();
+      await setUserReservations();
       setIsCompleting(null);
     } catch (error) {
       console.log(error);
@@ -123,7 +139,7 @@ export default function ReservationPage() {
   const removeReservation = async (id) => {
     try {
       await deleteReservation(id);
-      await setReservations();
+      await setUserReservations();
       setIsDeleting(null);
       setSuccess({ message: "cancelar" });
     } catch (error) {
@@ -134,9 +150,10 @@ export default function ReservationPage() {
   };
 
   useEffect(() => {
-    setReservations();
-    setAllReservations();
     getUser();
+    setUserReservations();
+    setConcludedReservations();
+    setUnfinishedReservations();
   }, []);
 
   return (
@@ -153,7 +170,6 @@ export default function ReservationPage() {
         <LeftMenu className="left-menu" />
         <div className="reservation-page">
           <div className="reservation-area">
-            
             {/*MODAL DE ERRO */}
             <Modal
               show={error}
@@ -313,72 +329,80 @@ export default function ReservationPage() {
             </div>
 
             {user?.cargo === "Admin" ? (
-              <div style={{minHeight: "80%", marginBottom: "1%"}}>
-                <div className="reservation-table-container" style={{minHeight: "45%"}}>
-                  <h2>Reservas em andamento: </h2>
-                  {allReservas && allReservas.length > 0 ? (
-                    <table className="reservation-table-content">
-                      <thead className="reservation-table-head">
-                        <tr>
-                          <th
-                            className="reservation-table-head-content"
-                            scope="col"
-                          >
-                            USUÁRIO
-                          </th>
-                          <th
-                            className="reservation-table-head-content"
-                            scope="col"
-                          >
-                            EQUIPAMENTO
-                          </th>
-                          <th
-                            className="reservation-table-head-content"
-                            scope="col"
-                          >
-                            DATA RESERVA
-                          </th>
-                          <th
-                            className="reservation-table-head-content"
-                            scope="col"
-                          >
-                            RAZÃO RESERVA
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {allReservas.map(
-                          (reserva, index) =>
-                            reserva.usuarioId !== user.id &&
-                            reserva.status_reserva !== "Concluída" && (
-                              <tr key={reserva.id}>
-                                <td className="table-row-content">
-                                  {reserva.Usuario.nome_completo}
-                                </td>
-                                <td className="table-row-content">
-                                  {reserva.EquipamentoDidatico.nome_equipamento}
-                                </td>
-                                <td className="table-row-content">
-                                  {parseDate(reserva.data_reserva)}
-                                </td>
-                                <td className="table-row-content">
-                                  {reserva.razao_reserva}
-                                </td>
-                              </tr>
-                            )
-                        )}
-                      </tbody>
-                    </table>
-                  ) : (
-                    <p className="non-data-text">
-                      Nenhuma reserva em andamento encontrada.
-                    </p>
-                  )}
-                </div>
+              <div
+                className="reservation-table-container"
+                style={{ minHeight: "45%" }}
+              >
+                <h2>Reservas em andamento: </h2>
+                {reservasEmAndamento && reservasEmAndamento.length > 0 ? (
+                  <table className="reservation-table-content">
+                    <thead className="reservation-table-head">
+                      <tr>
+                        <th
+                          className="reservation-table-head-content"
+                          scope="col"
+                        >
+                          USUÁRIO
+                        </th>
+                        <th
+                          className="reservation-table-head-content"
+                          scope="col"
+                        >
+                          EQUIPAMENTO
+                        </th>
+                        <th
+                          className="reservation-table-head-content"
+                          scope="col"
+                        >
+                          DATA RESERVA
+                        </th>
+                        <th
+                          className="reservation-table-head-content"
+                          scope="col"
+                        >
+                          RAZÃO RESERVA
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reservasEmAndamento.map(
+                        (reserva, index) =>
+                          reserva.usuarioId !== user.id && (
+                            <tr key={reserva.id}>
+                              <td className="table-row-content">
+                                {reserva.Usuario.nome_completo}
+                              </td>
+                              <td className="table-row-content">
+                                {reserva.EquipamentoDidatico.nome_equipamento}
+                              </td>
+                              <td className="table-row-content">
+                                {parseDate(reserva.data_reserva)}
+                              </td>
+                              <td className="table-row-content">
+                                {reserva.razao_reserva}
+                              </td>
+                            </tr>
+                          )
+                      )}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p className="non-data-text">
+                    Nenhuma reserva em andamento encontrada.
+                  </p>
+                )}
+              </div>
+            ) : (
+              <p> </p>
+            )}
 
-                <div className="reservation-table-container" style={{minHeight: "45%"}}>
+            {user?.cargo === "Admin" ? (
+                <div
+                  className="reservation-table-container"
+                  style={{ minHeight: "45%" }}
+                >
                   <h2>Reservas concluídas: </h2>
-                  {allReservas && allReservas.length > 0 ? (
+                  {reservasConcluidas && reservasConcluidas.length > 0 ? (
                     <table className="reservation-table-content">
                       <thead className="reservation-table-head">
                         <tr>
@@ -415,10 +439,9 @@ export default function ReservationPage() {
                         </tr>
                       </thead>
                       <tbody>
-                        {allReservas.map(
+                        {reservasConcluidas.map(
                           (reserva, index) =>
-                            reserva.usuarioId !== user.id &&
-                            reserva.status_reserva === "Concluída" && (
+                            reserva.usuarioId !== user.id && (
                               <tr key={reserva.id}>
                                 <td className="table-row-content">
                                   {reserva.Usuario.nome_completo}
@@ -446,7 +469,6 @@ export default function ReservationPage() {
                     </p>
                   )}
                 </div>
-              </div>
             ) : (
               <p> </p>
             )}
