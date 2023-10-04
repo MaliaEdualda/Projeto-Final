@@ -7,20 +7,30 @@
     justify-content: center;
 }
 
-.not-found-component img{
-    width: 30rem;
-    border-radius: 10px;
-    margin-bottom: 0.5rem;
+.not-found-component img {
+    width: 25%;
+    height: auto;
 }
 
-.not-found-component h1{
+.title {
     font-family: 'Roboto Slab', serif;
+    font-size: 20rem;
     font-weight: 600;
     color: #1D3557;
+    margin: 0
+}
+
+.subtitle{
+    font-family: 'Roboto Slab', serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: #1D3557;
+    text-align: center;
+    margin: 0;
 }
 
 .not-found-component a {
     font-family: 'Roboto Slab', serif;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #457B9D;
 }

@@ -7,7 +7,6 @@ import ReservationPage from './components/SistemPages/ReservationPage/Reservatio
 import EditProfilePage from './components/SistemPages/EditProfilePage/EditProfilePage';
 import HelpAndSupportPage from './components/SistemPages/HelpAndSupportPage/HelpAndSupportPage';
 import NotFound from './components/NotFound/NotFound';
-import NotFoundAuthenticated from './components/NotFound/NotFoundAuthenticated'
 
 import { isAuthenticated } from './services/is-authenticated';
 
@@ -41,10 +40,8 @@ export function Navigations() {
         <Route path='/ajuda-e-suporte' element={<PrivateRoute>
           <HelpAndSupportPage />
         </PrivateRoute>} />
-        <Route path='/*' element={<PrivateRoute>
-          <NotFoundAuthenticated />
-        </PrivateRoute>} />
         <Route path='*' element={<NotFound />} />
+        
       </Routes>
     </BrowserRouter >
   );
