@@ -2,13 +2,12 @@ import jwt_decode from "jwt-decode";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { getUserById } from "../../../services/user-service";
+import { Modal } from "react-bootstrap";
 import { LeftMenu } from "../LeftMenu/LeftMenu";
 import Logo from "../../../images/logo.png";
 import "./styles.css";
 
 export default function HelpAndSupportPage() {
-  const { handleSubmit, register, reset } = useForm();
-
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
@@ -43,6 +42,27 @@ export default function HelpAndSupportPage() {
       <div className="main-page">
         <LeftMenu className="left-menu" />
         <div className="help-and-support-page">
+          {/*MODAL DE ERRO */}
+          <Modal
+            show={error}
+            onHide={() => {
+              setError(null);
+            }}
+          >
+            <Modal.Body>
+              <h1 className="error-modal-content-text">{error?.message}</h1>
+            </Modal.Body>
+            <Modal.Footer>
+              <button
+                className="submit-modal-button"
+                onClick={() => {
+                  setError(null);
+                }}
+              >
+                OK.
+              </button>
+            </Modal.Footer>
+          </Modal>
           <div className="help-and-support-page-title">
             <h1>
               {`Olá, ${user?.nome_completo
@@ -53,15 +73,19 @@ export default function HelpAndSupportPage() {
           <form className="help-and-support-form">
             <div className="help-input-container">
               <label>Dê um título ao problema: </label>
-              <input type="text"/>
+              <input type="text" />
             </div>
 
-            <div className="help-input-container" style={{height: "50%"}}>
+            <div className="help-input-container" style={{ height: "50%" }}>
               <label>Descreva o seu problema: </label>
-              <input type="text"/>
-                      </div>
-                      
-            {/* <button className=""></button> */}
+              <input type="text" />
+            </div>
+
+            <div className="button-container">
+              <button className="submit-help-form-button" type="submit">
+                Enviar
+              </button>
+            </div>
           </form>
         </div>
       </div>
