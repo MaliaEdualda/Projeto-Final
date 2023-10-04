@@ -87,7 +87,7 @@ routes.delete('/:id', authentication, (req, res) => {
     const { id } = req.params;
     usuarioController.deleteUsuario(id)
         .then((result) => {
-            if (!result === 0) return res.status(404).json({ message: "Usuário não encontrado. Verifique o ID." });
+            if (typeof result == "string") return res.status(400).json(result);
             return res.status(200).json({ message: "Usuario desativado com sucesso." });
         })
         .catch((error) => {
@@ -97,13 +97,5 @@ routes.delete('/:id', authentication, (req, res) => {
         });
             
 });
-
-// routes.get('/reservas/:id', authentication, (req, res) => {
-//     const { id } = req.params;
-//     usuarioController.buscarUsuarioReservas(id)
-//         .then((result) => {
-//             if (!result === 0) return res.status(404).json({ message: "Este usuário não possui nenhuma reserva." })
-//         })
-// });
 
 module.exports = routes

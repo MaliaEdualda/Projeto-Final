@@ -18,8 +18,7 @@ import "./styles.css";
 export default function EditProfilePage() {
   const [isDeleting, setIsDeleting] = useState();
   const [editSuccess, setEditSuccess] = useState();
-  const [error, setError] = useState({});
-  const [connectionError, setConnectionError] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const {
@@ -38,7 +37,7 @@ export default function EditProfilePage() {
       setEditSuccess(true);
     } catch (error) {
       if (error.response.data.status === "500") {
-        setConnectionError({ message: error.response.data.error });
+        setError({ message: error.response.data.error });
       }
       setError({ message: error.response.data.message });
     }
@@ -48,10 +47,12 @@ export default function EditProfilePage() {
     try {
       const id = getValues("id");
       await deleteUser(id);
+      sessionStorage.removeItem('token');
       navigate("/");
     } catch (error) {
-      if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
+      if (error.response.data.status === "500") setError({ message: error.response.data.error });
       console.log(error);
+      setError({ message: error.response.data });
     }
   };
 
@@ -74,7 +75,7 @@ export default function EditProfilePage() {
         }
       } catch (error) {
         console.log(error);
-        if (error.response.data.status === "500") setConnectionError({ message: error.response.data.error });
+        if (error.response.data.status === "500") setError({ message: error.response.data.error });
         setLoading(false);
       }
     };
@@ -95,18 +96,18 @@ export default function EditProfilePage() {
         </div>
         <div className="main-page">
           <LeftMenu className="left-menu" />
-          {/*MODAL DE ERRO DE CONEXÃO*/}
+          {/*MODAL DE ERRO*/}
           <Modal
-            show={!!connectionError}
+            show={!!error}
             onHide={() => {
-              setConnectionError(null);
+              setError(null);
             }}
           >
             <Modal.Body>
-              <h1 className="error-modal-content-text">{connectionError?.message}</h1>
+              <h1 className="error-modal-content-text">{error?.message}</h1>
             </Modal.Body>
             <Modal.Footer>
-              <button className='submit-modal-button' onClick={() => { setConnectionError(null) }}>
+              <button className='submit-modal-button' onClick={() => { setError(null) }}>
                 OK.
               </button>
             </Modal.Footer>
@@ -152,7 +153,6 @@ export default function EditProfilePage() {
                       className="close-success-modal-button"
                       onClick={() => {
                         setEditSuccess(false);
-                        console.log(editSuccess);
                       }}
                     >
                       OK
@@ -279,7 +279,6 @@ export default function EditProfilePage() {
                     className="delete-button"
                     onClick={() => {
                       setIsDeleting(true);
-                      console.log(isDeleting, editSuccess);
                     }}
                   >
                     Excluir conta

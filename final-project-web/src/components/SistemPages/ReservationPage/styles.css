@@ -384,6 +384,7 @@
     flex-direction: column;
     width: 100%;
     min-height: 40%;
+    max-height: 40%;
     overflow-y: scroll;
     margin: 1% 1% 1% 1%;
 }
@@ -402,8 +403,6 @@
 }
 
 .reservation-table-content thead {
-    position: sticky;
-    top: 0;
     background-color: #1D3557;
     color: white;
 }
@@ -470,4 +469,74 @@
     padding: 2% 2% 2% 2%;
     font-size: 2.2rem;
     color: crimson;
+}
+
+.reservation-filter-form {
+    width: 80%;
+    min-height: 50px;
+    max-height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+}
+
+.reservation-filter-form h1 {
+    font-size: 1.8rem;
+    color: #132948;
+    margin: 0 1% 0 0;
+}
+
+.reservation-filter-form input {
+    width: 13%;
+    height: 50%;
+    margin: 0 0.3% 0 0.3%;
+    border: 0.5px solid;
+    font-size: 14px;
+    padding-left: 0.5%;
+}
+
+.reservation-filter-form input:focus-within {
+    border: 0.5px solid #0a53e4;
+}
+
+.reservation-filter-form-button {
+    width: 8%;
+    height: 50%;
+    background-color: #1D3557;
+    border: none;
+    border-radius: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: white;
+    margin: 0 0.3% 0 0.5%;
+}
+
+.reservation-filter-form-button:hover {
+    background-color: #3a5f93;
+}
+
+.reservation-filter-form-button:active {
+    background-color: #132948;
+}
+
+.reservation-filter-form-clean-button {
+    width: 8%;
+    height: 50%;
+    background-color: transparent;
+    border: 0.5px solid #1D3557;
+    border-radius: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #1D3557;
+    margin: 0 0.3% 0 0.5%;
+}
+
+.reservation-filter-form-clean-button:hover {
+    background-color: #7091be;
+    color: white;
+}
+
+.reservation-filter-form-clean-button:active {
+    background-color: #1D3557;
 }

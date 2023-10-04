@@ -5,13 +5,13 @@ export async function getUserReservations(userId) {
     return result
 }
 
-export async function getConcludedReservations() {
-    const result = await api.get('/reserva/concluida');
+export async function getConcludedReservations(data) {
+    const result = await api.post('/reserva/concluida', data);
     return result
 }
 
-export async function getUnfinishedReservations() {
-    const result = await api.get('/reserva/em-andamento');
+export async function getUnfinishedReservations(data) {
+    const result = await api.post('/reserva/em-andamento', data);
     return result
 }
 

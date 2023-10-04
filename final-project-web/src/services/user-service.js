@@ -26,6 +26,5 @@ export async function updateUser(data) {
 
 export async function deleteUser(id) {
   const result = api.delete(`usuario/${id}`);
-  sessionStorage.removeItem('token');
   return result;
 }

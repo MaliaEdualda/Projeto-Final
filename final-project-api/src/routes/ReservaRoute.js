@@ -31,8 +31,9 @@ routes.get('/contar-por-periodo', authentication, (req, res) => {
         })
 });
 
-routes.get('/em-andamento', authentication, async (req, res) => {
-    reservaController.buscarReservasEmAndamento()
+routes.post('/em-andamento', authentication, async (req, res) => {
+    const attributes = req.body;
+    reservaController.buscarReservasEmAndamento(attributes)
         .then((result) => {
             return res.status(200).json(result);
         })
@@ -43,8 +44,9 @@ routes.get('/em-andamento', authentication, async (req, res) => {
     })
 });
 
-routes.get('/concluida', authentication, async (req, res) => {
-    reservaController.buscarReservasConcluidas()
+routes.post('/concluida', authentication, async (req, res) => {
+    const attributes = req.body;
+    reservaController.buscarReservasConcluidas(attributes)
         .then((result) => {
             return res.status(200).json(result);
         })

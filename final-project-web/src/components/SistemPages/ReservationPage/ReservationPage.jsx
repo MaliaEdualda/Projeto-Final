@@ -23,16 +23,16 @@ import Logo from "../../../images/logo.png";
 import "./styles.css";
 
 export default function ReservationPage() {
-  const { handleSubmit, register, reset } = useForm();
+  const { handleSubmit, register, resetField } = useForm();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [currentUpdating, setCurrentUpdating] = useState(null);
   const [isDeleting, setIsDeleting] = useState(null);
   const [isCompleting, setIsCompleting] = useState(null);
   const [user, setUser] = useState("");
-  const [userReservas, setUserReservas] = useState();
-  const [reservasConcluidas, setReservasConcluidas] = useState();
-  const [reservasEmAndamento, setReservasEmAndamento] = useState();
+  const [userReservas, setUserReservas] = useState([]);
+  const [reservasConcluidas, setReservasConcluidas] = useState([]);
+  const [reservasEmAndamento, setReservasEmAndamento] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -92,6 +92,28 @@ export default function ReservationPage() {
     }
   };
 
+  const addFilterUnfinished = async (data) => {
+    try {
+      const result = await getUnfinishedReservations(data);
+      setReservasEmAndamento(result.data);
+    } catch (error) {
+      console.log(error);
+      if (error.response.data.status === "500")
+        setError({ message: error.response.data.error });
+    }
+  };
+
+  const addFilterConcluded = async (data) => {
+    try {
+      const result = await getConcludedReservations(data);
+      setReservasConcluidas(result.data);
+    } catch (error) {
+      console.log(error);
+      if (error.response.data.status === "500")
+        setError({ message: error.response.data.error });
+    }
+  };
+
   const addReservation = async (data) => {
     try {
       data.usuarioId = user.id;
@@ -123,9 +145,9 @@ export default function ReservationPage() {
   };
 
   const completeReservation = async (data) => {
+    data.status_reserva = "Concluída";
+    data.data_devolucao = new Date();
     try {
-      data.status_reserva = "Concluída";
-      data.data_devolucao = new Date();
       await updateReservation(data);
       await setUserReservations();
       setIsCompleting(null);
@@ -133,6 +155,9 @@ export default function ReservationPage() {
       console.log(error);
       if (error.response.data.status === "500")
         setError({ message: error.response.data.error });
+      setError(error.response.data);
+      setIsCompleting(null);
+      setUserReservations();
     }
   };
 
@@ -334,6 +359,33 @@ export default function ReservationPage() {
                 style={{ minHeight: "45%" }}
               >
                 <h2>Reservas em andamento: </h2>
+                <form
+                  className="reservation-filter-form"
+                  noValidate
+                  validate
+                  resetField
+                  onSubmit={handleSubmit(addFilterUnfinished)}
+                >
+                  <h1>Filtrar por data : </h1>
+                  <input
+                    className="reservation-filter-form-input"
+                    placeholder="Data da reserva:"
+                    type="date"
+                    {...register("data_reserva")}
+                  />
+                  <button
+                    type="submit"
+                    className="reservation-filter-form-button"
+                  >
+                    Filtrar
+                  </button>
+                  <button
+                    className="reservation-filter-form-clean-button"
+                    onClick={() => resetField("data_reserva")}
+                  >
+                    Limpar
+                  </button>
+                </form>
                 {reservasEmAndamento && reservasEmAndamento.length > 0 ? (
                   <table className="reservation-table-content">
                     <thead className="reservation-table-head">
@@ -397,78 +449,105 @@ export default function ReservationPage() {
             )}
 
             {user?.cargo === "Admin" ? (
-                <div
-                  className="reservation-table-container"
-                  style={{ minHeight: "45%" }}
+              <div
+                className="reservation-table-container"
+                style={{ minHeight: "45%" }}
+              >
+                <h2>Reservas concluídas: </h2>
+                <form
+                  className="reservation-filter-form"
+                  noValidate
+                  validate
+                  resetField
+                  onSubmit={handleSubmit(addFilterConcluded)}
                 >
-                  <h2>Reservas concluídas: </h2>
-                  {reservasConcluidas && reservasConcluidas.length > 0 ? (
-                    <table className="reservation-table-content">
-                      <thead className="reservation-table-head">
-                        <tr>
-                          <th
-                            className="reservation-table-head-content"
-                            scope="col"
-                          >
-                            USUÁRIO
-                          </th>
-                          <th
-                            className="reservation-table-head-content"
-                            scope="col"
-                          >
-                            EQUIPAMENTO
-                          </th>
-                          <th
-                            className="reservation-table-head-content"
-                            scope="col"
-                          >
-                            DATA RESERVA
-                          </th>
-                          <th
-                            className="reservation-table-head-content"
-                            scope="col"
-                          >
-                            RAZÃO RESERVA
-                          </th>
-                          <th
-                            className="reservation-table-head-content"
-                            scope="col"
-                          >
-                            DATA CONCLUSÃO
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {reservasConcluidas.map(
-                          (reserva, index) =>
-                            reserva.usuarioId !== user.id && (
-                              <tr key={reserva.id}>
-                                <td className="table-row-content">
-                                  {reserva.Usuario.nome_completo}
-                                </td>
-                                <td className="table-row-content">
-                                  {reserva.EquipamentoDidatico.nome_equipamento}
-                                </td>
-                                <td className="table-row-content">
-                                  {parseDate(reserva.data_reserva)}
-                                </td>
-                                <td className="table-row-content">
-                                  {reserva.razao_reserva}
-                                </td>
-                                <td className="table-row-content">
-                                  {parseDate(reserva.data_devolucao)}
-                                </td>
-                              </tr>
-                            )
-                        )}
-                      </tbody>
-                    </table>
-                  ) : (
-                    <p className="non-data-text">
-                      Nenhuma reserva em andamento encontrada.
-                    </p>
-                  )}
-                </div>
+                  <h1>Filtrar por data de conclusão: </h1>
+                  <input
+                    className="reservation-filter-form-input"
+                    placeholder="Data de devolução:"
+                    type="date"
+                    {...register("data_devolucao")}
+                  />
+                  <button
+                    type="submit"
+                    className="reservation-filter-form-button"
+                  >
+                    Filtrar
+                  </button>
+                  <button
+                    className="reservation-filter-form-clean-button"
+                    onClick={() => resetField("data_devolucao")}
+                  >
+                    Limpar
+                  </button>
+                </form>
+                {reservasConcluidas && reservasConcluidas.length > 0 ? (
+                  <table className="reservation-table-content">
+                    <thead className="reservation-table-head">
+                      <tr>
+                        <th
+                          className="reservation-table-head-content"
+                          scope="col"
+                        >
+                          USUÁRIO
+                        </th>
+                        <th
+                          className="reservation-table-head-content"
+                          scope="col"
+                        >
+                          EQUIPAMENTO
+                        </th>
+                        <th
+                          className="reservation-table-head-content"
+                          scope="col"
+                        >
+                          DATA RESERVA
+                        </th>
+                        <th
+                          className="reservation-table-head-content"
+                          scope="col"
+                        >
+                          RAZÃO RESERVA
+                        </th>
+                        <th
+                          className="reservation-table-head-content"
+                          scope="col"
+                        >
+                          DATA CONCLUSÃO
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reservasConcluidas.map(
+                        (reserva, index) =>
+                          reserva.usuarioId !== user.id && (
+                            <tr key={reserva.id}>
+                              <td className="table-row-content">
+                                {reserva.Usuario.nome_completo}
+                              </td>
+                              <td className="table-row-content">
+                                {reserva.EquipamentoDidatico.nome_equipamento}
+                              </td>
+                              <td className="table-row-content">
+                                {parseDate(reserva.data_reserva)}
+                              </td>
+                              <td className="table-row-content">
+                                {reserva.razao_reserva}
+                              </td>
+                              <td className="table-row-content">
+                                {parseDate(reserva.data_devolucao)}
+                              </td>
+                            </tr>
+                          )
+                      )}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p className="non-data-text">
+                    Nenhuma reserva em andamento encontrada.
+                  </p>
+                )}
+              </div>
             ) : (
               <p> </p>
             )}

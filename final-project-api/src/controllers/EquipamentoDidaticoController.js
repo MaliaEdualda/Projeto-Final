@@ -69,7 +69,7 @@ class EquipamentoDidaticoController {
 
         const equipamentos = await EquipamentoDidatico.findAll({
             where: query,
-            order: [['id', 'ASC']]
+            order: [['nome_equipamento', 'ASC']]
         });
 
         return equipamentos

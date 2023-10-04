@@ -1,7 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const { Op } = require("sequelize");
 const Usuario = require("../database/models/Usuario");
+const ReservaEquipamento = require("../database/models/ReservaEquipamento");
 
 const { TOKEN_SECRET, SALT } = require("../../environment");
 
@@ -109,6 +111,15 @@ class UsuarioController {
   }
 
   async deleteUsuario(idUsuario) {
+    const reserva_em_andamento = await ReservaEquipamento.findOne({
+      where: {
+        usuarioId: idUsuario,
+        status_reserva: { [Op.ne]: "Concluída" }
+      }
+    });
+
+    if(reserva_em_andamento) return "Você não pode excluir a sua conta com reservas em andamento."
+
     const usuarioDesativado = await Usuario.update(
       {
         situacao: "INATIVO"

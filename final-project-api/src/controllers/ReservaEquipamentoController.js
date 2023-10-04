@@ -10,11 +10,15 @@ class ReservaEquipamentoController {
     return reservas;
   }
 
-  async buscarReservasEmAndamento() {
+  async buscarReservasEmAndamento(attributes) {
+    let query = {};
+
+    if (attributes.data_reserva) query.data_reserva = attributes.data_reserva;
+
+    query.status_reserva = { [Op.ne]: "Concluída" };
+
     const reservas = await ReservaEquipamento.findAll({
-      where: {
-        status_reserva: { [Op.ne]: "Concluída" }
-      },
+      where: query,
       include: [
         {
           model: EquipamentoDidatico,
@@ -33,11 +37,15 @@ class ReservaEquipamentoController {
     return reservas;
   }
 
-  async buscarReservasConcluidas() {
+  async buscarReservasConcluidas(attributes) { 
+    let query = {};
+
+    if (attributes.data_devolucao) query.data_devolucao = attributes.data_devolucao;
+
+    query.status_reserva = "Concluída";
+    
     const reservas = await ReservaEquipamento.findAll({
-      where: {
-        status_reserva: "Concluída"
-      },
+      where: query,
       include: [
         {
           model: EquipamentoDidatico,
@@ -74,7 +82,7 @@ class ReservaEquipamentoController {
           attributes: ["nome_completo"],
         },
       ],
-      order: [["id", "ASC"]],
+      order: [["data_reserva", "ASC"]],
     });
 
     if (reservas.length === 0) return "Nenhuma reserva encontrada.";
@@ -276,7 +284,14 @@ class ReservaEquipamentoController {
 
     if (flag) return "Este equipamento já está reservado para esta data.";
 
-    if (flag2) return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva"
+    if (flag2) return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva."
+
+    if (attributes.data_devolucao) {
+      let datareserva = new Date(attributes.data_reserva);
+      let dataconclusao = new Date (attributes.data_devolucao);
+      if (dataconclusao.getTime() < datareserva.getTime())
+        return "Você não pode concluir uma reserva antes de acontecer."
+    }
 
     await ReservaEquipamento.update(attributes, { where: { id: idReserva } });
   }
