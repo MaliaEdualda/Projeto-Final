@@ -140,7 +140,7 @@ export function ReservationModal({
                     message: "A razão da reserva é obrigatória.",
                   },
                 }}
-                label="Razão reserva:"
+                label="Razão da reserva:"
               />
               <InputComponent
                 name={"previsao_devolucao"}

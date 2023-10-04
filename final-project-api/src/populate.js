@@ -58,7 +58,7 @@ const equipments = [
 
 
 const users = [
-    { "nome_completo": "Maria Eduarda Ramos de Queiroz", "email": "mariaedduardda@gmail.com", "data_nascimento": "2004-08-07", "cep": "78056340", "telefone": "(65) 99956-9572", "senha": "malia1234" },
+    { "nome_completo": "Maria Eduarda Ramos de Queiroz", "email": "mariaedduardda@gmail.com", "data_nascimento": "2004-08-07", "cep": "78056340", "telefone": "(65) 99956-9572", "senha": "malia1234", "cargo": "Admin" },
     { "nome_completo": "Felipe Neves Brito", "email": "felipe.snow@gmail.com", "data_nascimento": "2003-10-15", "cep": "81045035", "telefone": "(65) 99816-3262", "senha": "felipesnow" },
     { "nome_completo": "Ana Beatriz Schuindt do Amaral", "email": "ana.schuindt@gmail.com", "data_nascimento": "2005-07-20", "cep": "78070410", "telefone": "", "senha": "beatriz123" }];
 
