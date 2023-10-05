@@ -430,6 +430,12 @@ export default function ReservationPage() {
                         >
                           RAZÃO RESERVA
                         </th>
+                        <th
+                          className="reservation-table-head-content"
+                          scope="col"
+                        >
+                          PREVISÃO DEVOLUÇÃO
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -448,6 +454,9 @@ export default function ReservationPage() {
                               </td>
                               <td className="table-row-content">
                                 {reserva.razao_reserva}
+                              </td>
+                              <td className="table-row-content">
+                                {parseDate(reserva.previsao_devolucao)}
                               </td>
                             </tr>
                           )

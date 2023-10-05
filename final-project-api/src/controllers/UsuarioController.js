@@ -22,7 +22,7 @@ class UsuarioController {
 
     // Gera token de acesso}
     const tokenAcesso = jwt.sign({ id: usuario.id }, TOKEN_SECRET, {
-      expiresIn: "5h",
+      expiresIn: "10h",
     });
     return tokenAcesso;
   }
@@ -47,7 +47,7 @@ class UsuarioController {
       
       // Gera token de acesso
       const tokenAcesso = jwt.sign({ id: usuarioExistente.id }, TOKEN_SECRET, {
-        expiresIn: "5h",
+        expiresIn: "10h",
       });
 
       return tokenAcesso;
