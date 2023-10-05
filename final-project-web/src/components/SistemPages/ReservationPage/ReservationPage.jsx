@@ -366,7 +366,19 @@ export default function ReservationPage() {
                   resetField
                   onSubmit={handleSubmit(addFilterUnfinished)}
                 >
-                  <h1>Filtrar por data : </h1>
+                  <h1>Filtrar por: </h1>
+                  <input
+                    className="reservation-filter-form-input"
+                    placeholder="Usuário:"
+                    type="text"
+                    {...register("nome_completo")}
+                  />
+                  <input
+                    className="reservation-filter-form-input"
+                    placeholder="Equipamento:"
+                    type="text"
+                    {...register("nome_equipamento")}
+                  />
                   <input
                     className="reservation-filter-form-input"
                     placeholder="Data da reserva:"
@@ -381,7 +393,11 @@ export default function ReservationPage() {
                   </button>
                   <button
                     className="reservation-filter-form-clean-button"
-                    onClick={() => resetField("data_reserva")}
+                    onClick={() => {
+                      resetField("data_devolucao");
+                      resetField("nome_completo");
+                      resetField("nome_equipamento");
+                    }}
                   >
                     Limpar
                   </button>
@@ -461,10 +477,22 @@ export default function ReservationPage() {
                   resetField
                   onSubmit={handleSubmit(addFilterConcluded)}
                 >
-                  <h1>Filtrar por data de conclusão: </h1>
+                  <h1>Filtrar por: </h1>
                   <input
                     className="reservation-filter-form-input"
-                    placeholder="Data de devolução:"
+                    placeholder="Usuário:"
+                    type="text"
+                    {...register("nome_completo_concluido")}
+                  />
+                  <input
+                    className="reservation-filter-form-input"
+                    placeholder="Equipamento:"
+                    type="text"
+                    {...register("nome_equipamento_concluido")}
+                  />
+                  <input
+                    className="reservation-filter-form-input"
+                    placeholder="Data de conclusão:"
                     type="date"
                     {...register("data_devolucao")}
                   />
@@ -476,7 +504,11 @@ export default function ReservationPage() {
                   </button>
                   <button
                     className="reservation-filter-form-clean-button"
-                    onClick={() => resetField("data_devolucao")}
+                    onClick={() => {
+                      resetField("data_devolucao");
+                      resetField("nome_completo_concluido");
+                      resetField("nome_equipamento_concluido");
+                    }}
                   >
                     Limpar
                   </button>

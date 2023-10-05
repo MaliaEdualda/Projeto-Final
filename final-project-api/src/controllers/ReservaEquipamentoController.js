@@ -11,54 +11,74 @@ class ReservaEquipamentoController {
   }
 
   async buscarReservasEmAndamento(attributes) {
-    let query = {};
+    let query = { reserva: { status_reserva: { [Op.ne]: "Concluída"} }, usuario:{}, equipamento:{} }
 
-    if (attributes.data_reserva) query.data_reserva = attributes.data_reserva;
+    if (attributes.nome_completo) query.usuario.nome_completo = {
+      [Op.like]: `%${attributes.nome_completo}%`
+    }
 
-    query.status_reserva = { [Op.ne]: "Concluída" };
+    if (attributes.nome_equipamento) query.equipamento.nome_equipamento = {
+      [Op.like]: `%${attributes.nome_equipamento}%`
+    }
+
+    if (attributes.data_reserva) {
+      query.reserva.data_devolucao = attributes.data_reserva
+    }
 
     const reservas = await ReservaEquipamento.findAll({
-      where: query,
       include: [
         {
           model: EquipamentoDidatico,
+          where: {...query.equipamento},
           required: true,
           attributes: ["nome_equipamento"],
         },
         {
           model: Usuario,
+          where: {...query.usuario},
           required: true,
           attributes: ["nome_completo"],
         },
       ],
-      order: [['data_reserva', 'ASC']]
+      where: {...query.reserva},
+      order: [["data_reserva", "ASC"]],
     });
 
     return reservas;
   }
 
-  async buscarReservasConcluidas(attributes) { 
-    let query = {};
+  async buscarReservasConcluidas(attributes) {
+    let query = { reserva: {status_reserva: "Concluída"}, usuario:{}, equipamento:{} }
 
-    if (attributes.data_devolucao) query.data_devolucao = attributes.data_devolucao;
+    if (attributes.nome_completo_concluido) query.usuario.nome_completo = {
+      [Op.like]: `%${attributes.nome_completo_concluido}%`
+    }
 
-    query.status_reserva = "Concluída";
+    if (attributes.nome_equipamento_concluido) query.equipamento.nome_equipamento = {
+      [Op.like]: `%${attributes.nome_equipamento_concluido}%`
+    }
+
+    if (attributes.data_devolucao) {
+      query.reserva.data_devolucao = attributes.data_devolucao
+    }
     
     const reservas = await ReservaEquipamento.findAll({
-      where: query,
       include: [
         {
           model: EquipamentoDidatico,
+          where: {...query.equipamento},
           required: true,
           attributes: ["nome_equipamento"],
         },
         {
           model: Usuario,
+          where: {...query.usuario},
           required: true,
           attributes: ["nome_completo"],
         },
       ],
-      order: [['data_reserva', 'ASC']]
+      where: {...query.reserva},
+      order: [["data_reserva", "ASC"]],
     });
 
     return reservas;
@@ -93,16 +113,18 @@ class ReservaEquipamentoController {
   async reservasPorAnoMes() {
     const [result, metadata] = await ReservaEquipamento.sequelize.query(
       'SELECT EXTRACT(month from r.data_reserva) AS "mes", COUNT(id) AS "count"' +
-      ' FROM public."ReservaEquipamento" r' +
-      ' WHERE EXTRACT(year from r.data_reserva) = EXTRACT(year from current_date)' +
-      ' GROUP BY EXTRACT(month from r.data_reserva);'
+        ' FROM public."ReservaEquipamento" r' +
+        " WHERE EXTRACT(year from r.data_reserva) = EXTRACT(year from current_date)" +
+        " GROUP BY EXTRACT(month from r.data_reserva);"
     );
 
-    return result
+    return result;
   }
 
   async adicionarReserva(attributes) {
-    const equipamento = await EquipamentoDidatico.findByPk(attributes.equipamentoDidaticoId);
+    const equipamento = await EquipamentoDidatico.findByPk(
+      attributes.equipamentoDidaticoId
+    );
     if (!equipamento)
       return "Este ID não corresponde a nenhum equipamento didático. Verifique o ID.";
 
@@ -145,28 +167,31 @@ class ReservaEquipamentoController {
       }
 
       return datas;
-    }
+    };
 
     let equipamentoAlreadyReservado = await ReservaEquipamento.findAll({
       where: {
         equipamentoDidaticoId: attributes.equipamentoDidaticoId,
-        status_reserva: { [Op.ne]: "Concluída" }
+        status_reserva: { [Op.ne]: "Concluída" },
       },
     });
 
-    const data_reserva = []
+    const data_reserva = [];
     equipamentoAlreadyReservado.map((reserva, index) => {
-      data_reserva.push(new Date(reserva.dataValues.data_reserva))
+      data_reserva.push(new Date(reserva.dataValues.data_reserva));
     });
 
-    const previsao_devolucao = []
+    const previsao_devolucao = [];
     equipamentoAlreadyReservado.map((reserva, index) => {
-      previsao_devolucao.push(new Date(reserva.dataValues.previsao_devolucao))
+      previsao_devolucao.push(new Date(reserva.dataValues.previsao_devolucao));
     });
 
     let intervalo = [[]];
     for (let i = 0; i < data_reserva.length; i++) {
-      intervalo[i] = buscarDatasIntervalo(data_reserva[i], previsao_devolucao[i]);
+      intervalo[i] = buscarDatasIntervalo(
+        data_reserva[i],
+        previsao_devolucao[i]
+      );
     }
 
     let flag = 0;
@@ -191,7 +216,8 @@ class ReservaEquipamentoController {
 
     if (flag) return "Este equipamento já está reservado para esta data.";
 
-    if (flag2) return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva";
+    if (flag2)
+      return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva";
 
     await ReservaEquipamento.create(attributes);
   }
@@ -237,29 +263,32 @@ class ReservaEquipamentoController {
       }
 
       return datas;
-    }
+    };
 
     let equipamentoAlreadyReservado = await ReservaEquipamento.findAll({
       where: {
         id: { [Op.ne]: idReserva },
         equipamentoDidaticoId: attributes.equipamentoDidaticoId,
-        status_reserva: { [Op.ne]: "Concluída" }
+        status_reserva: { [Op.ne]: "Concluída" },
       },
     });
 
-    const data_reserva = []
+    const data_reserva = [];
     equipamentoAlreadyReservado.map((reserva, index) => {
-      data_reserva.push(new Date(reserva.dataValues.data_reserva))
+      data_reserva.push(new Date(reserva.dataValues.data_reserva));
     });
 
-    const previsao_devolucao = []
+    const previsao_devolucao = [];
     equipamentoAlreadyReservado.map((reserva, index) => {
-      previsao_devolucao.push(new Date(reserva.dataValues.previsao_devolucao))
+      previsao_devolucao.push(new Date(reserva.dataValues.previsao_devolucao));
     });
 
     let intervalo = [[]];
     for (let i = 0; i < data_reserva.length; i++) {
-      intervalo[i] = buscarDatasIntervalo(data_reserva[i], previsao_devolucao[i]);
+      intervalo[i] = buscarDatasIntervalo(
+        data_reserva[i],
+        previsao_devolucao[i]
+      );
     }
 
     let flag = 0;
@@ -284,13 +313,14 @@ class ReservaEquipamentoController {
 
     if (flag) return "Este equipamento já está reservado para esta data.";
 
-    if (flag2) return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva."
+    if (flag2)
+      return "A previsão de devolução entra em conflito com outra reserva. Diminua o tempo de reserva.";
 
     if (attributes.data_devolucao) {
       let datareserva = new Date(attributes.data_reserva);
-      let dataconclusao = new Date (attributes.data_devolucao);
+      let dataconclusao = new Date(attributes.data_devolucao);
       if (dataconclusao.getTime() < datareserva.getTime())
-        return "Você não pode concluir uma reserva antes de acontecer."
+        return "Você não pode concluir uma reserva antes de acontecer.";
     }
 
     await ReservaEquipamento.update(attributes, { where: { id: idReserva } });
